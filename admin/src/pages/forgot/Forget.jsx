@@ -2,5 +2,5 @@ import React from "react";
 import "./forget.css";
 
 export default function Forget() {
-  return <div>Forget</div>;
+  return <div>Forgđáaaaaaaaaaaaadasdasdasdasdet</div>;
 }
