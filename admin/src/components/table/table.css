@@ -1,0 +1,43 @@
+.table{ 
+    width: 100%;
+    height: 100%;
+}
+.top-table{ 
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0.2px solid silver;
+}
+.label-table{ 
+    font-size: 20px;
+    color: black;
+}
+.button-table{ 
+    border: none;
+    border-radius: 5px;
+    background-color: aqua;
+    color: black;
+}
+.table-of-contents{ 
+    width: 100%;
+    height: 100%;
+    text-align: left;
+}
+.div-table, .div-table-header{ 
+    height: 40px;
+    display: flex;
+    padding: 10px;
+}
+.div-table-header{ 
+    text-align: left;
+    font-weight : 500;
+}
+.name-table, .other{ 
+    border-bottom: 0.2px solid silver;
+}
+.name-table{ 
+    width: 40%;
+}
+.other{ 
+    width: 30%;
+}

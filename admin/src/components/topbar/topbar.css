@@ -1,0 +1,120 @@
+.topBar{ 
+    display: flex;
+    margin: 10px 10px 20px 20px ;
+    height: 40px;
+    justify-content: space-between;
+}
+.search{ 
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: #dddddd;
+    padding: 8px;
+    width: 300px;
+    border-radius: 10px;
+}
+.input-search{ 
+    background-color: transparent;
+    height: 14px;
+    font-weight: normal;
+    font-size: 13px;
+    border: none;
+    width: 100%;
+    padding: 5px;
+}
+.input-search:focus{ 
+    outline: none;
+}
+.items-topBar{ 
+    display: flex;
+}
+.item{ 
+    width: fit-content;
+    padding: 8px 20px 0px 20px  ;
+    border-right: 0.2px solid #dddddd ;
+    border-left: 0.2px solid #dddddd ;
+    cursor: pointer;    
+}
+.top-dropdown-select{ 
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.item-name{ 
+    padding: 8px 20px;
+}
+.image-item{ 
+    width: 32px;
+    height: 32px ;
+    border-radius: 50%;
+    border: none;
+}
+.top-dropdown{ 
+  position: relative;
+}
+.top-dropdown:hover .top-dropdown-list{ 
+  display: block;
+}
+
+.top-dropdown-list{ 
+  margin-top: 30px;
+  border-radius: 5px;
+  position: absolute;
+  right: 0;
+  top:20px;
+  display: none;
+  background-color: #e5e7eb;
+  padding-inline-start: 0;
+}
+.top-dropdown-list:before{ 
+  content: "";
+  height: 30px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: transparent;
+  transform: translateY(-100%);
+}
+.top-dropdown-item{ 
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  color: black;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s linear;
+}
+.top-dropdown-item:hover{ 
+  background-color: white;
+}
+
+.top-dropdown-item:first-child{ 
+  border-radius: 5px 5px 0px 0px ;
+  position: relative;
+}
+.top-dropdown-item:first-child:before{ 
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 12px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #e5e7eb ;
+  transform: translateY(-100%);
+  transition: border-bottom-color 0.2s linear;
+}
+.top-dropdown-item:first-child:hover:before{ 
+  border-bottom-color: #e5e7eb;
+}
+.top-dropdown-item:last-child{ 
+  border-radius: 0px 0px 5px 5px ;
+}
+.dropdown-link{ 
+  text-decoration: none;
+  color: black;
+}
+.dropdown-text{ 
+  margin-left: 10px;
+}

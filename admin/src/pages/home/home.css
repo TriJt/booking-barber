@@ -6,12 +6,70 @@
     height: 100%;
 }
 .left-container{ 
-    width: 20%;
-    position: relative;
-    margin-right: 20px;
+    width: 18%;
+    margin: 20px;
 }
 .right-container{ 
+    width: 80%;
+    height: 100%;
+    margin: 20px;
+}
+.chart-container, .table-container , .total-container{ 
+    border-radius: 10px;
+    background-color: white;
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0,0,0,0.47); 
+    box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
+}
+.chart-container{ 
+    margin: 20px 0px 20px 20px ;
+    padding: 10px;
+}
+.top-chart, .bottom-chart,.under-bottom{ 
+    margin: 20px;
+}
+.span-chart{ 
+    font-size: 16px ;
+    font-weight: 500;
+}
+.top-chart{ 
+    display: flex;
+    flex-direction: column;
+}
+.value-chart{ 
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.left-value{ 
+    font-weight: 500;
+    font-size: 20px;
+}
+.button-week, .button-month{ 
+    border: none;
+    padding: 5px;
+    font-weight: 400;
+    font-size: 13px;
+    margin-left: 10px ;
+    border-radius: 5px ;
+}
+.button-month{ 
+    background-color: aqua;
+}
+.button-week{ 
+    color: #FAFAFA;
+    background-color: black;
+}
+.under-bottom{ 
+    display: flex;
+    width: 98%;
+}
+
+.table-container{ 
+    width: 60%;
+    
+}
+.total-container{ 
     margin-left: 20px;
-    width: 85%;
-    position: relative;
+    width: 40% ;
+    
 }

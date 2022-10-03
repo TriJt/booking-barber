@@ -1,0 +1,29 @@
+.Total{ 
+    width: 100%;
+    height: 100%;
+}
+.top-total{ 
+    height: 25%;
+    padding: 20px;
+    border-bottom: 0.2px solid silver;
+}
+.header-total{ 
+    font-weight: 350;
+    font-size: 20px;
+}
+.span-total{
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.span-avg{ 
+    font-weight: normal;
+    font-size: 16px;
+    color: green;
+}
+
+.bottom-total{ 
+    width: 100%;
+    height: 75%;
+}

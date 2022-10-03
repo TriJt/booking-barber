@@ -8,6 +8,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import DiscountIcon from "@mui/icons-material/Discount";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ContactsIcon from "@mui/icons-material/Contacts";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -17,38 +18,54 @@ export default function Sidebar() {
       </div>
       <div className="bottom-sidebar">
         {/* item with icon and name */}
-        <div className="items-sidebar">
-          <DashboardIcon className="item-icon" />
-          <div className="item-sidebar">Dashboard</div>
-        </div>
-        <div className="items-sidebar">
-          <StoreIcon className="item-icon" />
-          <div className="item-sidebar">Store</div>
-        </div>
-        <div className="items-sidebar">
-          <GroupsIcon className="item-icon" />
-          <div className="item-sidebar">Customers</div>
-        </div>
-        <div className="items-sidebar">
-          <PeopleIcon className="item-icon" />
-          <div className="item-sidebar">Staffs</div>
-        </div>
-        <div className="items-sidebar">
-          <BookmarkIcon className="item-icon" />
-          <div className="item-sidebar">Booking</div>
-        </div>
-        <div className="items-sidebar">
-          <DiscountIcon className="item-icon" />
-          <div className="item-sidebar">Discount</div>
-        </div>
-        <div className="items-sidebar">
-          <PostAddIcon className="item-icon" />
-          <div className="item-sidebar">Posts</div>
-        </div>
-        <div className="items-sidebar">
-          <ContactsIcon className="item-icon" />
-          <div className="item-sidebar">Contacts</div>
-        </div>
+        <Link to={`/`} className="Link">
+          <div className="items-sidebar">
+            <DashboardIcon className="item-icon" />
+            <div className="item-sidebar">Dashboard</div>
+          </div>
+        </Link>
+        <Link to={`/store`} className="Link">
+          <div className="items-sidebar">
+            <StoreIcon className="item-icon" />
+            <div className="item-sidebar">Store</div>
+          </div>
+        </Link>
+        <Link to={`/customer`} className="Link">
+          <div className="items-sidebar">
+            <GroupsIcon className="item-icon" />
+            <div className="item-sidebar">Customers</div>
+          </div>
+        </Link>
+        <Link to={`/staff`} className="Link">
+          <div className="items-sidebar">
+            <PeopleIcon className="item-icon" />
+            <div className="item-sidebar">Staffs</div>
+          </div>
+        </Link>
+        <Link to={`/booking`} className="Link">
+          <div className="items-sidebar">
+            <BookmarkIcon className="item-icon" />
+            <div className="item-sidebar">Booking</div>
+          </div>
+        </Link>
+        <Link to={`/discount`} className="Link">
+          <div className="items-sidebar">
+            <DiscountIcon className="item-icon" />
+            <div className="item-sidebar">Discount</div>
+          </div>
+        </Link>
+        <Link to={`/post`} className="Link">
+          <div className="items-sidebar">
+            <PostAddIcon className="item-icon" />
+            <div className="item-sidebar">Posts</div>
+          </div>
+        </Link>
+        <Link to="/contact" className="Link">
+          <div className="items-sidebar">
+            <ContactsIcon className="item-icon" />
+            <div className="item-sidebar">Contacts</div>
+          </div>
+        </Link>
       </div>
     </div>
   );
