@@ -12,7 +12,7 @@ import Staff from "./pages/staff/Staff";
 import Contact from "./pages/contact/Contact"; 
 import Forgot from "./pages/forgot/Forget"; 
 import Login from "./pages/login/Login"; 
-import Register from "./pages/register/Register"; 
+import ResetPassword from "./pages/resetPassword/ResetPassword";
 import Profile from "./pages/profile/Profile"; 
 import Store from "./pages/store/Store"; 
 import Posts from "./pages/post/Posts"
@@ -31,7 +31,7 @@ function App() {
         <Route  path="/contact" element={ <Contact />} />
         <Route  path="/forgot" element={ <Forgot />} />
         <Route  path="/login" element={ <Login />} />
-        <Route  path="/register" element={ <Register />} />
+        <Route  path="/reset-password" element={ <ResetPassword />} />
         <Route  path="/profile" element={ <Profile />} /> 
       </Routes>
     </Router>

@@ -1,0 +1,16 @@
+.span-forgot{ 
+    color: silver;
+    padding-bottom: 20px;
+}
+.link-forgot{ 
+    display: flex;
+    text-decoration: auto;
+    color: silver;
+    text-align: center;
+    justify-content: center;
+    text-decoration: underline;
+}
+.link-forgot:hover{ 
+    text-decoration: none;
+    color: black;
+}
