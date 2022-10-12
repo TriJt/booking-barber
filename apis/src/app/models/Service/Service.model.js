@@ -12,7 +12,7 @@ const ServiceSchema = new mongoose.Schema({
         type: String
     },
     Image: {
-        type: Array
+        type: [String]
     },
     Category: {
         type: Array
@@ -20,7 +20,6 @@ const ServiceSchema = new mongoose.Schema({
     Evaluate: {
         type: Array
     }
-
 }, {
     timestamps: true
 })

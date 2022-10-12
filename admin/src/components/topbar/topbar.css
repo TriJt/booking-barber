@@ -1,16 +1,22 @@
 .topBar{ 
     display: flex;
-    margin: 10px 10px 20px 20px ;
+    margin: 0px 0px 20px 20px ;
     height: 40px;
+    padding: var(--padding--item);
     justify-content: space-between;
+    background-color: var(--background);
+    border-radius:var(--border-radius) ;
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0,0,0,0.47); 
+    box-shadow: var(--box-shadow);
 }
 .search{ 
     display: flex;
     justify-content: center;
     text-align: center;
-    background-color: #dddddd;
+    background-color: transparent;
     padding: 8px;
     width: 300px;
+    border: 0.2px solid silver;
     border-radius: 10px;
 }
 .input-search{ 
@@ -28,15 +34,19 @@
 .items-topBar{ 
     display: flex;
 }
-.item{ 
+.Item{ 
     width: fit-content;
-    padding: 8px 20px 0px 20px  ;
-    border-right: 0.2px solid #dddddd ;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    padding: 10px 20px 10px 20px  ;
     border-left: 0.2px solid #dddddd ;
     cursor: pointer;    
 }
 .top-dropdown-select{ 
     display: flex;
+    border-left: 0.2px solid #dddddd ;
     justify-content: space-between;
     cursor: pointer;
 }
@@ -48,6 +58,7 @@
     height: 32px ;
     border-radius: 50%;
     border: none;
+    object-fit: cover;
 }
 .top-dropdown{ 
   position: relative;
@@ -63,7 +74,7 @@
   right: 0;
   top:20px;
   display: none;
-  background-color: #e5e7eb;
+  background-color: var(--background-dropdown);
   padding-inline-start: 0;
 }
 .top-dropdown-list:before{ 
@@ -87,7 +98,8 @@
   transition: background-color 0.2s linear;
 }
 .top-dropdown-item:hover{ 
-  background-color: white;
+   color: var(--color-text-dropdown);;
+  background-color: var(--background-hover);
 }
 
 .top-dropdown-item:first-child{ 
@@ -115,6 +127,12 @@
   text-decoration: none;
   color: black;
 }
+.dropdown-link:hover{ 
+  color: var(--color-text-dropdown);
+}
 .dropdown-text{ 
   margin-left: 10px;
+}
+.dropdown-text:hover{ 
+  color: var(--color-text-dropdown);
 }

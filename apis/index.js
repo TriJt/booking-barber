@@ -1,11 +1,25 @@
+// import library
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
-const app = express();
 
+// import components
+import AuthRoute from "./src/routers/Auth.route.js";
+import StoreRoute from "./src/routers/Store.route.js";
+import AppointmentRoute from "./src/routers/Appointment.route.js";
+import StaffRoute from "./src/routers/Staff.route.js";
+import CustomerRoute from "./src/routers/Customer.route.js";
+import CategoryRoute from "./src/routers/Category.route.js";
+import ReceiptsRoute from "./src/routers/Receipt.route.js";
+import ServiceRoute from "./src/routers/Service.route.js";
+import StyleRoute from "./src/routers/Style.route.js";
+
+
+
+const app = express();
 dotenv.config();
 const corsOptions = {
 
@@ -27,6 +41,26 @@ mongoose
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"))
+
+
+//route for Auth 
+app.use("/api/auth", AuthRoute)
+//route for Store
+app.use("/api/store", StoreRoute)
+//route for Staff
+app.use("/api/staff", StaffRoute)
+//route for Service
+app.use("/api/service", ServiceRoute)
+//route for Customer
+app.use("/api/customer", CustomerRoute)
+//route for Receipts
+app.use("/api/receipt", ReceiptsRoute)
+// route for Style
+app.use("/api/style", StyleRoute)
+// route for Category
+app.use("/api/category", CategoryRoute)
+// route for Appointment
+app.use("/api/appointment", AppointmentRoute)
 
 app.listen(8800, () => {
     console.log("Server is running");

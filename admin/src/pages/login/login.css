@@ -21,11 +21,11 @@
     font-size: 24px;
     padding-bottom: 20px;
 }
-.item-login{ 
+.items{ 
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .Link-login{ 
@@ -38,12 +38,40 @@
     cursor: pointer;
 }
 .button-login{ 
-    width: 100%;
+    width: auto;
     height: 44px;
-    background-color: #567D89;
+    background-color: var(--color-header);
     color: white;
     border: none;
     border-radius: 8px;
     font-size: 18px;
     cursor: pointer;
+}
+.error{ 
+    color: red;
+    font-size: 13px;
+}
+.input-container{ 
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    height: auto;
+    padding: 10px;
+    border-radius: 8px;
+    border: 0.2px solid silver;
+    background-color: transparent;
+}
+.icon-input{ 
+    color: silver;
+}
+.input-value{ 
+    border: none;
+    font-size: 16px;
+    padding-left: 10px;
+    width: 200px;
+    background-color: transparent;
+}
+.input-value:focus{ 
+    outline: none;
 }

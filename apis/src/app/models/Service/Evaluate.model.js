@@ -6,10 +6,12 @@ const EvaluateSchema = new mongoose.Schema({
         type: String
     },
     Content: {
-        type: String
+        type: String,
+        default: ""
     },
-    Point: {
-        type: String
+    Like: {
+        type: Array,
+        default: []
     },
     Image: {
         type: [String]

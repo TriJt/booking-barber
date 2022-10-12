@@ -7,17 +7,32 @@ const CustomerSchema = new mongoose.Schema({
         require: true
     },
     Telephone: {
-        type: String
+        type: String,
+        require: true
     },
     Email: {
         type: String,
+        require: true,
         unique: true
     },
     Password: {
         type: String
     },
-    Address: {
-        type: Array
+    Image: {
+        type: [String],
+        default: "https://docsach24.co/no-avatar.png"
+    },
+    Number: {
+        type: String
+    },
+    Street: {
+        type: String
+    },
+    District: {
+        type: String
+    },
+    City: {
+        type: String
     },
     Gender: {
         type: String
@@ -29,7 +44,8 @@ const CustomerSchema = new mongoose.Schema({
         type: Date
     },
     Collect: {
-        type: String
+        type: String,
+        default: 0
     }
 }, {
     timestamps: true

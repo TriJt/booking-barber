@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./widget.css";
 import { Link } from "react-router-dom";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
@@ -6,13 +6,48 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import StoreIcon from "@mui/icons-material/Store";
 import PeopleIcon from "@mui/icons-material/People";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 
-export default function Widget({ type }) {
+export default function Widget() {
   // title is name of item
   // isMoney is type of item
   // link is link to page for item
   // icon is icon description to item
   // amount is value get from back-end
+
+  const { user: currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState(currentUser);
+  const [staff, setStaff] = useState("");
+  const [customer, setCustomer] = useState("");
+  useEffect(() => {
+    // count staff
+    const countStaff = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8800/api/staff/count_staff"
+        );
+        setStaff(res.data.value);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    countStaff();
+  }, []);
+
+  useEffect(() => {
+    // count customer
+    const countCustomer = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/api/customer/count");
+        setCustomer(res.data.value);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    countCustomer();
+  }, []);
+
   const Items = ({ title, isMoney, link, icon, amount }) => {
     return (
       <div className="widget">
@@ -49,7 +84,7 @@ export default function Widget({ type }) {
             }}
           />
         }
-        amount={1000 + "$"}
+        amount={100}
       />
       <Items
         title="Customer"
@@ -67,7 +102,7 @@ export default function Widget({ type }) {
             }}
           />
         }
-        amount={1000}
+        amount={customer}
       />
       <Items
         title="Staff"
@@ -85,7 +120,7 @@ export default function Widget({ type }) {
             }}
           />
         }
-        amount={1000}
+        amount={staff}
       />
       <Items
         title="Booking"

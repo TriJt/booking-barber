@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./topbar.css";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function TopBar() {
+  const { user: currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState(currentUser);
+
   return (
     <div className="topBar">
       {/* search to find somethings from database */}
@@ -17,24 +22,24 @@ export default function TopBar() {
         <input type="text" className="input-search" placeholder="Search..." />
       </div>
       <div className="items-topBar">
-        <div className="item">Home</div>
-        <div className="item">Noti</div>
+        <Link to={`/`} className="Link">
+          <div className="Item">Home</div>
+        </Link>
+        <Link to={`/`} className="Link">
+          <div className="Item">Noti</div>
+        </Link>
         <div className="top-dropdown">
           <div className="top-dropdown-select">
             {/* create name of user in here */}
-            <span className="item-name">Hi tri</span>
-            <img
-              src="https://i.pinimg.com/564x/c5/2d/ca/c52dcab3f8f4694e41993fa4ff987e16.jpg"
-              alt=""
-              className="image-item"
-            />
+            <span className="item-name">{user.Name}</span>
+            <img src={user.Image} alt="" className="image-item" />
           </div>
           <ul className="top-dropdown-list">
             <li className="top-dropdown-item">
               <AccountCircleOutlinedIcon />
-              {/* <Link to={`profile/${user.username}`} className="dropdown-link"> */}
-              <span className="dropdown-text">My profile</span>
-              {/* </Link> */}
+              <Link to={`profile/${user.Name}`} className="Link">
+                <span className="dropdown-text">My profile</span>
+              </Link>
             </li>
             {/* tạo một cái popup trang đăng nhập  */}
             <li className="top-dropdown-item">

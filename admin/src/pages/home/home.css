@@ -1,3 +1,19 @@
+:root{ 
+    --color-header: #CE9461; 
+    --background-hover: #603601; 
+    --background-dropdown: #CC9544;
+    --color-text: #E0D8B0;
+    --color-text-dropdown: #F9F9F9 ;
+    --background: white; 
+    --box-shadow:2px 4px 10px 1px rgba(201,201,201,0.47) ; 
+    --padding--item: 10px; 
+    --padding--container: 20px; 
+    --border-radius: 10px; 
+    --font-size: 13px; 
+    --font-weight-header: 500; 
+    --webkit: 2px 4px 10px 1px rgba(0,0,0,0.47);
+}
+
 .container{ 
     display: flex;
     position: relative;
@@ -18,7 +34,7 @@
     border-radius: 10px;
     background-color: white;
     -webkit-box-shadow: 2px 4px 10px 1px rgba(0,0,0,0.47); 
-    box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
+    box-shadow: var(--box-shadow);
 }
 .chart-container{ 
     margin: 20px 0px 20px 20px ;

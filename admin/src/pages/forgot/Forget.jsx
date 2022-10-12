@@ -1,7 +1,6 @@
 import React from "react";
 import "./forget.css";
 import { Link } from "react-router-dom";
-import Input from "../../components/Input/Input";
 import Items from "../../components/item/Items";
 import EmailIcon from "@mui/icons-material/Email";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -17,15 +16,22 @@ export default function Forget() {
           Don't fret! Just type in your email and we will send you a code to
           reset your password!
         </span>
-        <div className="item-login">
+        <div className="items">
           <Items value={"Your Email"} />
-          <Input
-            type="email"
-            placeholder={"example@gmail.com"}
-            icon={<EmailIcon />}
-          />
+          <div className="input-container">
+            <span className="icon-input">
+              <EmailIcon />
+            </span>
+            <input
+              className="input-value"
+              name="Email"
+              autoComplete="off"
+              type="email"
+              placeholder={"example@gmail.com"}
+            />
+          </div>
         </div>
-        <div className="item-login">
+        <div className="items">
           <button className="button-login"> Recover Password</button>
         </div>
         <div className="item-login">

@@ -7,16 +7,27 @@ const StoreSchema = new mongoose.Schema({
         require: true
     },
     Telephone: {
-        type: String
+        type: String,
+        require: true
     },
     Banner: {
         type: Array
     },
-    Address: {
-        type: Array
+    Number: {
+        type: String
+    },
+    Street: {
+        type: String
+    },
+    District: {
+        type: String
+    },
+    City: {
+        type: String
     },
     Description: {
-        type: String
+        type: String,
+        require: true
     }
 }, {
     timestamps: true

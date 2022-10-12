@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "../../components/Input/Input";
 import Items from "../../components/item/Items";
 import KeyIcon from "@mui/icons-material/Key";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -11,25 +10,50 @@ export default function ResetPassword() {
     <div className="Login">
       <div className="container-login">
         <h2 className="header-login"> Create New Password</h2>
-        <div className="item-login">
-          <Items value={"Your OTP"} />
-          <Input type="text" placeholder={"OTP "} icon={<KeyIcon />} />
+        <div className="items">
+          <Items value={"Your Email"} />
+          <div className="input-container">
+            <span className="icon-input">
+              <KeyIcon />
+            </span>
+            <input
+              className="input-value"
+              name="OTP"
+              autoComplete="off"
+              type="text"
+              placeholder={"OTP"}
+            />
+          </div>
         </div>
-        <div className="item-login">
+        <div className="items">
           <Items value={"Your Password"} />
-          <Input
-            type="password"
-            placeholder={"Password"}
-            icon={<LockOpenIcon />}
-          />
+          <div className="input-container">
+            <span className="icon-input">
+              <LockOpenIcon />
+            </span>
+            <input
+              className="input-value"
+              name="Password"
+              autoComplete="off"
+              type="password"
+              placeholder={"Your Password"}
+            />
+          </div>
         </div>
-        <div className="item-login">
+        <div className="items">
           <Items value={"Your Confirm Password"} />
-          <Input
-            type="password"
-            placeholder={"Confirm Password"}
-            icon={<LockOpenIcon />}
-          />
+          <div className="input-container">
+            <span className="icon-input">
+              <LockOpenIcon />
+            </span>
+            <input
+              className="input-value"
+              name="Password"
+              autoComplete="off"
+              type="password"
+              placeholder={"example@gmail.com"}
+            />
+          </div>
         </div>
         <div className="item-login">
           <button className="button-login"> Create Password </button>

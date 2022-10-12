@@ -20,49 +20,49 @@ export default function Sidebar() {
         {/* item with icon and name */}
         <Link to={`/`} className="Link">
           <div className="items-sidebar">
-            <DashboardIcon className="item-icon" />
+            <DashboardIcon className="icon-input" />
             <div className="item-sidebar">Dashboard</div>
           </div>
         </Link>
         <Link to={`/store`} className="Link">
           <div className="items-sidebar">
-            <StoreIcon className="item-icon" />
+            <StoreIcon className="icon-input" />
             <div className="item-sidebar">Store</div>
           </div>
         </Link>
         <Link to={`/customer`} className="Link">
           <div className="items-sidebar">
-            <GroupsIcon className="item-icon" />
+            <GroupsIcon className="icon-input" />
             <div className="item-sidebar">Customers</div>
           </div>
         </Link>
         <Link to={`/staff`} className="Link">
           <div className="items-sidebar">
-            <PeopleIcon className="item-icon" />
+            <PeopleIcon className="icon-input" />
             <div className="item-sidebar">Staffs</div>
           </div>
         </Link>
         <Link to={`/booking`} className="Link">
           <div className="items-sidebar">
-            <BookmarkIcon className="item-icon" />
+            <BookmarkIcon className="icon-input" />
             <div className="item-sidebar">Booking</div>
           </div>
         </Link>
         <Link to={`/discount`} className="Link">
           <div className="items-sidebar">
-            <DiscountIcon className="item-icon" />
+            <DiscountIcon className="icon-input" />
             <div className="item-sidebar">Discount</div>
           </div>
         </Link>
         <Link to={`/post`} className="Link">
           <div className="items-sidebar">
-            <PostAddIcon className="item-icon" />
+            <PostAddIcon className="icon-input" />
             <div className="item-sidebar">Posts</div>
           </div>
         </Link>
         <Link to="/contact" className="Link">
           <div className="items-sidebar">
-            <ContactsIcon className="item-icon" />
+            <ContactsIcon className="icon-input" />
             <div className="item-sidebar">Contacts</div>
           </div>
         </Link>

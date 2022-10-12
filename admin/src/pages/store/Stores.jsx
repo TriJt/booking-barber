@@ -7,7 +7,7 @@ import Charts from "../../components/Charts/Charts";
 import Table from "../../components/table/Table";
 import TotalBooking from "../../components/total/TotalBooking";
 
-export default function Store() {
+export default function Stores() {
   return (
     <div className="container">
       {/* container for sidebar */}
