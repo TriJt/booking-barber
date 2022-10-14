@@ -104,7 +104,6 @@ export default function Profile() {
   // update information
   const submitHandler = async (e) => {
     e.preventDefault();
-
     const staff = {
       StaffId: user._id,
       Name: inputField.Name,

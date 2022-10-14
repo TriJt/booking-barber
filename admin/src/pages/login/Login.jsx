@@ -17,7 +17,7 @@ export default function Login() {
     Email: "",
     Password: "",
   });
-  // Test
+
   const InputHandler = (e) => {
     setInputField({ ...inputField, [e.target.name]: e.target.value });
   };

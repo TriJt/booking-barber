@@ -17,32 +17,32 @@ const StaffSchema = new mongoose.Schema({
         type: String
     },
     Image: {
-        type: [String],
-        default: "https://docsach24.co/no-avatar.png"
+        type: [String]
+        
     },
     Number: {
         type: String, 
-        default: null
+        default: ""
     },
     Street: {
         type: String,
-        default: null
+        default: ""
     },
     District: {
         type: String,
-        default: null
+        default: ""
     },
     City: {
         type: String,
-        default: null
+        default: ""
     },
     Gender: {
         type: String,
-        default: null
+        default: ""
     },
     Birthday: {
         type: Date,
-        default: null
+        default: ""
     },
     isAdmin: {
         type: Boolean,
