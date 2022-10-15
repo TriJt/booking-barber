@@ -3,12 +3,20 @@ import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 
-export default function TableUser({ title, row, column, rowId, setRowId }) {
+export default function TableUser({
+  title,
+  row,
+  column,
+  rowId,
+  setDeleted,
+  deletedId,
+  setRowId,
+}) {
   const [pageSize, setPageSize] = useState(5);
   return (
     <Box
       sx={{
-        height: 400,
+        height: 420,
         width: "100%",
       }}
     >
@@ -38,7 +46,14 @@ export default function TableUser({ title, row, column, rowId, setRowId }) {
           top: params.isFirstVisible ? 0 : 5,
           bottom: params.isLastVisible ? 0 : 5,
         })}
-        onCellEditCommit = { params => setRowId(params.id) }
+        checkboxSelection
+        disableSelectionOnClick
+        // onSelectionModelChange={(ids) => {
+        //   setDeleted(ids);
+        //   console.log(ids);
+        // }}
+        onCellClick={(params) => setDeleted(params.id)}
+        onCellEditCommit={(params) => setRowId(params.id)}
       />
     </Box>
   );

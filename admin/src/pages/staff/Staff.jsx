@@ -8,11 +8,15 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import { ColumnStaff } from "../../Column";
 import axios from "axios";
 import { Avatar } from "@mui/material";
-import StaffAction from "../../action/StaffAction";
+import { SaveStaff } from "../../action/SaveAction";
+import { DeleteStaff } from "../../action/DeleteAction";
+import StaffNew from "../../components/new/StaffNew";
 
-export default function Staff() {
+export default function Staff({ deletedId }) {
   const [dataStaff, setDataStaff] = useState("");
   const [rowId, setRowId] = useState(null);
+  const [Id, setDeleted] = useState();
+
   useEffect(() => {
     const fetchStaff = async () => {
       try {
@@ -61,42 +65,38 @@ export default function Staff() {
         editable: true,
       },
       {
-        field: "Number",
-        header: "Number",
-        width: 60,
+        field: "Salary",
+        header: "Salary",
+        width: 90,
+        type: "singleSelect",
+        valueOptions: ["Paid", "Unpaid"],
         editable: true,
       },
       {
-        field: "Street",
-        header: "Street",
-        width: 100,
+        field: "Active",
+        header: "Active",
+        width: 90,
+        type: "boolean",
         editable: true,
       },
       {
-        field: "District",
-        header: "District",
-        width: 80,
-        editable: true,
-      },
-      {
-        field: "City",
-        header: "City",
-        width: 80,
-        editable: true,
-      },
-      {
-        field: "actions",
-        header: "Action",
+        field: "save",
         width: 80,
         type: "actions",
-        renderCell: (params) => (
-          <StaffAction {...{ params, rowId, setRowId }} />
-        ),
+        renderCell: (params) => <SaveStaff {...{ params, rowId, setRowId }} />,
+        editable: true,
+      },
+      {
+        field: "delete",
+        width: 80,
+        type: "actions",
+        renderCell: (params) => <DeleteStaff {...{ params, deletedId, Id }} />,
         editable: true,
       },
     ],
     [rowId]
   );
+  console.log();
 
   return (
     <div className="container">
@@ -111,8 +111,20 @@ export default function Staff() {
         </div>
         {/* phần thông tin của staff */}
         <div className="bottom-profile">
-          <ToastContainer />
-          <TableUser title={"Manager Staff"} column={columns} row={dataStaff} rowId={rowId} setRowId={setRowId} />
+          <div className="staff">
+            <ToastContainer />
+            <TableUser
+              title={"Manager Staff"}
+              column={columns}
+              row={dataStaff}
+              rowId={rowId}
+              setRowId={setRowId}
+              setDeleted={setDeleted}
+            />
+          </div>
+        </div>
+        <div className="staff-bottom">
+          <StaffNew setDataStaff={setDataStaff} />
         </div>
       </div>
     </div>

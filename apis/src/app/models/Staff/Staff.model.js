@@ -1,56 +1,64 @@
-import mongoose, {
-    Schema
-} from "mongoose";
-const StaffSchema = new mongoose.Schema({
+import mongoose, { Schema } from "mongoose";
+const StaffSchema = new mongoose.Schema(
+  {
     Name: {
-        type: String,
-        require: true
+      type: String,
+      require: true,
     },
     Telephone: {
-        type: String
+      type: String,
     },
     Email: {
-        type: String,
-        unique: true
+      type: String,
+      unique: true,
     },
     Password: {
-        type: String
+      type: String,
     },
     Image: {
-        type: [String]
-        
+      type: [String],
     },
     Number: {
-        type: String, 
-        default: ""
+      type: String,
+      default: "",
     },
     Street: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
     District: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
     City: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
+    },
+    Active: {
+      type: Boolean,
+      default: true,
+    },
+    Salary: {
+      type: String,
+      default: "Unpaid",
     },
     Gender: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
     Birthday: {
-        type: Date,
-        default: ""
+      type: Date,
+      default: "",
     },
     isAdmin: {
-        type: Boolean,
-        default: false
-    }
-}, {
-    timestamps: true
-})
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Staff = mongoose.model('Staff', StaffSchema);
+const Staff = mongoose.model("Staff", StaffSchema);
 export default Staff;

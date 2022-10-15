@@ -44,7 +44,6 @@ export default function Login() {
       } catch (err) {
         console.log(err.response.data);
         const error = err.response.data;
-
         toast.error(error);
       }
     } else {
@@ -84,7 +83,6 @@ export default function Login() {
         <div className="container-login">
           <h2 className="header-login"> Sign in to your account</h2>
           <div className="items">
-            <Items value={"Your Email"} />
             <div className="input-container">
               <span className="icon-input">
                 <EmailIcon />
@@ -97,7 +95,7 @@ export default function Login() {
                 required
                 value={inputField.Email}
                 type="email"
-                placeholder={"example@gmail.com"}
+                placeholder={"Email"}
               />
             </div>
           </div>
@@ -105,7 +103,6 @@ export default function Login() {
             <span className="error">{errField.EmailErr} </span>
           )}
           <div className="items">
-            <Items value={"Your Password"} />
             <div className="input-container">
               <span className="icon-input">
                 <LockOpenIcon />
@@ -117,6 +114,7 @@ export default function Login() {
                 onChange={InputHandler}
                 value={inputField.Password}
                 type="password"
+                placeholder="Password"
               />
             </div>
           </div>
