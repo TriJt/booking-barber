@@ -1,0 +1,81 @@
+.slider-container {
+  padding-top: 200px;
+  width: 50%;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+  -webkit-box-pack: end !important;
+  -ms-flex-pack: end !important;
+  justify-content: flex-end;
+  z-index: -1;
+}
+.subheading {
+  font-size: 17px;
+  color: #bf925b;
+  font-weight: 600;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  font-family: "Poppins", Arial, sans-serif;
+}
+.slider-text {
+  font-size: 50px;
+  color: #fff;
+  line-height: 1.1;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.slider-text span {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #fff;
+}
+.text-p {
+  position: relative;
+  width: 80%;
+  margin-left: auto !important;
+}
+
+.text-p:after {
+  position: absolute;
+  top: 0;
+  left: -100px;
+  bottom: -10px;
+  content: "";
+  width: 2px;
+  background: #bf925b;
+}
+.text-p p {
+  font-size: 14px;
+  color: var(--background);
+}
+.link-about {
+  background-color: transparent;
+  color: var(--color-button);
+  padding: 10px;
+  border: 2px solid var(--color-button);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.link-about .link {
+  color: var(--color-button);
+}
+
+@media screen and (max-width: 768px) {
+  .slider-container {
+    padding-top: 100px;
+    margin-left: 20px;
+    width: 100%;
+    z-index: -1;
+    animation-name: fadeInUp;
+    -webkit-animation-name: fadeInUp;
+    -webkit-box-pack: end !important;
+    -ms-flex-pack: end !important;
+  }
+  .slider-text {
+    font-size: 40px;
+  }
+}

@@ -12,56 +12,62 @@ import StoreRoute from "./src/routers/Store.route.js";
 import AppointmentRoute from "./src/routers/Appointment.route.js";
 import StaffRoute from "./src/routers/Staff.route.js";
 import CustomerRoute from "./src/routers/Customer.route.js";
-import CategoryRoute from "./src/routers/Category.route.js";
 import ReceiptsRoute from "./src/routers/Receipt.route.js";
 import ServiceRoute from "./src/routers/Service.route.js";
-import StyleRoute from "./src/routers/Style.route.js";
-
-
 
 const app = express();
 dotenv.config();
 const corsOptions = {
-
-    credentials: true, // This is important.
-    origin: true,
-}
+  credentials: true, // This is important.
+  origin: true,
+};
 app.use(cors(corsOptions));
 
 //connection to database
 mongoose
-    .connect(process.env.MONGO_PROD_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => console.log("Database connected!"))
-    .catch(err => console.log(err));
+  .connect(process.env.MONGO_PROD_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Database connected!"))
+  .catch((err) => console.log(err));
 
-//middleware 
+//middleware
 app.use(express.json());
 app.use(helmet());
-app.use(morgan("common"))
+app.use(morgan("common"));
 
-
-//route for Auth 
-app.use("/api/auth", AuthRoute)
+//route for Auth
+app.use("/api/auth", AuthRoute);
 //route for Store
-app.use("/api/store", StoreRoute)
+app.use("/api/store", StoreRoute);
 //route for Staff
-app.use("/api/staff", StaffRoute)
+app.use("/api/staff", StaffRoute);
 //route for Service
-app.use("/api/service", ServiceRoute)
+app.use("/api/service", ServiceRoute);
 //route for Customer
-app.use("/api/customer", CustomerRoute)
+app.use("/api/customer", CustomerRoute);
 //route for Receipts
-app.use("/api/receipt", ReceiptsRoute)
-// route for Style
-app.use("/api/style", StyleRoute)
-// route for Category
-app.use("/api/category", CategoryRoute)
+app.use("/api/receipt", ReceiptsRoute);
+
 // route for Appointment
-app.use("/api/appointment", AppointmentRoute)
+app.use("/api/appointment", AppointmentRoute);
+
+function getCurrentTime() {
+  const date = new Date();
+  console.log(date);
+}
+
+function getEndDateTime(dateTime) {
+  // 2021-03-22T09:00:00
+  const hrs = (parseInt(dateTime.split("T")[1].split(":")[0]) + 1)
+    .toString()
+    .padStart(2, "0");
+  const time = hrs + ":00:00";
+  const date = dateTime.split("T")[0];
+  return date + "T" + time;
+}
 
 app.listen(8800, () => {
-    console.log("Server is running");
-})
+  console.log("Server is running");
+});

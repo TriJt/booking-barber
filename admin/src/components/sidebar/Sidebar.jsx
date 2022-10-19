@@ -24,12 +24,6 @@ export default function Sidebar() {
             <div className="item-sidebar">Dashboard</div>
           </div>
         </Link>
-        <Link to={`/store`} className="Link">
-          <div className="items-sidebar">
-            <StoreIcon className="icon-input" />
-            <div className="item-sidebar">Store</div>
-          </div>
-        </Link>
         <Link to={`/customer`} className="Link">
           <div className="items-sidebar">
             <GroupsIcon className="icon-input" />

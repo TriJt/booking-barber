@@ -1,5 +1,53 @@
-import mongoose, { Schema } from "mongoose";
-const StaffSchema = new mongoose.Schema(
+import mongoose from "mongoose";
+
+const Schema = mongoose.Schema;
+
+const slotSchema = new Schema({
+  Time: {
+    type: String,
+  },
+  isBooked: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const dateSchedule = new Schema({
+  date: {
+    type: String,
+  },
+  slots: [slotSchema],
+});
+
+const SalarySchema = new Schema(
+  {
+    Status: {
+      type: String,
+      default: "Unpaid",
+    },
+    Date: { type: Date },
+    Month: {
+      type: String,
+    },
+    Year: {
+      type: String,
+    },
+    Salary: {
+      type: Number,
+    },
+    Allowance: {
+      type: Number,
+    },
+    Total: {
+      type: Number,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const StaffSchema = new Schema(
   {
     Name: {
       type: String,
@@ -38,10 +86,7 @@ const StaffSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    Salary: {
-      type: String,
-      default: "Unpaid",
-    },
+    Salary: [SalarySchema],
     Gender: {
       type: String,
       default: "",
@@ -54,6 +99,7 @@ const StaffSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    Dates: [dateSchedule],
   },
   {
     timestamps: true,
@@ -61,4 +107,8 @@ const StaffSchema = new mongoose.Schema(
 );
 
 const Staff = mongoose.model("Staff", StaffSchema);
-export default Staff;
+const Salary = mongoose.model("Salary", SalarySchema);
+const Slot = mongoose.model("Slot", slotSchema);
+const DateSchedule = mongoose.model("DateSchedule", dateSchedule);
+
+export { Staff, Salary, Slot, DateSchedule };

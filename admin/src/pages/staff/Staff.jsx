@@ -5,18 +5,18 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
-import { ColumnStaff } from "../../Column";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { SaveStaff } from "../../action/SaveAction";
 import { DeleteStaff } from "../../action/DeleteAction";
-import StaffNew from "../../components/new/StaffNew";
+import StaffNew from "../../components/create/Staff/Staff";
 
 export default function Staff({ deletedId }) {
   const [dataStaff, setDataStaff] = useState("");
   const [rowId, setRowId] = useState(null);
   const [Id, setDeleted] = useState();
 
+  //effect data staff
   useEffect(() => {
     const fetchStaff = async () => {
       try {
@@ -29,11 +29,12 @@ export default function Staff({ deletedId }) {
     fetchStaff();
   }, []);
 
+  // state columns of table
   const columns = useMemo(
     () => [
       {
         field: "Image",
-        header: "Avatar",
+        headerName: "Avatar",
         width: 60,
         renderCell: (params) => <Avatar src={params.row.Image} />,
         sortable: false,
@@ -41,24 +42,24 @@ export default function Staff({ deletedId }) {
       },
       {
         field: "Name",
-        header: "Name",
+        headerName: "Name",
         width: 120,
         editable: true,
       },
       {
         field: "Telephone",
-        header: "Telephone",
+        headerName: "Telephone",
         width: 90,
         editable: true,
       },
       {
         field: "Email",
-        header: "Email",
+        headerName: "Email",
         width: 180,
       },
       {
         field: "Gender",
-        header: "Gender",
+        headerName: "Gender",
         width: 90,
         type: "singleSelect",
         valueOptions: ["Male", "Female", "Other"],
@@ -66,7 +67,7 @@ export default function Staff({ deletedId }) {
       },
       {
         field: "Salary",
-        header: "Salary",
+        headerName: "Salary",
         width: 90,
         type: "singleSelect",
         valueOptions: ["Paid", "Unpaid"],
@@ -74,7 +75,7 @@ export default function Staff({ deletedId }) {
       },
       {
         field: "Active",
-        header: "Active",
+        headerName: "Active",
         width: 90,
         type: "boolean",
         editable: true,
@@ -82,12 +83,14 @@ export default function Staff({ deletedId }) {
       {
         field: "save",
         width: 80,
+        headerName: "Save",
         type: "actions",
         renderCell: (params) => <SaveStaff {...{ params, rowId, setRowId }} />,
         editable: true,
       },
       {
         field: "delete",
+        headerName: "Delete",
         width: 80,
         type: "actions",
         renderCell: (params) => <DeleteStaff {...{ params, deletedId, Id }} />,
@@ -96,7 +99,6 @@ export default function Staff({ deletedId }) {
     ],
     [rowId]
   );
-  console.log();
 
   return (
     <div className="container">

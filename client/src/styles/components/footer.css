@@ -1,0 +1,80 @@
+.Footer {
+  display: flex;
+  width: 100%;
+  height: 560px;
+  justify-content: center;
+  background-color: var(--background-dark);
+  opacity: 0.9;
+}
+.div-footer {
+  width: 255px;
+  height: 100%;
+  padding: 100px 10px 0px 10px;
+}
+.title {
+  text-transform: uppercase;
+  color: var(--background);
+  margin: 0px 0px 30px;
+  font-size: 24px;
+}
+
+.div-footer p {
+  color: var(--background);
+  opacity: 0.9;
+}
+.div-icon {
+  width: 100%;
+  height: 40px;
+  display: flex;
+}
+.link-icon {
+  text-decoration: none;
+  color: var(--background);
+  background-color: var(--color-button);
+  height: 30px !important;
+  width: 30px !important;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  padding: 5px;
+  margin-right: 10px;
+}
+.button-icon {
+  width: 30px;
+  height: 30px;
+}
+.link-footer {
+  height: 20px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.link-footer a {
+  text-decoration: none;
+  color: var(--background);
+  opacity: 0.9;
+}
+.link-footer span {
+  color: var(--background);
+  font-size: 20px;
+}
+.link-footer button {
+  border: 2px solid var(--color-button);
+  background-color: transparent;
+  color: var(--color-button);
+  width: 100%;
+  padding: 10px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-size: 16px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.link-footer button span {
+  color: var(--color-button);
+  margin-right: 10px;
+}

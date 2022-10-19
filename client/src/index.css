@@ -1,0 +1,17 @@
+body {
+  margin: 0px;
+  scroll-behavior: smooth;
+  font-family: "Poppins", Arial, sans-serif;
+}
+:root {
+  --color-button: #bf925b;
+  --color-text: #bababa;
+  --color-header: #343434;
+  --background: #ffffff;
+  --background-dark: #090601;
+  --border: 1px solid rgba(255, 255, 255, 0.3) !important ;
+  --radius: 4px;
+  --size-text: 13px;
+  --size-logo: 30px;
+  --size-heading: 50px;
+}

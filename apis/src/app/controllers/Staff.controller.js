@@ -1,5 +1,93 @@
-import Staff from "../models/Staff/Staff.model.js";
+import { Staff } from "../models/Staff/Staff.model.js";
 import bcryptjs from "bcryptjs";
+
+// function create new slot for get slots from staff
+function createDate(date) {
+  return new DateSchedule({
+    date: date,
+    slots: [
+      new Slot({
+        Time: "08:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "08:30:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "09:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "09:30:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "10:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "10:30:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "11:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "11:30:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "12:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "12:30:00",
+        isBooked: false,
+      }),
+
+      new Slot({
+        Time: "13:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "13:30:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "14:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "14:30:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "15:00:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "15:30:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "16:00:00",
+        isBooked: false,
+      }),
+      ,
+      new Slot({
+        Time: "16:30:00",
+        isBooked: false,
+      }),
+      ,
+      new Slot({
+        Time: "17:00:00",
+        isBooked: false,
+      }),
+    ],
+  });
+}
 
 // create information of Staff
 // COMPLETE in back-end
@@ -141,4 +229,49 @@ export const CountStaff = async (req, res) => {
   res.json(responseType);
 };
 
-// update status of save
+// get-slots
+export const GetSlots = async (req, res) => {
+  try {
+    const id = req.body.staffId; //staff id
+    const date = req.body.date; // date to booking appointment
+    const staff = await Staff.findOne({ _id: id });
+    // staff not found
+    if (staff === null) {
+      return res.status(201).json({
+        message: "Doctor not found in the database!",
+      });
+    }
+    // staff found
+    // find the date
+    let count = 0;
+    for (const i of staff.Dates) {
+      if (i.date === date) {
+        return res.status(200).json(i);
+      }
+      count++;
+    }
+
+    const oldLength = count;
+
+    // add new slots if date not found in the db
+    const dateSchedule = createDate(date);
+    const updatedStaff = await Staff.findOneAndUpdate(
+      {
+        _id: staff._id,
+      },
+      { $push: { Dates: dateSchedule } },
+      { new: true }
+    );
+
+    if (updatedDoctor) {
+      return res.status(200).json(updatedDoctor.Dates[oldLength]);
+    } else {
+      const err = { err: "An error occurred!" };
+      throw err;
+    }
+  } catch (err) {
+    return res.status(400).json({
+      message: err,
+    });
+  }
+};

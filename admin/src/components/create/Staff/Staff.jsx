@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./StaffNew.css";
-import Items from "../../components/item/Items";
+import "./staff.css";
+import Items from "../../../components/item/Items";
 import BadgeIcon from "@mui/icons-material/Badge";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
@@ -64,7 +64,7 @@ export default function StaffNew({ setDataStaff }) {
 
   return (
     <div className="new-staff">
-      <div className="left-staff"></div>
+      <div className="left-staff">{/* find customer */}</div>
       <div className="right-staff">
         <h3 className="create-staff"> Create New Staff</h3>
         <form action="submit">

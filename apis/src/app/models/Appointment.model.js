@@ -1,28 +1,47 @@
-import mongoose, {
-    Schema
-} from "mongoose";
-const AppointmentSchema = new mongoose.Schema({
-    Staff_id: {
-        type: String
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
+
+const AppointmentSchema = new Schema(
+  {
+    StaffId: {
+      type: String,
+      require: true,
     },
-    Name: {
-        type: String
+    DateId: {
+      type: String,
+      require: true,
     },
-    Telephone: {
-        type: String
+    SlotId: {
+      type: String,
+      require: true,
     },
-    Service: {
-        type: Array
+    CustomerId: {
+      type: String,
+      require: true,
+    },
+    Staff: {
+      type: String,
+    },
+    NameCustomer: {
+      type: String,
+    },
+    TelephoneCustomer: {
+      type: String,
+    },
+    date: {
+      type: String,
+    },
+    slotTime: {
+      type: String,
     },
     Status: {
-        type: String
+      type: String,
     },
-    Slots: {
-        type: Array
-    }
-}, {
-    timestamps: true
-})
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Appointment = mongoose.model('Appointment', AppointmentSchema);
+const Appointment = mongoose.model("Appointment", AppointmentSchema);
 export default Appointment;

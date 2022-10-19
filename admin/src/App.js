@@ -16,7 +16,6 @@ import Forgot from "./pages/forgot/Forget";
 import Login from "./pages/login/Login";
 import ResetPassword from "./pages/resetPassword/ResetPassword";
 import Profile from "./pages/profile/Profile";
-import Stores from "./pages/store/Stores";
 import Posts from "./pages/post/Posts"
 import {
   AuthContext
@@ -34,7 +33,6 @@ export default function App() {
         <Route  path="/customer"  element={ <Customer /> } /> 
         <Route  path="/discount" element={ <Discount />} /> 
         <Route  path="/staff" element={ <Staff />} /> 
-        <Route  path="/store" element={ <Stores />} />
         <Route  path="/posts" element={ <Posts />} />
         <Route  path="/contact" element={ <Contact />} />
         <Route  path="/forgot" element={ <Forgot />} />

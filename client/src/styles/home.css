@@ -1,0 +1,86 @@
+.container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+}
+.background-image {
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  padding-bottom: 100px;
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  background-image: url("https://res.cloudinary.com/johnle/image/upload/v1666072449/qt9c5u3fd1rn0iqpvyes.jpg");
+  z-index: 1;
+}
+.section1 {
+  display: block;
+  z-index: 1;
+}
+.section-2 {
+  display: block;
+  z-index: 0;
+}
+.container-item {
+  width: 100%;
+  height: 100%;
+}
+.slider {
+  z-index: -1;
+  display: flex;
+  -webkit-box-pack: end !important;
+  -ms-flex-pack: end !important;
+  justify-content: flex-end;
+}
+.service-container {
+  display: flex;
+  width: 100%;
+  height: 450px;
+  position: relative;
+}
+
+/*  about */
+
+.about-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+}
+.div-image {
+  display: flex;
+  justify-content: flex-end;
+  float: right;
+  width: 50%;
+  height: 100%;
+}
+.image-about {
+  width: 540px;
+  height: 650px;
+  object-fit: cover;
+}
+.text-about {
+  width: 50%;
+  height: 100%;
+}
+.text-about-mb {
+  width: 70%;
+  padding: 48px 15px 48px 48px;
+}
+.h2-about {
+  opacity: 0.5;
+  font-size: 40px;
+}
+.text-about-mb p {
+  color: #666666;
+}
+
+/* pricing */
+.pricing-container {
+  margin: 100px 70px 0px 70px;
+  padding: 0px 15px;
+  text-align: center;
+}
