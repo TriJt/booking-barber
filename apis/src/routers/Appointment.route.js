@@ -12,13 +12,13 @@ import {
 router.post("/add", AddAppointment);
 
 // update information of Appointment
-router.put("/update", UpdateAppointment);
+router.put("/update/:id", UpdateAppointment);
 
 // delete Appointment
-router.delete("/delete", DeleteAppointment);
+router.delete("/delete/:id", DeleteAppointment);
 
 // get Appointment by id
-router.get("/:AppointmentId", GetAppointmentById);
+router.get("/:id", GetAppointmentById);
 
 // get all Appointment by id
 router.get("/", GetAppointments);

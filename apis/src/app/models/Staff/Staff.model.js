@@ -68,19 +68,15 @@ const StaffSchema = new Schema(
     },
     Number: {
       type: String,
-      default: "",
     },
     Street: {
       type: String,
-      default: "",
     },
     District: {
       type: String,
-      default: "",
     },
     City: {
       type: String,
-      default: "",
     },
     Active: {
       type: Boolean,
@@ -89,11 +85,9 @@ const StaffSchema = new Schema(
     Salary: [SalarySchema],
     Gender: {
       type: String,
-      default: "",
     },
     Birthday: {
       type: Date,
-      default: "",
     },
     isAdmin: {
       type: Boolean,

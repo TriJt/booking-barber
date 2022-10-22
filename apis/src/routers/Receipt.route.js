@@ -1,25 +1,25 @@
 import express from "express";
 const router = express.Router();
 import {
-    CreateReceipt,
-    UpdateReceipt,
-    DeleteReceipt,
-    GetReceiptById,
-    GetReceipts
-} from "../app/controllers/Receipt.controller.js"
+  CreateReceipt,
+  UpdateReceipt,
+  DeleteReceipt,
+  GetReceiptById,
+  GetReceipts,
+} from "../app/controllers/Receipt.controller.js";
 
 // create Receipt
-router.post("/create", CreateReceipt);
+router.post("/add", CreateReceipt);
 
 // update information of Receipt
-router.put("/update", UpdateReceipt);
+router.put("/update/:id", UpdateReceipt);
 
-// delete Receipt 
-router.delete("/delete", DeleteReceipt);
+// delete Receipt
+router.delete("/delete/:id", DeleteReceipt);
 
-// get Receipt by id 
-router.get("/:ReceiptId", GetReceiptById);
+// get Receipt by id
+router.get("/:id", GetReceiptById);
 
-// get all Receipt by id 
-router.get("/", GetReceipts)
+// get all Receipt by id
+router.get("/", GetReceipts);
 export default router;

@@ -9,7 +9,6 @@ const EvaluateSchema = new Schema(
     },
     Title: {
       type: String,
-      default: "",
     },
     Star: {
       type: Number,
@@ -19,7 +18,6 @@ const EvaluateSchema = new Schema(
     },
     Review: {
       type: String,
-      default: "",
     },
   },
   {
@@ -42,7 +40,7 @@ const ServiceSchema = new Schema(
       type: [String],
     },
     Category: {
-      type: Array,
+      type: String,
     },
     Evaluate: [EvaluateSchema],
   },
@@ -51,15 +49,15 @@ const ServiceSchema = new Schema(
   }
 );
 
-const Category = new Schema({
+const CategorySchema = new Schema({
   Title: {
     type: String,
     required: true,
   },
-  service: [ServiceSchema],
+  Services: [ServiceSchema],
 });
 
 const Evaluate = mongoose.model("Evaluate", EvaluateSchema);
-
+const Category = mongoose.model("Category", CategorySchema);
 const Service = mongoose.model("Service", ServiceSchema);
-export { Service, Evaluate };
+export { Category, Service, Evaluate };

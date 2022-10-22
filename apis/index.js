@@ -14,7 +14,7 @@ import StaffRoute from "./src/routers/Staff.route.js";
 import CustomerRoute from "./src/routers/Customer.route.js";
 import ReceiptsRoute from "./src/routers/Receipt.route.js";
 import ServiceRoute from "./src/routers/Service.route.js";
-
+import CategoryRoute from "./src/routers/Category.route.js";
 const app = express();
 dotenv.config();
 const corsOptions = {
@@ -43,6 +43,8 @@ app.use("/api/auth", AuthRoute);
 app.use("/api/store", StoreRoute);
 //route for Staff
 app.use("/api/staff", StaffRoute);
+//route for category
+app.use("/api/category", CategoryRoute);
 //route for Service
 app.use("/api/service", ServiceRoute);
 //route for Customer

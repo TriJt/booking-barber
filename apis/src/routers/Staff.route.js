@@ -15,7 +15,7 @@ import { Staff, DateSchedule, Slot } from "../app/models/Staff/Staff.model.js";
 router.get("/get-slots", GetSlots);
 
 //count staff
-router.get("/count_staff", CountStaff);
+router.get("/count", CountStaff);
 
 // create Staff
 router.post("/add", CreateStaff);
@@ -31,4 +31,5 @@ router.get("/", GetStaffById);
 
 // get all Staff by id
 router.get("/all", GetStaffs);
+
 export default router;

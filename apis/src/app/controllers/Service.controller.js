@@ -1,4 +1,4 @@
-import { Service } from "../models/Service/Service.model.js";
+import { Category, Service } from "../models/Service/Service.model.js";
 
 // create information of Service
 //COMPLETE
@@ -12,17 +12,25 @@ export const CreateService = async (req, res) => {
       Price: input.Price,
       Description: input.Description,
       Image: input.Image,
+      Category: input.Category,
     });
     //save Customer in database and return response
     const save = await newService.save();
-    responseType.statusText = "Success";
-    responseType.message = "Create new staff successfully";
+    try {
+      await Category.findOneAndUpdate(input.Category, {
+        $push: { Services: save._id },
+      });
+    } catch (error) {
+      responseType.status = 404;
+      responseType.message = "Push service in category i failed";
+    }
+
+    responseType.message = "Create new service successfully";
     responseType.status = 200;
     responseType.value = save;
   } catch {
-    responseType.statusText = "Failed";
     responseType.status = 404;
-    responseType.message = "Create staff failed";
+    responseType.message = "Create service failed";
   }
   res.json(responseType);
 };
@@ -110,3 +118,5 @@ export const GetServices = async (req, res) => {
   }
   res.json(responseType);
 };
+
+// create  category

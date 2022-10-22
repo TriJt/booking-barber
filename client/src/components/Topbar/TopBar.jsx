@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import "../../styles/components/topBar.css";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
@@ -35,7 +35,7 @@ export default function TopBar() {
   // );
 
   return (
-    <div className={navbar ? "topBar active" : "topBar"}>
+    <div className={navbar ? "topBar action" : "topBar"}>
       <div className="top-topBar">
         <div className="left-topBar">
           <div className="mail">
@@ -49,44 +49,42 @@ export default function TopBar() {
       </div>
       <div className="bottom-topBar">
         <div className="logo">
-          <Link className="link" to="/">
-            <h5 className="logo">BARBERJT</h5>
-          </Link>
+          <h5 className="logo">BARBERJT</h5>
         </div>
         <div className={`navigation-menu ${isOpen && "open"}`}>
-          <Link className="link" to="/">
+          <NavLink className="link" to="/home">
             Home
-          </Link>
+          </NavLink>
 
-          <Link className="link" to="/about">
+          <NavLink className="link" to="/about">
             About
-          </Link>
+          </NavLink>
 
-          <Link className="link" to="/services">
+          <NavLink className="link" to="/services">
             Service
-          </Link>
+          </NavLink>
 
-          <Link className="link" to="/gallery">
+          <NavLink className="link" to="/gallery">
             Gallery
-          </Link>
+          </NavLink>
 
-          <Link className="link" to="/blog">
+          <NavLink className="link" to="/blog">
             Blog
-          </Link>
+          </NavLink>
 
-          <Link className="link" to="/contact">
+          <NavLink className="link" to="/contact">
             Contact
-          </Link>
+          </NavLink>
 
           {user ? (
-            <Link to={`/profile/${user.Name_Customer}`} className="link">
+            <NavLink to={`/profile/${user.Name_Customer}`} className="link">
               {user.Name_Customer}
               <AiOutlineArrowRight />
-            </Link>
+            </NavLink>
           ) : (
-            <Link className="link" to="/login">
+            <NavLink className="link" to="/login">
               Login
-            </Link>
+            </NavLink>
           )}
         </div>
         <div

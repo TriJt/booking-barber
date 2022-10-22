@@ -1,25 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const RevenueSchema = new Schema(
-  {
-    Date: {
-      type: Date,
-      default: Date.now(),
-    },
-    Total: {
-      type: Number,
-      default: 0,
-    },
-    Note: {
-      type: String,
-      default: "",
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
 const BannerSchema = new mongoose.Schema(
   {
     Image: {
@@ -61,7 +42,6 @@ const StoreSchema = new Schema(
       type: String,
       require: true,
     },
-    Revenue: [RevenueSchema],
   },
   {
     timestamps: true,
@@ -69,7 +49,6 @@ const StoreSchema = new Schema(
 );
 
 const Store = mongoose.model("Store", StoreSchema);
-const Revenue = mongoose.model("Revenue", RevenueSchema);
 const Banner = mongoose.model("Banner", BannerSchema);
 
-export { Store, Revenue, Banner };
+export { Store, Banner };

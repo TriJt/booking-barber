@@ -94,7 +94,6 @@ function createDate(date) {
 export const CreateStaff = async (req, res) => {
   const responseType = {};
   const input = req.body;
-
   //create new user
   try {
     const salt = bcryptjs.genSaltSync(10);
@@ -156,12 +155,12 @@ export const UpdateStaff = async (req, res) => {
 // COMPLETE in back-end
 export const DeleteStaff = async (req, res) => {
   const responseType = {};
-  if (req.body.StaffId === req.params.id) {
+  try {
     const staff = await Staff.findByIdAndDelete(req.params.id);
     responseType.statusText = "Success";
     responseType.message = "Delete Successfully";
     responseType.status = 200;
-  } else {
+  } catch {
     responseType.statusText = "Failed";
     responseType.message = "Delete Failed";
     responseType.status = 500;
@@ -234,11 +233,11 @@ export const GetSlots = async (req, res) => {
   try {
     const id = req.body.staffId; //staff id
     const date = req.body.date; // date to booking appointment
-    const staff = await Staff.findOne({ _id: id });
+    const staff = await Staff.findById({ _id: id });
     // staff not found
     if (staff === null) {
       return res.status(201).json({
-        message: "Doctor not found in the database!",
+        message: "Staff not found in the database!",
       });
     }
     // staff found
@@ -263,8 +262,8 @@ export const GetSlots = async (req, res) => {
       { new: true }
     );
 
-    if (updatedDoctor) {
-      return res.status(200).json(updatedDoctor.Dates[oldLength]);
+    if (updatedStaff) {
+      return res.status(200).json(updatedStaff.Dates[oldLength]);
     } else {
       const err = { err: "An error occurred!" };
       throw err;

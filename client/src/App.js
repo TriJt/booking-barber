@@ -15,6 +15,8 @@ import Reset from "./page/ResetPassword/Reset";
 import Contact from "./page/Contact/Contact";
 import Gallery from "./page/Gallenry/Gallery";
 import Blog from "./page/Blog/Blog";
+import About from "./page/About/About.jsx";
+
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
@@ -22,8 +24,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route exact path="/home" element={<Home />} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/home" /> : <Login />}
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="/services" element={<Services />} />
@@ -31,6 +36,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );
