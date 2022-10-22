@@ -6,6 +6,12 @@
   flex-direction: column;
   background-color: transparent;
 }
+
+/* change background when click  */
+.action {
+  background-color: var(--color-button);
+}
+
 .topBar.active,
 .topBar.active .burger {
   background-color: var(--background);

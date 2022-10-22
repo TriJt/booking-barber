@@ -1,21 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../../styles/components/topBar.css";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import { Link } from "react-router-dom";
-import SegmentIcon from "@mui/icons-material/Segment";
+import { AuthContext } from "../../context/AuthContext";
+import { MdOutlineAccountCircle } from "react-icons/md";
+import { ImProfile } from "react-icons/im";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { FiLogOut } from "react-icons/fi";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function TopBar() {
+  const { user: currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState(currentUser);
   const [isOpen, setIsOpen] = useState(false);
   const [navbar, setNavbar] = useState(false);
 
   const changeBackground = () => {
-    if (window.scrollY >= 200) {
+    if (window.scrollY >= 40) {
       setNavbar(true);
     } else {
       setNavbar(false);
     }
   };
   window.addEventListener("scroll", changeBackground);
+
+  // document.querySelectorAll(".link").forEach((ele) =>
+  //   ele.addEventListener("click", function (event) {
+  //     event.preventDefault();
+  //     document
+  //       .querySelectorAll(".link")
+  //       .forEach((ele) => ele.classList.remove("action"));
+  //     this.classList.add("action");
+  //   })
+  // );
+
   return (
     <div className={navbar ? "topBar active" : "topBar"}>
       <div className="top-topBar">
@@ -40,28 +58,36 @@ export default function TopBar() {
             Home
           </Link>
 
-          <Link className="link" to="/">
+          <Link className="link" to="/about">
             About
           </Link>
 
-          <Link className="link" to="/">
+          <Link className="link" to="/services">
             Service
           </Link>
 
-          <Link className="link" to="/">
+          <Link className="link" to="/gallery">
             Gallery
           </Link>
 
-          <Link className="link" to="/">
+          <Link className="link" to="/blog">
             Blog
           </Link>
 
-          <Link className="link" to="/">
+          <Link className="link" to="/contact">
             Contact
           </Link>
-          <Link className="link" to="/">
-            Login
-          </Link>
+
+          {user ? (
+            <Link to={`/profile/${user.Name_Customer}`} className="link">
+              {user.Name_Customer}
+              <AiOutlineArrowRight />
+            </Link>
+          ) : (
+            <Link className="link" to="/login">
+              Login
+            </Link>
+          )}
         </div>
         <div
           className={`burger ${isOpen && "open"}`}

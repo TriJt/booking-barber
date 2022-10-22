@@ -1,4 +1,5 @@
 import "./index.css";
+import React, { useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,20 +15,22 @@ import Reset from "./page/ResetPassword/Reset";
 import Contact from "./page/Contact/Contact";
 import Gallery from "./page/Gallenry/Gallery";
 import Blog from "./page/Blog/Blog";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
+  const { user } = useContext(AuthContext);
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/profile/:Name" element={<Profile />} />
+        <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
       </Routes>
     </Router>
   );
