@@ -81,7 +81,7 @@ export default function Footer() {
             <span>
               <FiSend />
             </span>
-            <span className="text-span"> bookingbarber.ad1@gmail.com </span>
+            <span className="text-span2"> bookingbarber.ad1@gmail.com </span>
           </div>
         </div>
       </div>
