@@ -100,8 +100,60 @@ export const UpdateReceipt = async (req, res) => {
 // delete information of Receipt
 export const DeleteReceipt = async (req, res) => {};
 
-// get information of Receipt by id
-export const GetReceiptById = async (req, res) => {};
+// get information of Receipt by name
+export const GetReceiptByName = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  const Name_Customer = req.query.Name_Customer;
+  const Name_Staff = req.query.Staff_Name;
+  if (Receipt) {
+    const receipt = (await Name_Staff)
+      ? await Receipt.find({ Staff_Name: Name_Staff })
+      : await Receipt.find({
+          Name_Customer: Name_Customer,
+        });
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = receipt;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
 
 // get all information of Receipt
-export const GetReceipts = async (req, res) => {};
+export const GetReceipts = async (req, res) => {
+  const responseType = {};
+  if (Receipt) {
+    const receipt = await Receipt.find();
+    responseType.message = "Get customer successfully";
+    responseType.status = 200;
+    responseType.value = receipt;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// get information of Receipt by status
+export const GetReceiptByStatus = async (req, res) => {
+  const responseType = {};
+  const Status = req.query.Status;
+  if (Receipt) {
+    const receipt = await Receipt.find({
+      Status: Status,
+    });
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = receipt;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};

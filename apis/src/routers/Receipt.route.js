@@ -4,8 +4,9 @@ import {
   CreateReceipt,
   UpdateReceipt,
   DeleteReceipt,
-  GetReceiptById,
+  GetReceiptByName,
   GetReceipts,
+  GetReceiptByStatus,
 } from "../app/controllers/Receipt.controller.js";
 
 // create Receipt
@@ -17,9 +18,13 @@ router.put("/update/:id", UpdateReceipt);
 // delete Receipt
 router.delete("/delete/:id", DeleteReceipt);
 
-// get Receipt by id
-router.get("/:id", GetReceiptById);
-
 // get all Receipt by id
-router.get("/", GetReceipts);
+router.get("/all", GetReceipts);
+
+// get Receipt by id
+router.get("/", GetReceiptByName);
+
+//get receipt by status
+router.get("/status/", GetReceiptByStatus);
+
 export default router;
