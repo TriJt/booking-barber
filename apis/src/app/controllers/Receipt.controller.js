@@ -98,7 +98,20 @@ export const UpdateReceipt = async (req, res) => {
 };
 
 // delete information of Receipt
-export const DeleteReceipt = async (req, res) => {};
+export const DeleteReceipt = async (req, res) => {
+  const responseType = {};
+  try {
+    await Receipt.findByIdAndDelete(req.params.id);
+    responseType.statusText = "Success";
+    responseType.message = "Delete Successfully";
+    responseType.status = 200;
+  } catch (err) {
+    responseType.statusText = "Failed";
+    responseType.message = "Delete Failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};
 
 // get information of Receipt by name
 export const GetReceiptByName = async (req, res) => {
