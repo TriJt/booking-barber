@@ -1,36 +1,45 @@
-import mongoose, {
-    Schema
-} from "mongoose";
-const ReceiptsSchema = new mongoose.Schema({
-    Staff_id: {
-        type: String,
-        require: true
+import mongoose, { Schema } from "mongoose";
+const ReceiptsSchema = new mongoose.Schema(
+  {
+    //   get when you sign in admin page
+    Staff_Name: {
+      type: String,
+      require: true,
     },
-    Name_Receipts: {
-        type: String,
-        require: true
+    // get when check again name of customer
+    Name_Customer: {
+      type: String,
+      require: true,
     },
-    Phone_Receipts: {
-        type: String
+    Email: {
+      type: String,
     },
-    Service: {
-        type: Array
+    Telephone: {
+      type: String,
     },
+    Services: {
+      type: Array,
+    },
+    Status: {
+      type: String,
+      default: "advise",
+      // advise,processing, complete
+    },
+    // customer requirements when performing the service process
     Note: {
-        type: String
-    },
-    Price: {
-        type: Number
+      type: String,
     },
     Discount: {
-        type: Number
+      type: Number,
     },
     Total: {
-        type: Number
-    }
-}, {
-    timestamps: true
-})
+      type: Number,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Receipts = mongoose.model('Receipts', ReceiptsSchema);
+const Receipts = mongoose.model("Receipts", ReceiptsSchema);
 export default Receipts;

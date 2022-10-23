@@ -24,7 +24,6 @@ export const CreateService = async (req, res) => {
       responseType.status = 404;
       responseType.message = "Push service in category i failed";
     }
-
     responseType.message = "Create new service successfully";
     responseType.status = 200;
     responseType.value = save;
@@ -66,12 +65,20 @@ export const UpdateService = async (req, res) => {
 // delete information of Service
 export const DeleteService = async (req, res) => {
   const responseType = {};
-  if (req.body.ServiceId === req.params.id) {
-    const service = await Service.findByIdAndDelete(req.params.id);
-    responseType.statusText = "Success";
-    responseType.message = "Delete Successfully";
-    responseType.status = 200;
-  } else {
+  const categoryName = req.body.Category;
+  try {
+    await Service.findByIdAndDelete(req.params.id);
+    try {
+      await Category.findOneAndUpdate(categoryName, {
+        $pull: { Services: res.params.id },
+      });
+      responseType.statusText = "Success";
+      responseType.message = "Delete Successfully";
+      responseType.status = 200;
+    } catch (err) {
+      console.log(err);
+    }
+  } catch (err) {
     responseType.statusText = "Failed";
     responseType.message = "Delete Failed";
     responseType.status = 500;
@@ -105,13 +112,13 @@ export const GetServiceById = async (req, res) => {
 // get all information of Service
 export const GetServices = async (req, res) => {
   const responseType = {};
-  if (Service) {
+  try {
     const service = await Service.find();
     responseType.statusText = "Success";
     responseType.message = "Get customer successfully";
     responseType.status = 200;
     responseType.value = service;
-  } else {
+  } catch (err) {
     responseType.statusText = "Error";
     responseType.message = "We have error in somewhere";
     responseType.status = 404;
@@ -119,4 +126,21 @@ export const GetServices = async (req, res) => {
   res.json(responseType);
 };
 
-// create  category
+// get service with category name
+export const GetServicesByCategoryName = async (req, res) => {
+  const responseType = {};
+  const NameCategory = req.query.Category;
+  try {
+    const service = await Service.find({
+      Category: NameCategory,
+    });
+    responseType.message = "Get customer successfully";
+    responseType.status = 200;
+    responseType.value = service;
+  } catch (error) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};

@@ -143,7 +143,9 @@ export const DeleteBanner = async (req, res) => {
       console.log(error);
     }
   } catch (error) {
-    console.log(error);
+    responseType.statusText = "Failed";
+    responseType.message = "Delete Failed";
+    responseType.status = 500;
   }
 };
 

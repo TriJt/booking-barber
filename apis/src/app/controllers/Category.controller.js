@@ -3,10 +3,6 @@ import { Category, Service } from "../models/Service/Service.model.js";
 export const CreateCategory = async (req, res) => {
   const responseType = {};
   const input = req.body;
-  if (!input) {
-    responseType.message = "isValid";
-    responseType.statusText = "Error";
-  }
   try {
     const newCategory = new Category({
       Title: input.Title,
@@ -45,7 +41,7 @@ export const UpdateCategory = async (req, res) => {
   }
   res.json(responseType);
 };
-//delete cactegory and delete all service in category
+//delete category and delete all service in category
 export const DeleteCategory = async (req, res) => {
   const responseType = {};
   try {
