@@ -6,7 +6,11 @@ import {
   DeleteAppointment,
   GetAppointmentById,
   GetAppointments,
+  GetSlots,
 } from "../app/controllers/Appointment.controller.js";
+
+// get slot of staff to booking appointment
+router.post("/get-slots", GetSlots);
 
 // create Appointment
 router.post("/add", AddAppointment);

@@ -1,93 +1,5 @@
-import { Staff } from "../models/Staff/Staff.model.js";
+import { Staff, DateSchedule, Slot } from "../models/Staff/Staff.model.js";
 import bcryptjs from "bcryptjs";
-
-// function create new slot for get slots from staff
-function createDate(date) {
-  return new DateSchedule({
-    date: date,
-    slots: [
-      new Slot({
-        Time: "08:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "08:30:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "09:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "09:30:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "10:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "10:30:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "11:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "11:30:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "12:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "12:30:00",
-        isBooked: false,
-      }),
-
-      new Slot({
-        Time: "13:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "13:30:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "14:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "14:30:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "15:00:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "15:30:00",
-        isBooked: false,
-      }),
-      new Slot({
-        Time: "16:00:00",
-        isBooked: false,
-      }),
-      ,
-      new Slot({
-        Time: "16:30:00",
-        isBooked: false,
-      }),
-      ,
-      new Slot({
-        Time: "17:00:00",
-        isBooked: false,
-      }),
-    ],
-  });
-}
 
 // create information of Staff
 // COMPLETE in back-end
@@ -228,49 +140,44 @@ export const CountStaff = async (req, res) => {
   res.json(responseType);
 };
 
-// get-slots
-export const GetSlots = async (req, res) => {
-  try {
-    const id = req.body.staffId; //staff id
-    const date = req.body.date; // date to booking appointment
-    const staff = await Staff.findById({ _id: id });
-    // staff not found
-    if (staff === null) {
-      return res.status(201).json({
-        message: "Staff not found in the database!",
-      });
-    }
-    // staff found
-    // find the date
-    let count = 0;
-    for (const i of staff.Dates) {
-      if (i.date === date) {
-        return res.status(200).json(i);
-      }
-      count++;
-    }
+// get time of date
+export const GetTime = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  const date = input.date;
 
-    const oldLength = count;
-
-    // add new slots if date not found in the db
-    const dateSchedule = createDate(date);
-    const updatedStaff = await Staff.findOneAndUpdate(
-      {
-        _id: staff._id,
-      },
-      { $push: { Dates: dateSchedule } },
-      { new: true }
-    );
-
-    if (updatedStaff) {
-      return res.status(200).json(updatedStaff.Dates[oldLength]);
-    } else {
-      const err = { err: "An error occurred!" };
-      throw err;
-    }
-  } catch (err) {
-    return res.status(400).json({
-      message: err,
+  if (DateSchedule) {
+    const data = await DateSchedule({
+      date: date,
     });
+    responseType.message = "Get dates successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
   }
+  res.json(responseType);
+};
+
+// get all date
+// can get
+export const GetAllDate = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+
+  if (Staff) {
+    const data = await Staff.find({
+      Dates: { date: input.date },
+    });
+    responseType.message = "Get dates successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
 };

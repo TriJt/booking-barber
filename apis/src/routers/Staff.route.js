@@ -7,12 +7,10 @@ import {
   GetStaffById,
   GetStaffs,
   CountStaff,
-  GetSlots,
+  GetTime,
+  GetAllDate,
 } from "../app/controllers/Staff.controller.js";
 import { Staff, DateSchedule, Slot } from "../app/models/Staff/Staff.model.js";
-
-//get slot of staff
-router.get("/get-slots", GetSlots);
 
 //count staff
 router.get("/count", CountStaff);
@@ -31,5 +29,11 @@ router.get("/", GetStaffById);
 
 // get all Staff by id
 router.get("/all", GetStaffs);
+
+// get time of date
+router.get("/time", GetTime);
+
+// get all of date
+router.get("/date-all", GetAllDate);
 
 export default router;
