@@ -7,6 +7,10 @@ import {
   GetReceiptByName,
   GetReceipts,
   GetReceiptByStatus,
+  GetADate,
+  GetByMonth,
+  GetByDateChoose,
+  GetByYear,
 } from "../app/controllers/Receipt.controller.js";
 
 // create Receipt
@@ -26,5 +30,19 @@ router.get("/", GetReceiptByName);
 
 //get receipt by status
 router.get("/status/", GetReceiptByStatus);
+
+//sum total in a day
+router.get("/date", GetADate);
+
+// sum total get by date i choose
+router.get("/Choose", GetByDateChoose);
+
+//sum total in a week
+
+// sum total in a month
+router.get("/month", GetByMonth);
+
+//sum total in a  year
+router.get("/year", GetByYear);
 
 export default router;

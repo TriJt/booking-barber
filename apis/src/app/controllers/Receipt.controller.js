@@ -170,3 +170,111 @@ export const GetReceiptByStatus = async (req, res) => {
   }
   res.json(responseType);
 };
+
+// get by one date
+
+export const GetADate = async (req, res) => {
+  const responseType = {};
+  try {
+    const getByDate = await Receipt.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          totalAmount: { $sum: "$Total" },
+          count: { $sum: 1 },
+        },
+      },
+      // { $sort: { createdAt: 1 } },
+    ]);
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = getByDate;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// have error, i can't fix
+export const GetByDateChoose = async (req, res) => {
+  const responseType = {};
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  console.log(startDate, endDate);
+  try {
+    const getByDate = await Receipt.aggregate([
+      { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          totalAmount: { $sum: "$Total" },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+
+      // { $sort: { createdAt: 1 } },
+    ]);
+
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = getByDate;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// group in month
+export const GetByMonth = async (req, res) => {
+  const responseType = {};
+  // const date = req.body.Date;
+  try {
+    const getByMonth = await Receipt.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+          totalAmount: { $sum: "$Total" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = getByMonth;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// group in Year
+export const GetByYear = async (req, res) => {
+  const responseType = {};
+  // const date = req.body.Date;
+  try {
+    const getByYear = await Receipt.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y", date: "$createdAt" } },
+          totalAmount: { $sum: "$Total" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = getByYear;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
