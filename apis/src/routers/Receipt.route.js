@@ -11,6 +11,7 @@ import {
   GetByMonth,
   GetByDateChoose,
   GetByYear,
+  GetListReceiptByDate,
 } from "../app/controllers/Receipt.controller.js";
 
 // create Receipt
@@ -30,6 +31,9 @@ router.get("/", GetReceiptByName);
 
 //get receipt by status
 router.get("/status/", GetReceiptByStatus);
+
+//get list receipt by date
+router.get("/list", GetListReceiptByDate);
 
 //sum total in a day
 router.get("/date", GetADate);

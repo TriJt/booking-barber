@@ -171,6 +171,27 @@ export const GetReceiptByStatus = async (req, res) => {
   res.json(responseType);
 };
 
+//get with a date in when staff input
+export const GetListReceiptByDate = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  const start = input.Start;
+  const end = input.End;
+  if (Receipt) {
+    const data = await Receipt.find({
+      createdAt: { $gte: new Date(start), $lt: new Date(end) },
+    });
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
 // get by one date
 
 export const GetADate = async (req, res) => {
@@ -184,7 +205,7 @@ export const GetADate = async (req, res) => {
           count: { $sum: 1 },
         },
       },
-      // { $sort: { createdAt: 1 } },
+      { $sort: { date: 1 } },
     ]);
     responseType.message = "Get receipt successfully";
     responseType.status = 200;
@@ -200,12 +221,12 @@ export const GetADate = async (req, res) => {
 // have error, i can't fix
 export const GetByDateChoose = async (req, res) => {
   const responseType = {};
-  const startDate = req.body.startDate;
-  const endDate = req.body.endDate;
-  console.log(startDate, endDate);
+  const input = req.body;
+  const start = input.Start;
+  const end = input.End;
   try {
     const getByDate = await Receipt.aggregate([
-      { $match: { createdAt: { $gte: startDate, $lt: endDate } } },
+      { $match: { createdAt: { $gte: new Date(start), $lt: new Date(end) } } },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
@@ -214,8 +235,6 @@ export const GetByDateChoose = async (req, res) => {
         },
       },
       { $sort: { _id: 1 } },
-
-      // { $sort: { createdAt: 1 } },
     ]);
 
     responseType.message = "Get receipt successfully";
