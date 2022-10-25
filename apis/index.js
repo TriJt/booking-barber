@@ -15,6 +15,8 @@ import CustomerRoute from "./src/routers/Customer.route.js";
 import ReceiptsRoute from "./src/routers/Receipt.route.js";
 import ServiceRoute from "./src/routers/Service.route.js";
 import CategoryRoute from "./src/routers/Category.route.js";
+import PostRoute from "./src/routers/Post.route.js";
+
 const app = express();
 dotenv.config();
 const corsOptions = {
@@ -51,7 +53,8 @@ app.use("/api/service", ServiceRoute);
 app.use("/api/customer", CustomerRoute);
 //route for Receipts
 app.use("/api/receipt", ReceiptsRoute);
-
+//route for Receipts
+app.use("/api/post", PostRoute);
 // route for Appointment
 app.use("/api/appointment", AppointmentRoute);
 

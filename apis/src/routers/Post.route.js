@@ -5,7 +5,7 @@ import {
   GetPostByService,
   GetPosts,
   UpdatePost,
-} from "../app/controllers/Post.controller";
+} from "../app/controllers/Post.controller.js";
 const router = express.Router();
 
 router.post("/add", CreatePost);
