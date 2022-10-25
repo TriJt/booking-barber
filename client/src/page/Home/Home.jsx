@@ -5,6 +5,7 @@ import Slider from "../../components/Home/Slider/Slider";
 import Service from "../../components/Home/Service/Service";
 import Pricing from "../../components/Home/Pricing/Pricing";
 import Footer from "../../components/Footer/Footer";
+import Telephone from "../../components/Appointment/Telephone";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       <section className="section-2">
         <div className="service-container">
           <Service
@@ -82,6 +84,9 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </div>
+      <div className="telephone">
+        <Telephone />
       </div>
       <div className="pricing-container">
         <span className="subheading"> pricing</span>

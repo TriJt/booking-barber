@@ -1,12 +1,7 @@
 import React, { useState, useContext } from "react";
 import "../../styles/components/topBar.css";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { MdOutlineAccountCircle } from "react-icons/md";
-import { ImProfile } from "react-icons/im";
-import { RiLockPasswordLine } from "react-icons/ri";
-import { FiLogOut } from "react-icons/fi";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function TopBar() {
@@ -23,16 +18,6 @@ export default function TopBar() {
     }
   };
   window.addEventListener("scroll", changeBackground);
-
-  // document.querySelectorAll(".link").forEach((ele) =>
-  //   ele.addEventListener("click", function (event) {
-  //     event.preventDefault();
-  //     document
-  //       .querySelectorAll(".link")
-  //       .forEach((ele) => ele.classList.remove("action"));
-  //     this.classList.add("action");
-  //   })
-  // );
 
   return (
     <div className={navbar ? "topBar action" : "topBar"}>
@@ -52,7 +37,7 @@ export default function TopBar() {
           <h5 className="logo">BARBERJT</h5>
         </div>
         <div className={`navigation-menu ${isOpen && "open"}`}>
-          <NavLink className="link" to="/home">
+          <NavLink className="link" to="/">
             Home
           </NavLink>
 
