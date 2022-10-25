@@ -5,6 +5,7 @@ import {
   Slot,
   DateSchedule,
 } from "../models/Staff/Staff.model.js";
+import { Service } from "../models/Service/Service.model.js";
 
 // function create new slot for get slots from staff
 function createDate(date) {
@@ -147,16 +148,18 @@ export const GetSlots = async (req, res) => {
 // id staff 6343c7f4eb8b8c758a36a837
 // id date 6356d5d446f871f2f213a530
 // id slots  6356d5d446f871f2f213a51d
-
+// for client
 export const AddAppointment = (req, res) => {
-  const responseType = {};
   const staffId = req.body.StaffId; // staff id
   const customerId = req.body.CustomerId; // Customer id
-  const customerName = req.body.CustomerName;
-  const customerTelephone = req.body.CustomerTelephone;
+  const customerName = req.body.NameCustomer;
+  const customerTelephone = req.body.TelephoneCustomer;
   const slotId = req.body.SlotId; // slot id
   const dateId = req.body.DateId;
-  const status = "pending"; // date id
+  const email = req.body.Email;
+  const status = "pending";
+  const note = req.body.Note;
+  const manyService = req.body.Services;
 
   Staff.findOne({ _id: staffId }).then((staff) => {
     const date = staff.Dates.id(dateId);
@@ -166,16 +169,19 @@ export const AddAppointment = (req, res) => {
     staff.save().then(() => {
       // create an entry in the appointment database
       const newAppointment = new Appointment({
-        staffId,
+        StaffId: staffId,
         dateId,
         slotId,
-        customerId,
+        CustomerId: customerId,
         date: date.date,
         slotTime: slot.Time,
         Staff: staff.Name,
-        CustomerName: customerName,
-        CustomerTelephone: customerTelephone,
+        NameCustomer: customerName,
+        TelephoneCustomer: customerTelephone,
+        Email: email,
+        Services: manyService,
         Status: status,
+        Note: note,
       });
       console.log(newAppointment);
       newAppointment
@@ -192,23 +198,81 @@ export const AddAppointment = (req, res) => {
 };
 
 // update information of Appointment
-export const UpdateAppointment = async (req, res) => {};
+// for staff
+// cancel
+export const UpdateAppointment = async (req, res) => {
+  const staffId = req.body.StaffId; // staff id
+  const customerId = req.body.CustomerId; // Customer id
+  const customerName = req.body.NameCustomer;
+  const customerTelephone = req.body.TelephoneCustomer;
+  const slotId = req.body.SlotId; // slot id
+  const dateId = req.body.DateId;
+  const email = req.body.Email;
+  const status = "pending";
+  const note = req.body.Note;
+  const manyService = req.body.Services;
+
+  Staff.findOne({ _id: staffId }).then((staff) => {
+    const date = staff.Dates.id(dateId);
+    const slot = date.slots.id(slotId);
+    slot.isBooked = true;
+    const appointmentId = req.params.id;
+    staff.save().then(() => {
+      // create an entry in the appointment database
+      const data = {
+        StaffId: staffId,
+        DateId: dateId,
+        SlotId: slotId,
+        CustomerId: customerId,
+        date: date.date,
+        slotTime: slot.Time,
+        Staff: staff.Name,
+        NameCustomer: customerName,
+        TelephoneCustomer: customerTelephone,
+        Email: email,
+        Services: manyService,
+        Status: status,
+        Note: note,
+      };
+      const newAppointment = Appointment.findByIdAndUpdate(
+        { appointmentId },
+        { $set: data },
+        {
+          new: true,
+        }
+      );
+      newAppointment
+        .save()
+        .then((appointment) => {
+          return res.status(200).json(appointment);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).json(err);
+        });
+    });
+  });
+};
 
 // delete information of Appointment
 export const DeleteAppointment = async (req, res) => {};
 
 // get information of Appointment by id
 export const GetAppointmentById = async (req, res) => {
+  const responseType = {};
   try {
     const appointmentId = req.params.id;
     const appointment = await Appointment.findOne({
       _id: appointmentId,
     });
-    res.status(200).json(appointment);
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
   } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
   }
+  res.json(responseType);
 };
 
 // post appointment today
@@ -222,10 +286,10 @@ export const AppointmentToday = async (req, res) => {
     currDate += month < 10 ? "-0" + month.toString() : "-" + month.toString();
     currDate += day < 10 ? "-0" + day.toString() : "-" + day.toString();
 
-    const doctorId = req.body.doctorId;
+    const staffId = req.body.staffId;
 
     const appointments = await Appointment.find({
-      doctorId: doctorId,
+      staffId: staffId,
       date: currDate,
     });
 
@@ -243,4 +307,16 @@ export const AppointmentToday = async (req, res) => {
 };
 
 // get all information of Appointment
-export const GetAppointments = async (req, res) => {};
+export const GetAppointments = async (req, res) => {
+  const responseType = {};
+  try {
+    const appointment = await Appointment.find();
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};

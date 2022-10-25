@@ -141,7 +141,7 @@ export const GetReceipts = async (req, res) => {
   const responseType = {};
   if (Receipt) {
     const receipt = await Receipt.find();
-    responseType.message = "Get customer successfully";
+    responseType.message = "Get receipt successfully";
     responseType.status = 200;
     responseType.value = receipt;
   } else {

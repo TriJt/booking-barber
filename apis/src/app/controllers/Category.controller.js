@@ -82,7 +82,7 @@ export const GetCategoryByQuery = async (req, res) => {
           Title: Title,
         });
     responseType.statusText = "Success";
-    responseType.message = "Get customer successfully";
+    responseType.message = "Get category successfully";
     responseType.status = 200;
     responseType.value = category;
   } else {

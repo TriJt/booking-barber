@@ -21,9 +21,10 @@ router.put("/update/:id", UpdateAppointment);
 // delete Appointment
 router.delete("/delete/:id", DeleteAppointment);
 
+// get all Appointment by id
+router.get("/all", GetAppointments);
+
 // get Appointment by id
 router.get("/:id", GetAppointmentById);
 
-// get all Appointment by id
-router.get("/", GetAppointments);
 export default router;

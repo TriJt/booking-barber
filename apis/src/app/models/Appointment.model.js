@@ -28,6 +28,9 @@ const AppointmentSchema = new Schema(
     TelephoneCustomer: {
       type: String,
     },
+    Email: {
+      type: String,
+    },
     date: {
       type: String,
     },
@@ -35,6 +38,12 @@ const AppointmentSchema = new Schema(
       type: String,
     },
     Status: {
+      type: String,
+    },
+    Services: {
+      type: Array,
+    },
+    Note: {
       type: String,
     },
   },

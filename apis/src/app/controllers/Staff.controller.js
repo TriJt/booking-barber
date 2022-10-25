@@ -16,6 +16,7 @@ export const CreateStaff = async (req, res) => {
       Telephone: input.Telephone,
       Email: input.Email,
       Password: hashPassword,
+      Image: input.Image,
       Gender: input.Gender,
       isAdmin: input.isAdmin,
     });
