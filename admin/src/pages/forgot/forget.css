@@ -1,16 +1,24 @@
-.span-forgot{ 
-    color: silver;
-    padding-bottom: 20px;
+.span-forgot {
+  color: silver;
+  padding-bottom: 20px;
+  margin: 10px 0px;
 }
-.link-forgot{ 
-    display: flex;
-    text-decoration: auto;
-    color: silver;
-    text-align: center;
-    justify-content: center;
-    text-decoration: underline;
+.link-forgot {
+  display: flex;
+  text-decoration: auto;
+  color: silver;
+  padding: 10px 0px;
+  text-align: center;
+  justify-content: center;
+  text-decoration: underline;
 }
-.link-forgot:hover{ 
-    text-decoration: none;
-    color: black;
+.link-forgot:hover {
+  text-decoration: none;
+  color: var(--color-header);
+}
+.eye-button {
+  background-color: transparent;
+  font-size: 22px;
+  border: none;
+  color: var(--color-header);
 }

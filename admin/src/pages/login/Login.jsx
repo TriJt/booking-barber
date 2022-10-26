@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginCall } from "../../LoginCall.js";
 import { AuthContext } from "../../context/AuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
 
 export default function Login() {
   //declaration fields in form
@@ -32,22 +32,50 @@ export default function Login() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+
+    dispatch({
+      type: "LOGIN_START",
+    });
     if (validateForm()) {
+      const data = {
+        Email: inputField.Email,
+        Password: inputField.Password,
+      };
       try {
-        await loginCall(
-          {
-            Email: inputField.Email,
-            Password: inputField.Password,
-          },
-          dispatch
+        const response = await axios.post(
+          "http://localhost:8800/api/auth/login_staff",
+          data
         );
+        if (response.data.status === 300) {
+          // check email
+          setErrField((prevState) => ({
+            ...prevState,
+            EmailErr: response.data.message,
+          }));
+          // toast.error(response.data.message);
+        } else {
+          if (response.data.status === 301) {
+            // check password
+            setErrField((prevState) => ({
+              ...prevState,
+              PasswordErr: response.data.message,
+            }));
+          } else {
+            // login success
+            toast.success(response.data.message);
+            dispatch({
+              type: "LOGIN_SUCCESS",
+              payload: response.data.value,
+            });
+          }
+        }
       } catch (err) {
-        console.log(err.response.data);
-        const error = err.response.data;
-        toast.error(error);
+        dispatch({
+          type: "LOGIN_FAILURE",
+          payload: err,
+        });
+        throw err;
       }
-    } else {
-      toast.error("Form Invalid!");
     }
   };
 

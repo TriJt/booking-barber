@@ -18,7 +18,7 @@ export default function Reset() {
     try {
       const data = { Email: emailRef.current.value };
       const response = await axios.post(
-        "http://localhost:8800/api/auth/send_email",
+        "http://localhost:8800/api/auth/send-email",
         data
       );
       const record = response.data;

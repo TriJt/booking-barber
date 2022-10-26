@@ -1,92 +1,97 @@
-:root{ 
-    --color-header: #CE9461; 
-    --background-hover: #603601; 
-    --background-dropdown: #CC9544;
-    --color-text: #E0D8B0;
-    --color-text-dropdown: #F9F9F9 ;
-    --background: white; 
-    --box-shadow:2px 4px 10px 1px rgba(201,201,201,0.47) ; 
-    --padding--item: 10px; 
-    --padding--container: 20px; 
-    --border-radius: 10px; 
-    --font-size: 13px; 
-    --font-weight-header: 500; 
-    --webkit: 2px 4px 10px 1px rgba(0,0,0,0.47);
+:root {
+  --color-header: #bf925b;
+  --background-hover: #603601;
+  --background-dropdown: #bf925b;
+  --color-text: #e0d8b0;
+  --color-text-dropdown: #f9f9f9;
+  --background: white;
+  --box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  --padding--item: 10px;
+  --padding--container: 20px;
+  --border-radius: 10px;
+  --font-size: 13px;
+  --font-weight-header: 500;
+  --webkit: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  --family-header: "Barlow Condensed", Arial, sans-serif;
+  --header-spacing: 2px;
 }
 
-.container{ 
-    display: flex;
-    position: relative;
-    background-color: #FAFAFA;
-    width: 100%;
-    height: 100%;
+.container {
+  display: flex;
+  position: relative;
+  background-color: #fafafa;
+  width: 100%;
+  height: 100%;
 }
-.left-container{ 
-    width: 18%;
-    margin: 20px;
+.left-container {
+  width: 18%;
+  margin: 20px;
 }
-.right-container{ 
-    width: 80%;
-    height: 100%;
-    margin: 20px;
+.right-container {
+  width: 80%;
+  height: 100%;
+  margin: 20px;
 }
-.chart-container, .table-container , .total-container{ 
-    border-radius: 10px;
-    background-color: white;
-    -webkit-box-shadow: 2px 4px 10px 1px rgba(0,0,0,0.47); 
-    box-shadow: var(--box-shadow);
+.chart-container,
+.table-container,
+.total-container {
+  border-radius: 10px;
+  background-color: var(--background);
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: var(--box-shadow);
 }
-.chart-container{ 
-    margin: 20px 0px 20px 20px ;
-    padding: 10px;
+.chart-container {
+  margin: 20px 0px 20px 20px;
+  padding: 10px;
 }
-.top-chart, .bottom-chart,.under-bottom{ 
-    margin: 20px;
+.top-chart,
+.bottom-chart,
+.under-bottom {
+  margin: 20px;
 }
-.span-chart{ 
-    font-size: 16px ;
-    font-weight: 500;
+.span-chart {
+  font-size: 16px;
+  font-weight: 500;
 }
-.top-chart{ 
-    display: flex;
-    flex-direction: column;
+.top-chart {
+  display: flex;
+  flex-direction: column;
 }
-.value-chart{ 
-    padding-top: 5px;
-    display: flex;
-    justify-content: space-between;
+.value-chart {
+  padding-top: 5px;
+  display: flex;
+  justify-content: space-between;
 }
-.left-value{ 
-    font-weight: 500;
-    font-size: 20px;
+.left-value {
+  font-weight: 500;
+  font-size: 20px;
 }
-.button-week, .button-month{ 
-    border: none;
-    padding: 5px;
-    font-weight: 400;
-    font-size: 13px;
-    margin-left: 10px ;
-    border-radius: 5px ;
-    cursor: pointer;
+.button-week,
+.button-month {
+  border: none;
+  padding: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
-.button-month{ 
-    background-color: aqua;
+.button-month {
+  background-color: aqua;
 }
-.button-week{ 
-    color: #FAFAFA;
-    background-color: black;
+.button-week {
+  color: #fafafa;
+  background-color: black;
 }
-.under-bottom{ 
-    display: flex;
-    width: 98%;
+.under-bottom {
+  display: flex;
+  width: 98%;
 }
 
-.table-container{ 
-    width: 60%;
-    
+.table-container {
+  width: 60%;
 }
-.total-container{ 
-    margin-left: 20px;
-    width: 40% ;
-    
+.total-container {
+  margin-left: 20px;
+  width: 40%;
 }

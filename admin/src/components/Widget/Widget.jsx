@@ -24,9 +24,7 @@ export default function Widget() {
     // count staff
     const countStaff = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8800/api/staff/count_staff"
-        );
+        const res = await axios.get("http://localhost:8800/api/staff/count");
         setStaff(res.data.value);
       } catch (error) {
         console.log(error);
