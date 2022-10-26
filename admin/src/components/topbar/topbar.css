@@ -1,85 +1,85 @@
-.topBar{ 
-    display: flex;
-    margin: 0px 0px 20px 20px ;
-    height: 40px;
-    padding: var(--padding--item);
-    justify-content: space-between;
-    background-color: var(--background);
-    border-radius:var(--border-radius) ;
-    -webkit-box-shadow: 2px 4px 10px 1px rgba(0,0,0,0.47); 
-    box-shadow: var(--box-shadow);
+.topBar {
+  display: flex;
+  margin: 0px 0px 20px 0px;
+  height: 40px;
+  padding: var(--padding--item);
+  justify-content: space-between;
+  background-color: var(--background);
+  border-radius: var(--border-radius);
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: var(--box-shadow);
 }
-.search{ 
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    background-color: transparent;
-    padding: 8px;
-    width: 300px;
-    border: 0.2px solid silver;
-    border-radius: 10px;
+.search {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: transparent;
+  padding: 8px;
+  width: 30%;
+  border: 0.2px solid silver;
+  border-radius: 10px;
 }
-.input-search{ 
-    background-color: transparent;
-    height: 14px;
-    font-weight: normal;
-    font-size: 13px;
-    border: none;
-    width: 100%;
-    padding: 5px;
+.input-search {
+  background-color: transparent;
+  height: 14px;
+  font-weight: normal;
+  font-size: 13px;
+  border: none;
+  width: 100%;
+  padding: 5px;
 }
-.input-search:focus{ 
-    outline: none;
+.input-search:focus {
+  outline: none;
 }
-.items-topBar{ 
-    display: flex;
+.items-topBar {
+  display: flex;
 }
-.Item{ 
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    padding: 10px 20px 10px 20px  ;
-    border-left: 0.2px solid #dddddd ;
-    cursor: pointer;    
+.Item {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  padding: 10px 20px 10px 20px;
+  border-left: 0.2px solid #dddddd;
+  cursor: pointer;
 }
-.top-dropdown-select{ 
-    display: flex;
-    border-left: 0.2px solid #dddddd ;
-    justify-content: space-between;
-    cursor: pointer;
-    z-index: 100;
+.top-dropdown-select {
+  display: flex;
+  border-left: 0.2px solid #dddddd;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 100;
 }
-.item-name{ 
-    padding: 8px 20px;
+.item-name {
+  padding: 8px 20px;
 }
-.image-item{ 
-    width: 32px;
-    height: 32px ;
-    border-radius: 50%;
-    border: none;
-    object-fit: cover;
+.image-item {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  object-fit: cover;
 }
-.top-dropdown{ 
+.top-dropdown {
   position: relative;
 }
-.top-dropdown:hover .top-dropdown-list{ 
+.top-dropdown:hover .top-dropdown-list {
   display: block;
 }
 
-.top-dropdown-list{ 
+.top-dropdown-list {
   margin-top: 30px;
   border-radius: 5px;
   position: absolute;
   right: 0;
-  top:20px;
+  top: 20px;
   display: none;
   background-color: var(--background-dropdown);
   padding-inline-start: 0;
   z-index: 99;
 }
-.top-dropdown-list:before{ 
+.top-dropdown-list:before {
   content: "";
   height: 30px;
   position: absolute;
@@ -88,7 +88,7 @@
   background-color: transparent;
   transform: translateY(-100%);
 }
-.top-dropdown-item{ 
+.top-dropdown-item {
   width: 200px;
   height: auto;
   padding: 10px;
@@ -99,16 +99,16 @@
   cursor: pointer;
   transition: background-color 0.2s linear;
 }
-.top-dropdown-item:hover{ 
-   color: var(--color-text-dropdown);;
+.top-dropdown-item:hover {
+  color: var(--color-text-dropdown);
   background-color: var(--background-hover);
 }
 
-.top-dropdown-item:first-child{ 
-  border-radius: 5px 5px 0px 0px ;
+.top-dropdown-item:first-child {
+  border-radius: 5px 5px 0px 0px;
   position: relative;
 }
-.top-dropdown-item:first-child:before{ 
+.top-dropdown-item:first-child:before {
   content: "";
   position: absolute;
   top: 0;
@@ -119,22 +119,22 @@
   transform: translateY(-100%);
   transition: border-bottom-color 0.2s linear;
 }
-.top-dropdown-item:first-child:hover:before{ 
+.top-dropdown-item:first-child:hover:before {
   border-bottom-color: var(--background-hover);
 }
-.top-dropdown-item:last-child{ 
-  border-radius: 0px 0px 5px 5px ;
+.top-dropdown-item:last-child {
+  border-radius: 0px 0px 5px 5px;
 }
-.dropdown-link{ 
+.dropdown-link {
   text-decoration: none;
   color: black;
 }
-.dropdown-link:hover{ 
+.dropdown-link:hover {
   color: var(--color-text-dropdown);
 }
-.dropdown-text{ 
+.dropdown-text {
   margin-left: 10px;
 }
-.dropdown-text:hover{ 
+.dropdown-text:hover {
   color: var(--color-text-dropdown);
 }

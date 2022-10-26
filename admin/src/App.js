@@ -6,6 +6,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+
 import Home from "./pages/home/Home";
 import Booking from "./pages/booking/Booking";
 import Customer from "./pages/customer/Customer";
@@ -24,7 +25,12 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={user ? <Home /> : <Login />} />
+        <Route
+          path="/"
+          element={user ? <Navigate replace to="/home" /> : <Home />}
+        />
+
+        <Route exact path="/home" element={user ? <Home /> : <Login />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/customer" element={<Customer />} />
         <Route path="/discount" element={<Discount />} />
@@ -33,7 +39,10 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
+        <Route
+          path="/home/profile/:Name"
+          element={user ? <Profile /> : <Login />}
+        />
       </Routes>
     </Router>
   );

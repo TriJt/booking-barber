@@ -1,4 +1,12 @@
 .staff {
   width: 100%;
+  display: flex;
   padding-bottom: 50px;
+  padding-left: 0px;
+  z-index: 1;
+}
+.staff-bottom {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }

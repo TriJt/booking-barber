@@ -20,6 +20,7 @@ export default function Widget() {
   const [user, setUser] = useState(currentUser);
   const [staff, setStaff] = useState("");
   const [customer, setCustomer] = useState("");
+
   useEffect(() => {
     // count staff
     const countStaff = async () => {

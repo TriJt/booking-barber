@@ -38,7 +38,7 @@ export default function TableUser({
         columns={column}
         rows={row}
         getRowId={(row) => row._id}
-        sx={{ fontSize: 11 }}
+        sx={{ fontSize: 11, padding: 0 }}
         rowsPerPageOptions={[5, 10, 20]}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

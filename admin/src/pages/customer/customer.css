@@ -1,5 +1,9 @@
-.staff-bottom {
+.customer-table {
+  width: 100%;
+  padding-bottom: 50px;
+}
+.customer-bottom {
+  margin-top: 20px;
   display: flex;
-  padding: 20px 0px 0px 20px;
   justify-content: space-between;
 }

@@ -8,7 +8,6 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { SaveStaff } from "../../action/SaveAction";
-import { DeleteStaff } from "../../action/DeleteAction";
 import StaffNew from "../../components/create/Staff/Staff";
 
 export default function Staff({ deletedId }) {
@@ -88,14 +87,14 @@ export default function Staff({ deletedId }) {
         renderCell: (params) => <SaveStaff {...{ params, rowId, setRowId }} />,
         editable: true,
       },
-      {
-        field: "delete",
-        headerName: "Delete",
-        width: 80,
-        type: "actions",
-        renderCell: (params) => <DeleteStaff {...{ params, deletedId, Id }} />,
-        editable: true,
-      },
+      // {
+      //   field: "delete",
+      //   headerName: "Delete",
+      //   width: 80,
+      //   type: "actions",
+      //   renderCell: (params) => <DeleteStaff {...{ params, deletedId, Id }} />,
+      //   editable: true,
+      // },
     ],
     [rowId]
   );

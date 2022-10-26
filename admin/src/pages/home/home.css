@@ -5,6 +5,7 @@
   --color-text: #e0d8b0;
   --color-text-dropdown: #f9f9f9;
   --background: white;
+  --background-dark: black;
   --box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   --padding--item: 10px;
   --padding--container: 20px;
@@ -24,13 +25,13 @@
   height: 100%;
 }
 .left-container {
-  width: 18%;
+  width: 15%;
   margin: 20px;
 }
 .right-container {
-  width: 80%;
+  width: 84%;
   height: 100%;
-  margin: 20px;
+  margin: 20px 20px 20px 0px;
 }
 .chart-container,
 .table-container,
@@ -41,14 +42,10 @@
   box-shadow: var(--box-shadow);
 }
 .chart-container {
-  margin: 20px 0px 20px 20px;
+  margin: 20px 0px 20px 0px;
   padding: 10px;
 }
-.top-chart,
-.bottom-chart,
-.under-bottom {
-  margin: 20px;
-}
+
 .span-chart {
   font-size: 16px;
   font-weight: 500;
@@ -85,7 +82,7 @@
 }
 .under-bottom {
   display: flex;
-  width: 98%;
+  width: 100%;
 }
 
 .table-container {
@@ -94,4 +91,10 @@
 .total-container {
   margin-left: 20px;
   width: 40%;
+}
+
+@media screen and (max-width: 768px) {
+  .left-container {
+    width: 10%;
+  }
 }

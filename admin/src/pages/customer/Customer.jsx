@@ -7,61 +7,19 @@ import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 import { SaveStaff } from "../../action/SaveAction";
-import { DeleteStaff } from "../../action/DeleteAction";
+
 import { Avatar } from "@mui/material";
+
+import { red } from "@mui/material/colors";
 // icon
-import BadgeIcon from "@mui/icons-material/Badge";
-import CallIcon from "@mui/icons-material/Call";
-import EmailIcon from "@mui/icons-material/Email";
-import ManIcon from "@mui/icons-material/Man";
+import { Box, CircularProgress, Fab } from "@mui/material";
+import { Check, Save, Delete } from "@mui/icons-material";
 
 export default function Customer() {
   // input for table
   const [dataCustomer, setDataCustomer] = useState("");
   const [rowId, setRowId] = useState(null);
   const [count, setCount] = useState("");
-
-  // create new customer
-  const [inputField, setInputField] = useState({
-    Name_Customer: "",
-    Telephone: "",
-    Email: "",
-    Gender: "",
-  });
-
-  const [errField, setErrField] = useState({
-    EmailErr: "",
-    NameErr: "",
-  });
-
-  const InputHandler = (e) => {
-    setInputField({ ...inputField, [e.target.name]: e.target.value });
-  };
-
-  // update information
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    const staff = {
-      Name_Customer: inputField.Name_Customer,
-      Telephone: inputField.Telephone,
-      Email: inputField.Email,
-      Gender: inputField.Gender,
-    };
-    try {
-      const response = await axios.post(
-        "http://localhost:8800/api/customer/create",
-        staff
-      );
-      const record = response.data;
-      if (record.statusText === "Success") {
-        toast.success(record.message);
-      } else {
-        toast.error(record.message);
-      }
-    } catch (err) {
-      toast.error("Somethings went wrong");
-    }
-  };
 
   //effect data of customer from data
   useEffect(() => {
@@ -89,6 +47,79 @@ export default function Customer() {
     countCustomer();
   }, []);
 
+  const Delete = () => {
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const handleSubmit = async () => {
+      setLoading(true);
+      setTimeout(async () => {
+        const data = {
+          StaffId: rowId,
+        };
+        const response = await axios.put(
+          "http://localhost:8800/api/customer/delete/" + rowId,
+          data
+        );
+        const record = response.data;
+        console.log(rowId);
+        if (record.statusText === "Success") {
+          setSuccess(true);
+        }
+        setLoading(false);
+      }, 500);
+    };
+    return (
+      <Box
+        sx={{
+          m: 1,
+          position: "relative",
+        }}
+      >
+        {success ? (
+          <Fab
+            color="primary"
+            sx={{
+              width: 40,
+              height: 40,
+              backgroundColor: red[700],
+              "&hover": { backgroundColor: red[700] },
+            }}
+          >
+            <Check />
+          </Fab>
+        ) : (
+          <Fab
+            color="error"
+            sx={{
+              width: 40,
+              height: 40,
+            }}
+            onClick={() => {
+              if (window.confirm("Delete this staff?")) {
+                handleSubmit();
+              }
+            }}
+          >
+            <Delete />
+          </Fab>
+        )}
+        {loading && (
+          <CircularProgress
+            size={52}
+            sx={{
+              color: red[500],
+              position: "absolute",
+              top: -6,
+              left: -6,
+              zIndex: 1,
+            }}
+          />
+        )}
+      </Box>
+    );
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -102,19 +133,19 @@ export default function Customer() {
       {
         field: "Name_Customer",
         headerName: "Name",
-        width: 120,
+        width: 160,
         editable: true,
       },
       {
         field: "Telephone",
         header: "Telephone",
-        width: 90,
+        width: 120,
         editable: true,
       },
       {
         field: "Email",
         header: "Email",
-        width: 180,
+        width: 220,
       },
       {
         field: "Gender",
@@ -124,21 +155,7 @@ export default function Customer() {
         valueOptions: ["Male", "Female", "Other"],
         editable: true,
       },
-      {
-        field: "Salary",
-        header: "Salary",
-        width: 90,
-        type: "singleSelect",
-        valueOptions: ["Paid", "Unpaid"],
-        editable: true,
-      },
-      {
-        field: "Active",
-        header: "Active",
-        width: 90,
-        type: "boolean",
-        editable: true,
-      },
+
       {
         field: "save",
         width: 80,
@@ -152,7 +169,16 @@ export default function Customer() {
         width: 80,
         headerName: "Delete",
         type: "actions",
-        renderCell: (params) => <DeleteStaff {...{ params }} />,
+        renderCell: () => <Delete />,
+        editable: true,
+      },
+
+      {
+        field: "view",
+        width: 80,
+        headerName: "All View",
+        type: "actions",
+        // renderCell: (params) => <DeleteStaff {...{ params }} />,
         editable: true,
       },
     ],
@@ -167,6 +193,7 @@ export default function Customer() {
       </div>
       {/* container for topBar and mainBar */}
       <div className="right-container">
+        <ToastContainer />
         <div className="top-container">
           <TopBar />
         </div>
@@ -188,10 +215,9 @@ export default function Customer() {
             {/* make charts to show how many customer sign in in week and month */}
           </div>
           <div className="bottom-profile">
-            <div className="staff">
-              <ToastContainer />
+            <div className="customer-table">
               <TableUser
-                title={"Manager Staff"}
+                title={"Manager Customer"}
                 column={columns}
                 row={dataCustomer}
                 rowId={rowId}
@@ -199,92 +225,7 @@ export default function Customer() {
               />
             </div>
           </div>
-          <div className="staff-bottom">
-            <div className="left-staff">
-              <h3 className="create-staff"> Create New Customer</h3>
-              <form action="submit">
-                <div className="items-profile">
-                  <div className="input-container-address">
-                    <span className="icon-input">
-                      <BadgeIcon />
-                    </span>
-                    <input
-                      className="input-address"
-                      name="Name_Customer"
-                      autoComplete="off"
-                      onChange={InputHandler}
-                      required
-                      value={inputField.Name_Customer}
-                      type="text"
-                      placeholder="Name"
-                    />
-                  </div>
-                </div>
-                <div className="items-profile">
-                  <div className="input-container-address">
-                    <span className="icon-input">
-                      <CallIcon />
-                    </span>
-                    <input
-                      className="input-address"
-                      name="Telephone"
-                      autoComplete="off"
-                      onChange={InputHandler}
-                      required
-                      value={inputField.Telephone}
-                      type="text"
-                      placeholder="Telephone"
-                      minLength={10}
-                      maxLength={11}
-                    />
-                  </div>
-                </div>
-                <div className="items-profile">
-                  <div className="input-container-address">
-                    <span className="icon-input">
-                      <EmailIcon />
-                    </span>
-                    <input
-                      className="input-address"
-                      name="Email"
-                      autoComplete="off"
-                      onChange={InputHandler}
-                      required
-                      value={inputField.Email}
-                      type="email"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-                <div className="items-profile">
-                  <div className="input-container-address">
-                    <span className="icon-input">
-                      <ManIcon />
-                    </span>
-                    <select
-                      name="Gender"
-                      id="select-new"
-                      className="input-address"
-                      onChange={InputHandler}
-                      value={inputField.Gender}
-                      placeholder="Gender"
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other genders">Other genders</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="action-profile">
-                  <button className="save" onClick={submitHandler}>
-                    Create
-                  </button>
-                </div>
-              </form>
-            </div>
-            <div className="right-staff"></div>
-          </div>
+          <div className="customer-bottom"></div>
         </div>
       </div>
     </div>
