@@ -87,7 +87,7 @@
 .input-address:focus {
   outline: none;
 }
-.save {
+.save-profile {
   width: 100px;
   height: 40px;
   background-color: var(--color-header);

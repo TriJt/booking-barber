@@ -64,7 +64,7 @@
 }
 
 .active .items-sidebar {
-  border-right: 4px solid var(--font-header);
+  border-right: 4px solid rgb(191, 146, 91, 0.7);
 }
 
 @media screen and (max-width: 768px) {

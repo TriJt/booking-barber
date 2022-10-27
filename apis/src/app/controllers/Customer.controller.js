@@ -72,12 +72,12 @@ export const UpdateCustomer = async (req, res) => {
 // Need connection to front-end
 export const DeleteCustomer = async (req, res) => {
   const responseType = {};
-  if (req.body.CustomerId === req.params.id) {
+  try {
     const customer = await Customer.findByIdAndDelete(req.params.id);
     responseType.statusText = "Success";
     responseType.message = "Delete Successfully";
     responseType.status = 200;
-  } else {
+  } catch (err) {
     responseType.statusText = "Failed";
     responseType.message = "Delete Failed";
     responseType.status = 500;

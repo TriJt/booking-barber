@@ -6,19 +6,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
-import { SaveStaff } from "../../action/SaveAction";
-
 import { Avatar } from "@mui/material";
-
-import { red } from "@mui/material/colors";
-// icon
-import { Box, CircularProgress, Fab } from "@mui/material";
-import { Check, Save, Delete } from "@mui/icons-material";
+import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function Customer() {
   // input for table
   const [dataCustomer, setDataCustomer] = useState("");
-  const [rowId, setRowId] = useState(null);
+  const [rowId, setRowId] = useState("");
   const [count, setCount] = useState("");
 
   //effect data of customer from data
@@ -47,76 +42,85 @@ export default function Customer() {
     countCustomer();
   }, []);
 
-  const Delete = () => {
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+  const Delete = ({ params }) => {
+    const handleDelete = async (e) => {
+      const data = params.row._id;
+      const response = await axios.delete(
+        "http://localhost:8800/api/customer/delete/" + data
+      );
+      const fetchData = await axios.get(
+        "http://localhost:8800/api/customer/all"
+      );
 
+      const record = response.data;
+      if (record.status === 200) {
+        toast.success("Delete information successfully");
+        setDataCustomer(fetchData.data.value);
+      } else {
+        toast.error("Delete information failed");
+      }
+    };
+    return (
+      <div className="delete">
+        <button
+          className="button-delete"
+          onClick={() => {
+            if (window.confirm("Are you sure to delete this object?"))
+              handleDelete();
+          }}
+        >
+          <MdDeleteOutline className="icon-delete" />
+        </button>
+      </div>
+    );
+  };
+
+  const Save = ({ params, rowId, setRowId }) => {
     const handleSubmit = async () => {
-      setLoading(true);
       setTimeout(async () => {
         const data = {
-          StaffId: rowId,
+          CustomerId: params.row._id,
+          Name: params.row.Name,
+          Telephone: params.row.Telephone,
+          Gender: params.row.Gender,
         };
         const response = await axios.put(
-          "http://localhost:8800/api/customer/delete/" + rowId,
+          "http://localhost:8800/api/customer/update/" + rowId,
+
           data
         );
         const record = response.data;
-        console.log(rowId);
         if (record.statusText === "Success") {
-          setSuccess(true);
+          toast.success("Update information successfully");
+        } else {
+          toast.error("Delete information failed");
         }
-        setLoading(false);
       }, 500);
     };
+
     return (
-      <Box
-        sx={{
-          m: 1,
-          position: "relative",
-        }}
-      >
-        {success ? (
-          <Fab
-            color="primary"
-            sx={{
-              width: 40,
-              height: 40,
-              backgroundColor: red[700],
-              "&hover": { backgroundColor: red[700] },
-            }}
-          >
-            <Check />
-          </Fab>
-        ) : (
-          <Fab
-            color="error"
-            sx={{
-              width: 40,
-              height: 40,
-            }}
-            onClick={() => {
-              if (window.confirm("Delete this staff?")) {
-                handleSubmit();
-              }
-            }}
-          >
-            <Delete />
-          </Fab>
-        )}
-        {loading && (
-          <CircularProgress
-            size={52}
-            sx={{
-              color: red[500],
-              position: "absolute",
-              top: -6,
-              left: -6,
-              zIndex: 1,
-            }}
-          />
-        )}
-      </Box>
+      <div className="save">
+        <button
+          className="button-save"
+          onClick={() => {
+            if (window.confirm("Are you sure to update this object?"))
+              handleSubmit();
+          }}
+        >
+          <MdSaveAlt className="icon-save" />
+        </button>
+      </div>
+    );
+  };
+
+  const View = () => {
+    // add link to page information customer
+    return (
+      <div className="view">
+        <button className="button-view">
+          <MdViewHeadline className="icon-view" />
+        </button>
+      </div>
     );
   };
 
@@ -157,11 +161,17 @@ export default function Customer() {
       },
 
       {
+        field: "Collect",
+        header: "Collection",
+        width: 90,
+        editable: true,
+      },
+      {
         field: "save",
         width: 80,
         headerName: "Save",
         type: "actions",
-        renderCell: (params) => <SaveStaff {...{ params, rowId, setRowId }} />,
+        renderCell: (params) => <Save {...{ params, rowId, setRowId }} />,
         editable: true,
       },
       {
@@ -169,16 +179,15 @@ export default function Customer() {
         width: 80,
         headerName: "Delete",
         type: "actions",
-        renderCell: () => <Delete />,
+        renderCell: (params) => <Delete {...{ params, rowId, setRowId }} />,
         editable: true,
       },
-
       {
         field: "view",
         width: 80,
-        headerName: "All View",
+        headerName: "View",
         type: "actions",
-        // renderCell: (params) => <DeleteStaff {...{ params }} />,
+        renderCell: () => <View />,
         editable: true,
       },
     ],

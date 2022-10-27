@@ -46,13 +46,6 @@ export default function TableUser({
           top: params.isFirstVisible ? 0 : 5,
           bottom: params.isLastVisible ? 0 : 5,
         })}
-        checkboxSelection
-        disableSelectionOnClick
-        // onSelectionModelChange={(ids) => {
-        //   setDeleted(ids);
-        //   console.log(ids);
-        // }}
-        onCellClick={(params) => setDeleted(params.id)}
         onCellEditCommit={(params) => setRowId(params.id)}
       />
     </Box>

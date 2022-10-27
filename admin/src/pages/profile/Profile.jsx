@@ -352,7 +352,7 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="action-profile">
-                  <button className="save" onClick={submitHandler}>
+                  <button className="save-profile" onClick={submitHandler}>
                     Save
                   </button>
                 </div>
