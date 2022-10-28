@@ -39,9 +39,24 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
         <Route
-          path="/home/profile/:Name"
-          element={user ? <Profile /> : <Login />}
+          path="/contact/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
+        />
+        <Route
+          path="/customer/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
+        />
+        <Route
+          path="/staff/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
         />
       </Routes>
     </Router>

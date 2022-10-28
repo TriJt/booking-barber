@@ -1,0 +1,7 @@
+.booking-container {
+  border-radius: 10px;
+  background-color: var(--background);
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: var(--box-shadow);
+  padding-top: 20px;
+}

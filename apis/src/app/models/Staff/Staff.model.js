@@ -51,7 +51,6 @@ const StaffSchema = new Schema(
   {
     Name: {
       type: String,
-      require: true,
     },
     Telephone: {
       type: String,
@@ -68,15 +67,19 @@ const StaffSchema = new Schema(
     },
     Number: {
       type: String,
+      default: "",
     },
     Street: {
       type: String,
+      default: "",
     },
     District: {
       type: String,
+      default: "",
     },
     City: {
       type: String,
+      default: "",
     },
     Active: {
       type: Boolean,

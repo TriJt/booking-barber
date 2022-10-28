@@ -44,15 +44,19 @@ const CustomerSchema = new Schema(
     },
     Number: {
       type: String,
+      default: "",
     },
     Street: {
       type: String,
+      default: "",
     },
     District: {
       type: String,
+      default: "",
     },
     City: {
       type: String,
+      default: "",
     },
     Gender: {
       type: String,
@@ -60,6 +64,7 @@ const CustomerSchema = new Schema(
     Interests: [StyleSchema],
     Birthday: {
       type: Date,
+      default: "",
     },
     Collect: {
       type: String,

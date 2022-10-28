@@ -85,7 +85,7 @@ export const DeleteStaff = async (req, res) => {
 // COMPLETE in back-end
 export const GetStaffById = async (req, res) => {
   const responseType = {};
-  const StaffId = req.query.StaffId;
+  const StaffId = req.query.staffId;
   const Name = req.query.Name;
   if (Staff) {
     const staff = (await StaffId)

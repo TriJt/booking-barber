@@ -1,14 +1,11 @@
 import { useState, useContext } from "react";
 import "./login.css";
-import Items from "../../components/item/Items";
 import EmailIcon from "@mui/icons-material/Email";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext";
-import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
 export default function Login() {
@@ -28,7 +25,7 @@ export default function Login() {
     PasswordErr: "",
   });
 
-  const { user, isFetching, error, dispatch } = useContext(AuthContext);
+  const { isFetching, dispatch } = useContext(AuthContext);
 
   const handleClick = async (e) => {
     e.preventDefault();
