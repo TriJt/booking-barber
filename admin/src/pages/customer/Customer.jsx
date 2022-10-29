@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import "./customer.css";
+import "../../styles/customer.css";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { ToastContainer, toast } from "react-toastify";

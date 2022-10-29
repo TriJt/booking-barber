@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import "./login.css";
+import "../../styles/login.css";
 import EmailIcon from "@mui/icons-material/Email";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { Link } from "react-router-dom";

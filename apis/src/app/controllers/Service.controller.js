@@ -70,7 +70,7 @@ export const DeleteService = async (req, res) => {
     await Service.findByIdAndDelete(req.params.id);
     try {
       await Category.findOneAndUpdate(categoryName, {
-        $pull: { Services: res.params.id },
+        $pull: { Services: req.params.id },
       });
       responseType.statusText = "Success";
       responseType.message = "Delete Successfully";

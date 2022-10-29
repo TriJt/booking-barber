@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import "./booking.css";
+import "../../styles/booking.css";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { ToastContainer, toast } from "react-toastify";

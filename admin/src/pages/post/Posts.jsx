@@ -1,5 +1,5 @@
 import React from "react";
-import "./post.css";
+import "../../styles/post.css";
 
 export default function Posts() {
   return <div>Posts</div>;

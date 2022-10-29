@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import "./topbar.css";
+import "../../styles/components/topbar.css";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";

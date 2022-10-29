@@ -70,6 +70,22 @@ export const GetAllCategory = async (req, res) => {
   }
   res.json(responseType);
 };
+
+//export const all category title
+export const GetTitleCategory = async (req, res) => {
+  const responseType = {};
+  if (Category) {
+    const category = await Category.find();
+    responseType.message = "Get customer successfully";
+    responseType.status = 200;
+    responseType.value = category;
+  } else {
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
 // get by id
 export const GetCategoryByQuery = async (req, res) => {
   const responseType = {};

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import "./widget.css";
+import "../../styles/components/widget.css";
 import { Link } from "react-router-dom";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import GroupsIcon from "@mui/icons-material/Groups";

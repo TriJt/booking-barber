@@ -10,7 +10,7 @@ import {
 import Home from "./pages/home/Home";
 import Booking from "./pages/booking/Booking";
 import Customer from "./pages/customer/Customer";
-import Discount from "./pages/discount/Discount";
+import Services from "./pages/services/Services";
 import Staff from "./pages/staff/Staff";
 import Contact from "./pages/contact/Contact";
 import Forgot from "./pages/forgot/Forget";
@@ -33,7 +33,7 @@ export default function App() {
         <Route exact path="/home" element={user ? <Home /> : <Login />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/customer" element={<Customer />} />
-        <Route path="/discount" element={<Discount />} />
+        <Route path="/service" element={<Services />} />
         <Route path="/staff" element={<Staff />} />
         <Route path="/posts" element={<Posts />} />
         <Route path="/contact" element={<Contact />} />
@@ -54,6 +54,30 @@ export default function App() {
         />
         <Route
           path="/staff/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
+        />
+        <Route
+          path="/booking/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
+        />
+        <Route
+          path="/post/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
+        />
+        <Route
+          path="/home/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
+        />
+        <Route
+          path="/service/profile/:Name"
           element={
             user ? <Navigate replace to="/profile/:Name" /> : <Profile />
           }

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import "./Sidebar.css";
+import "../../styles/components/Sidebar.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupsIcon from "@mui/icons-material/Groups";
 import PeopleIcon from "@mui/icons-material/People";
@@ -59,10 +59,10 @@ export default function Sidebar() {
               <div className="item-sidebar">Booking</div>
             </div>
           </NavLink>
-          <NavLink to={`/discount`} className="Link">
+          <NavLink to={`/service`} className="Link">
             <div className="items-sidebar">
               <DiscountIcon className="icon" />
-              <div className="item-sidebar">Discount</div>
+              <div className="item-sidebar">Services</div>
             </div>
           </NavLink>
           <NavLink to={`/post`} className="Link">
@@ -99,10 +99,10 @@ export default function Sidebar() {
               <div className="item-sidebar">Booking</div>
             </div>
           </NavLink>
-          <NavLink to={`/discount`} className="">
+          <NavLink to={`/service`} className="">
             <div className="items-sidebar">
               <DiscountIcon className="icon" />
-              <div className="item-sidebar">Discount</div>
+              <div className="item-sidebar">Services</div>
             </div>
           </NavLink>
           <NavLink to={`/post`} className="Link">

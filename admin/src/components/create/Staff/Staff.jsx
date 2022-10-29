@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./staff.css";
+import "../../../styles/components/staff.css";
 import Items from "../../../components/item/Items";
 import BadgeIcon from "@mui/icons-material/Badge";
 import CallIcon from "@mui/icons-material/Call";

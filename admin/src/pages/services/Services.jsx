@@ -6,43 +6,44 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
-import { Avatar } from "@mui/material";
-import StaffNew from "../../components/create/Staff/Staff";
-import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
-import { MdDriveFileRenameOutline, MdOutlineEmail } from "react-icons/md";
-import { BsTelephoneForward, BsGenderAmbiguous } from "react-icons/bs";
-import { FaRegAddressCard, FaBirthdayCake } from "react-icons/fa";
 
-export default function Staff() {
-  const [dataStaff, setDataStaff] = useState("");
+import { Avatar } from "@mui/material";
+import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
+
+export default function Services() {
+  const [dataService, setDataService] = useState("");
   const [rowId, setRowId] = useState("");
   const [open, setOpen] = useState(false);
 
   //effect data staff
   useEffect(() => {
-    const fetchStaff = async () => {
+    const fetchService = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/api/staff/all");
-        setDataStaff(res.data.value);
+        const res = await axios.get("http://localhost:8800/api/service/all");
+        setDataService(res.data.value);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchStaff();
+    fetchService();
   }, []);
 
   const Delete = ({ params }) => {
-    const handleDelete = async (e) => {
+    const handleDelete = async () => {
       const data = params.row._id;
+      const categoryName = params.row.Category;
       const response = await axios.delete(
-        "http://localhost:8800/api/staff/delete/" + data
+        "http://localhost:8800/api/service/delete/" + data,
+        categoryName
       );
-      const fetchData = await axios.get("http://localhost:8800/api/staff/all");
+      const fetchData = await axios.get(
+        "http://localhost:8800/api/service/all"
+      );
 
       const record = response.data;
       if (record.status === 200) {
         toast.success("Delete information successfully");
-        setDataStaff(fetchData.data.value);
+        setDataService(fetchData.data.value);
       } else {
         toast.error("Delete information failed");
       }
@@ -65,14 +66,14 @@ export default function Staff() {
   const Save = ({ params, rowId, setRowId }) => {
     const handleSubmit = async () => {
       const data = {
-        StaffId: params.row._id,
-        Name: params.row.Name,
-        Telephone: params.row.Telephone,
-        Gender: params.row.Gender,
-        Active: params.row.Active,
+        ServiceId: params.row._id,
+        Name_Service: params.row.Name_Service,
+        Price: params.row.Price,
+        Description: params.row.Description,
+        Category: params.row.Category,
       };
       const response = await axios.put(
-        "http://localhost:8800/api/staff/update/" + rowId,
+        "http://localhost:8800/api/service/update/" + rowId,
         data
       );
       const record = response.data;
@@ -114,17 +115,61 @@ export default function Staff() {
   };
 
   const Modal = ({ open, onClose, rowId }) => {
-    const [data, setData] = useState("");
-
+    const [dataService, setDataService] = useState([]);
+    const [files, setFiles] = useState("");
+    const [image, setImage] = useState([]);
     useEffect(() => {
       const fetchData = async () => {
         const res = await axios.get(
-          "http://localhost:8800/api/staff?staffId=" + rowId
+          "http://localhost:8800/api/service?ServiceId=" + rowId
         );
-        setData(res.data.value);
+        setDataService(res.data.value);
+        console.log(image);
       };
       fetchData();
     }, [rowId]);
+
+    const UpdateAvatar = async (e) => {
+      e.preventDefault();
+      // up load file to cloudinary and update coverPicture in database
+      try {
+        const list = await Promise.all(
+          Object.values(files).map(async (file) => {
+            const data = new FormData();
+            data.append("file", file);
+            data.append("upload_preset", "social0722");
+            const uploadRes = await axios.post(
+              "https://api.cloudinary.com/v1_1/johnle/image/upload",
+              data
+            );
+            const { url } = uploadRes.data;
+            return url;
+          })
+        );
+
+        const dataImage = {
+          ServiceId: rowId,
+          Image: list,
+        };
+        try {
+          const response = await axios.put(
+            "http://localhost:8800/api/service/update/" + rowId,
+            dataImage
+          );
+          const record = response.data;
+          setDataService(record.value);
+          if (record.statusText === "Success") {
+            toast.success(record.message);
+          } else {
+            toast.error(record.message);
+          }
+        } catch (err) {
+          toast.error("Update in SessionStorage Failed");
+        }
+      } catch (err) {
+        toast.error("Can get picture from Cloud ");
+      }
+    };
 
     if (!open) return null;
 
@@ -134,78 +179,37 @@ export default function Staff() {
           <p className="closeBtn" onClick={onClose}>
             X
           </p>
-          <div className="modalInformation">
-            <h3 className="title-value"> Information</h3>
-            <div className="items-value">
-              <span className="icon-value">
-                <MdDriveFileRenameOutline />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Name"
-                name="Name"
-                value={data.Name}
-              />
+          <div className="modal-service">
+            <div className="left-modal">
+              {dataService.Image && (
+                <img
+                  src={
+                    files ? URL.createObjectURL(files[0]) : dataService.Image
+                  }
+                  alt=""
+                  className="service-image"
+                />
+              )}
             </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <BsTelephoneForward />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Telephone"
-                name="Telephone"
-                value={data.Telephone}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <MdOutlineEmail />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Email"
-                name="Email"
-                value={data.Email}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <FaRegAddressCard />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Address"
-                value={`${data.Number} ${data.Street} ${data.District} ${data.City}`}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <BsGenderAmbiguous />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Gender"
-                name="Gender"
-                value={data.Gender}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <FaBirthdayCake />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Birthday"
-                name="Birthday"
-                value={data.Birthday}
-              />
+            <div className="right-modal">
+              <div className="item-right-modal">
+                <h3 className="title-value"> Image Service</h3>
+                <form>
+                  <label htmlFor="file" className="button-profile">
+                    Choose Image
+                    <input
+                      type="file"
+                      id="file"
+                      multiple
+                      style={{ display: "none" }}
+                      onChange={(e) => setFiles(e.target.files)}
+                    ></input>
+                  </label>
+                </form>
+                <button className="button-profile" onClick={UpdateAvatar}>
+                  Change
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -218,50 +222,34 @@ export default function Staff() {
     () => [
       {
         field: "Image",
-        headerName: "Avatar",
+        headerName: "Image",
         width: 60,
         renderCell: (params) => <Avatar src={params.row.Image} />,
         sortable: false,
         filterable: false,
       },
       {
-        field: "Name",
-        headerName: "Name",
-        width: 120,
+        field: "Name_Service",
+        headerName: "Service",
+        width: 150,
         editable: true,
       },
       {
-        field: "Telephone",
-        headerName: "Telephone",
+        field: "Price",
+        headerName: "Price",
         width: 90,
         editable: true,
       },
       {
-        field: "Email",
-        headerName: "Email",
-        width: 180,
-      },
-      {
-        field: "Gender",
-        headerName: "Gender",
-        width: 90,
-        type: "singleSelect",
-        valueOptions: ["Male", "Female", "Other"],
+        field: "Description",
+        headerName: "Description",
+        width: 350,
         editable: true,
       },
       {
-        field: "Active",
-        headerName: "Active",
+        field: "Category",
+        headerName: "Category",
         width: 90,
-        type: "boolean",
-        editable: true,
-      },
-
-      {
-        field: "isAdmin",
-        headerName: "Admin",
-        width: 90,
-        type: "boolean",
         editable: true,
       },
       {
@@ -291,7 +279,7 @@ export default function Staff() {
     ],
     [rowId]
   );
-
+  console.log(dataService);
   return (
     <div className="container">
       {/* container for sidebar */}
@@ -310,16 +298,13 @@ export default function Staff() {
           <div className="staff">
             <ToastContainer />
             <TableUser
-              title={"Manager Staff"}
+              title={"Manager Service"}
               column={columns}
-              row={dataStaff}
+              row={dataService}
               rowId={rowId}
               setRowId={setRowId}
             />
           </div>
-        </div>
-        <div className="staff-bottom">
-          <StaffNew setDataStaff={setDataStaff} />
         </div>
       </div>
     </div>

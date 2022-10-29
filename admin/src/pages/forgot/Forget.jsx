@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "./forget.css";
+import "../../styles/forget.css";
 import { Link } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";

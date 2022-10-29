@@ -1,5 +1,5 @@
 import React from "react";
-import "./totalBooking.css";
+import "../../styles/components/totalBooking.css";
 import {
   BarChart,
   Bar,

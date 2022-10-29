@@ -1,5 +1,5 @@
 import React from "react";
-import "./table.css";
+import "../../styles/components/table.css";
 export default function Table({ title }) {
   const data = [
     { name: "Anom", age: 19, gender: "Male" },

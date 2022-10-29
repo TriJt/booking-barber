@@ -1,28 +1,23 @@
 import React, { useState, useContext, useEffect } from "react";
-import "./profile.css";
-import Items from "../../components/item/Items";
-import BadgeIcon from "@mui/icons-material/Badge";
-import CallIcon from "@mui/icons-material/Call";
-import EmailIcon from "@mui/icons-material/Email";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import ImageIcon from "@mui/icons-material/Image";
-import SaveIcon from "@mui/icons-material/Save";
+import "../../styles/profile.css";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ManIcon from "@mui/icons-material/Man";
-import CakeIcon from "@mui/icons-material/Cake";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+import { MdDriveFileRenameOutline, MdOutlineEmail } from "react-icons/md";
+import { BsTelephoneOutbound, BsGenderAmbiguous } from "react-icons/bs";
+import { FaAddressCard, FaBirthdayCake } from "react-icons/fa";
 
 export default function Profile() {
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(currentUser);
   const [files, setFiles] = useState("");
-  const [SelectedDay, setSelectedDay] = useState("");
+  const [SelectedDay, setSelectedDay] = useState(new Date(user.Birthday));
 
   // declaration fields in form
   const [inputField, setInputField] = useState({
@@ -34,12 +29,6 @@ export default function Profile() {
     District: user.District,
     City: user.City,
     Gender: user.Gender,
-  });
-
-  // declaration error
-  const [errField, setErrField] = useState({
-    EmailErr: "",
-    PasswordErr: "",
   });
 
   const InputHandler = (e) => {
@@ -159,205 +148,179 @@ export default function Profile() {
           </div>
           {/* phần thông tin liên hệ  */}
           <div className="right-profile">
-            <div className="child-right">
-              <div className="items-profile">
-                <div className="action-profile">
-                  <form>
-                    <label htmlFor="file" className="button-profile">
-                      <input
-                        type="file"
-                        id="file"
-                        multiple
-                        style={{ display: "none" }}
-                        onChange={(e) => setFiles(e.target.files)}
-                      ></input>
-                      <ImageIcon className="icon-input" />
-                    </label>
-                  </form>
-                  <button className="button-profile" onClick={UpdateAvatar}>
-                    <SaveIcon className="icon-input" />
-                  </button>
-                </div>
+            <div className="items-profile">
+              <div className="action-profile">
+                <form>
+                  <label htmlFor="file" className="button-profile">
+                    Choose Image
+                    <input
+                      type="file"
+                      id="file"
+                      multiple
+                      style={{ display: "none" }}
+                      onChange={(e) => setFiles(e.target.files)}
+                    ></input>
+                  </label>
+                </form>
+                <button className="button-profile" onClick={UpdateAvatar}>
+                  Save
+                </button>
               </div>
-              {/* phần form để cập nhật thông tin  */}
-              <form action="submit">
-                <div className="items-profile">
-                  <Items value={"Name"} />
-                  <div className="input-container-address">
-                    <span className="icon-input">
-                      <BadgeIcon />
-                    </span>
-                    <input
-                      className="input-address"
-                      name="Name"
-                      autoComplete="off"
-                      onChange={InputHandler}
-                      required
-                      value={inputField.Name}
-                      type="text"
-                      placeholder={user.Name}
-                    />
-                  </div>
+            </div>
+            {/* phần form để cập nhật thông tin  */}
+            <form action="submit">
+              <div className="profile-information">
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <MdDriveFileRenameOutline />
+                  </span>
+                  <input
+                    className="input-profile"
+                    name="Name"
+                    autoComplete="off"
+                    onChange={InputHandler}
+                    required
+                    value={inputField.Name}
+                    type="text"
+                    placeholder="Name"
+                  />
                 </div>
-                <div className="items-profile">
-                  <Items value={"Telephone"} />
-                  <div className="input-container-address">
-                    <span className="icon-input">
-                      <CallIcon />
-                    </span>
-                    <input
-                      className="input-address"
-                      name="Telephone"
-                      autoComplete="off"
-                      onChange={InputHandler}
-                      required
-                      value={inputField.Telephone}
-                      type="text"
-                    />
-                  </div>
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <BsTelephoneOutbound />
+                  </span>
+                  <input
+                    className="input-profile"
+                    name="Telephone"
+                    autoComplete="off"
+                    onChange={InputHandler}
+                    required
+                    value={inputField.Telephone}
+                    type="text"
+                    placeholder="Telephone"
+                  />
                 </div>
-                <div className="items-profile">
-                  <Items value={"Email"} />
-                  <div className="input-container-address">
-                    <span className="icon-input">
-                      <EmailIcon />
-                    </span>
-                    <input
-                      className="input-address"
-                      name="Email"
-                      autoComplete="off"
-                      onChange={InputHandler}
-                      required
-                      value={inputField.Email}
-                      type="email"
-                    />
-                  </div>
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <MdOutlineEmail />
+                  </span>
+                  <input
+                    className="input-profile"
+                    name="Email"
+                    autoComplete="off"
+                    onChange={InputHandler}
+                    required
+                    value={inputField.Email}
+                    type="email"
+                    placeholder="Email"
+                  />
                 </div>
 
-                <div className="double-items">
-                  <div className="items-profile">
-                    <Items value={"Number"} />
-                    <div className="input-container-address">
-                      <span className="icon-input">
-                        <LocationCityIcon />
-                      </span>
-                      <input
-                        className="input-address"
-                        name="Number"
-                        autoComplete="off"
-                        onChange={InputHandler}
-                        required
-                        value={inputField.Number}
-                        type="text"
-                        placeholder={user.Number}
-                      />
-                    </div>
-                  </div>
-                  <div className="items-profile">
-                    <Items value={"Street"} />
-                    <div className="input-container-address">
-                      <span className="icon-input">
-                        <LocationCityIcon />
-                      </span>
-                      <input
-                        className="input-address"
-                        name="Street"
-                        autoComplete="off"
-                        onChange={InputHandler}
-                        required
-                        value={inputField.Street}
-                        type="text"
-                        placeholder={user.Street}
-                      />
-                    </div>
-                  </div>
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <FaAddressCard />
+                  </span>
+                  <input
+                    className="input-profile"
+                    name="Number"
+                    autoComplete="off"
+                    onChange={InputHandler}
+                    required
+                    value={inputField.Number}
+                    type="text"
+                    placeholder="Number"
+                  />
                 </div>
-                <div className="double-items">
-                  <div className="items-profile">
-                    <Items value={"District"} />
-                    <div className="input-container-address">
-                      <span className="icon-input">
-                        <LocationCityIcon />
-                      </span>
-                      <input
-                        className="input-address"
-                        name="District"
-                        autoComplete="off"
-                        onChange={InputHandler}
-                        required
-                        value={inputField.District}
-                        type="text"
-                        placeholder={user.District}
-                      />
-                    </div>
-                  </div>
-                  <div className="items-profile">
-                    <Items value={"City"} />
-                    <div className="input-container-address">
-                      <span className="icon-input">
-                        <LocationCityIcon />
-                      </span>
-                      <input
-                        className="input-address"
-                        name="City"
-                        autoComplete="off"
-                        onChange={InputHandler}
-                        required
-                        value={inputField.City}
-                        type="text"
-                        placeholder={user.City}
-                      />
-                    </div>
-                  </div>
+
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <FaAddressCard />
+                  </span>
+                  <input
+                    className="input-profile"
+                    name="Street"
+                    autoComplete="off"
+                    onChange={InputHandler}
+                    required
+                    value={inputField.Street}
+                    type="text"
+                    placeholder="Street"
+                  />
                 </div>
-                <div className="double-items">
-                  <div className="items-profile">
-                    <Items value={"Gender"} />
-                    <div className="input-container-address">
-                      <span className="icon-input">
-                        <ManIcon />
-                      </span>
-                      <select
-                        name="Gender"
-                        id="selects"
-                        className="input-address"
-                        onChange={InputHandler}
-                        value={inputField.Gender}
-                      >
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other genders">Other genders</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="items-profile">
-                    <Items value={"Birthday"} />
-                    <div className="input-container-address">
-                      <span className="icon-input">
-                        <CakeIcon />
-                      </span>
-                      <DatePicker
-                        className="input-address"
-                        name="Birthday"
-                        value={user.Birthday}
-                        selected={SelectedDay}
-                        onChange={(date) => setSelectedDay(date)}
-                        onSelect={(date) => setSelectedDay(date)}
-                        dateFormat="dd/MM/yyyy"
-                        maxDate={new Date()}
-                        showYearDropdown
-                        scrollableYearDropdown
-                      />
-                    </div>
-                  </div>
+
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <FaAddressCard />
+                  </span>
+                  <input
+                    className="input-profile"
+                    name="District"
+                    autoComplete="off"
+                    onChange={InputHandler}
+                    required
+                    value={inputField.District}
+                    type="text"
+                    placeholder="District"
+                  />
                 </div>
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <FaAddressCard />
+                  </span>
+                  <input
+                    className="input-profile"
+                    name="City"
+                    autoComplete="off"
+                    onChange={InputHandler}
+                    required
+                    value={inputField.City}
+                    type="text"
+                    placeholder="City"
+                  />
+                </div>
+
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <BsGenderAmbiguous />
+                  </span>
+                  <select
+                    name="Gender"
+                    id="selects"
+                    className="input-profile"
+                    onChange={InputHandler}
+                    value={inputField.Gender}
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other genders">Other genders</option>
+                  </select>
+                </div>
+                <div className="input-container-profile">
+                  <span className="icon-input">
+                    <FaBirthdayCake />
+                  </span>
+                  <DatePicker
+                    className="input-profile"
+                    name="Birthday"
+                    value={SelectedDay}
+                    selected={SelectedDay}
+                    onChange={(date) => setSelectedDay(date)}
+                    onSelect={(date) => setSelectedDay(date)}
+                    dateFormat="dd/MM/yyyy"
+                    maxDate={new Date()}
+                    showYearDropdown
+                    scrollableYearDropdown
+                    placeholder={user.Birthday}
+                  />
+                </div>
+
                 <div className="action-profile">
                   <button className="save-profile" onClick={submitHandler}>
                     Save
                   </button>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
