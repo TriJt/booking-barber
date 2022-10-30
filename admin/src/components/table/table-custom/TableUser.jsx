@@ -29,6 +29,10 @@ export default function TableUser({
           mb: 3,
           ml: 2,
           fontSize: 20,
+          fontFamily: "Barlow Condensed, Arial, sans-serif ",
+          textTransform: "uppercase",
+          letterSpacing: 2,
+          fontWeight: 600,
           color: "#CE9461",
         }}
       >

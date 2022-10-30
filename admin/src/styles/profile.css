@@ -43,10 +43,11 @@
   border: 1px solid var(--color-header);
   cursor: pointer;
   padding: 12px;
-  font-size: 14px;
+  font-size: 16px;
   border-radius: 5px;
   width: fit-content;
   margin-right: 10px;
+  font-family: var(--family-header);
   transition: background-color 0.4s ease, color 0.4s;
   transition-timing-function: ease;
 }
@@ -119,6 +120,7 @@
   border: 1px solid var(--color-header);
   transition: background-color 0.4s ease, color 0.4s;
   transition-timing-function: ease;
+  background-color: transparent;
 }
 .save-profile:hover {
   background-color: var(--color-header);

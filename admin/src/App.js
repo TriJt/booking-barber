@@ -35,7 +35,7 @@ export default function App() {
         <Route path="/customer" element={<Customer />} />
         <Route path="/service" element={<Services />} />
         <Route path="/staff" element={<Staff />} />
-        <Route path="/posts" element={<Posts />} />
+        <Route path="/post" element={<Posts />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/login" element={<Login />} />

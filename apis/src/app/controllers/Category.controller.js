@@ -76,9 +76,15 @@ export const GetTitleCategory = async (req, res) => {
   const responseType = {};
   if (Category) {
     const category = await Category.find();
+    const length = category.length;
+    let totalPrice = [];
+    for (let i = 0; i < length; i++) {
+      const price = category[i].Title;
+      totalPrice.push(price);
+    }
     responseType.message = "Get customer successfully";
     responseType.status = 200;
-    responseType.value = category;
+    responseType.value = totalPrice;
   } else {
     responseType.message = "We have error in somewhere";
     responseType.status = 404;

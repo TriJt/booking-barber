@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "../../styles/staff.css";
+import "../../styles/service.css";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
-
 import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
 
@@ -14,7 +14,8 @@ export default function Services() {
   const [dataService, setDataService] = useState("");
   const [rowId, setRowId] = useState("");
   const [open, setOpen] = useState(false);
-
+  const [files, setFiles] = useState("");
+  const [category, setCategory] = useState([]);
   //effect data staff
   useEffect(() => {
     const fetchService = async () => {
@@ -26,6 +27,19 @@ export default function Services() {
       }
     };
     fetchService();
+  }, []);
+
+  // fetch title category
+  useEffect(() => {
+    const fetchTitleCategory = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/api/category/title");
+        setCategory(res.data.value);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchTitleCategory();
   }, []);
 
   const Delete = ({ params }) => {
@@ -116,15 +130,13 @@ export default function Services() {
 
   const Modal = ({ open, onClose, rowId }) => {
     const [dataService, setDataService] = useState([]);
-    const [files, setFiles] = useState("");
-    const [image, setImage] = useState([]);
+
     useEffect(() => {
       const fetchData = async () => {
         const res = await axios.get(
           "http://localhost:8800/api/service?ServiceId=" + rowId
         );
         setDataService(res.data.value);
-        console.log(image);
       };
       fetchData();
     }, [rowId]);
@@ -167,7 +179,7 @@ export default function Services() {
           toast.error("Update in SessionStorage Failed");
         }
       } catch (err) {
-        toast.error("Can get picture from Cloud ");
+        toast.error("Can get picture from Cloud");
       }
     };
 
@@ -251,6 +263,8 @@ export default function Services() {
         headerName: "Category",
         width: 90,
         editable: true,
+        // type: "singleSelect",
+        // valueOptions: [category],
       },
       {
         field: "save",
@@ -279,12 +293,67 @@ export default function Services() {
     ],
     [rowId]
   );
-  console.log(dataService);
+  // create new service
+  const [inputField, setInputField] = useState({
+    Name_Service: "",
+    Price: "",
+    Description: "",
+    Category: "",
+    Image: "",
+  });
+
+  const InputHandler = (e) => {
+    setInputField({ ...inputField, [e.target.name]: e.target.value });
+  };
+
+  const CreateNewService = async (e) => {
+    e.preventDefault();
+    try {
+      const list = await Promise.all(
+        Object.values(files).map(async (file) => {
+          const data = new FormData();
+          data.append("file", file);
+          data.append("upload_preset", "social0722");
+          const uploadRes = await axios.post(
+            "https://api.cloudinary.com/v1_1/johnle/image/upload",
+            data
+          );
+          const { url } = uploadRes.data;
+          return url;
+        })
+      );
+      const service = {
+        Name_Service: inputField.Name_Service,
+        Price: inputField.Price,
+        Image: list,
+        Description: inputField.Description,
+        Category: inputField.Category,
+      };
+      try {
+        const response = await axios.post(
+          "http://localhost:8800/api/service/add",
+          service
+        );
+        const record = response.data;
+        setDataService(record.value);
+        if (record.status === 200) {
+          toast.success(record.message);
+        } else {
+          toast.error(record.message);
+        }
+      } catch (err) {
+        toast.error("Update in SessionStorage Failed");
+      }
+    } catch (err) {
+      toast.error("Can get picture from Cloud");
+    }
+  };
+
   return (
     <div className="container">
       {/* container for sidebar */}
       <Modal open={open} onClose={() => setOpen(false)} rowId={rowId} />
-
+      <ToastContainer />
       <div className="left-container">
         <Sidebar />
       </div>
@@ -296,7 +365,6 @@ export default function Services() {
         {/* phần thông tin của staff */}
         <div className="bottom-profile">
           <div className="staff">
-            <ToastContainer />
             <TableUser
               title={"Manager Service"}
               column={columns}
@@ -304,6 +372,83 @@ export default function Services() {
               rowId={rowId}
               setRowId={setRowId}
             />
+          </div>
+        </div>
+        <div className="create-service-container">
+          <div className="left-service"></div>
+          <div className="right-service">
+            <form>
+              <div className="left-create">
+                {files && (
+                  <img
+                    src={URL.createObjectURL(files[0])}
+                    alt=""
+                    className="service-new-image"
+                  />
+                )}
+              </div>
+              <div className="right-create">
+                <h3 className="header-service"> Create new service</h3>
+                <div className="btn-service">
+                  <label htmlFor="file" className="button-profile">
+                    Choose Image
+                    <input
+                      type="file"
+                      id="file"
+                      multiple
+                      style={{ display: "none" }}
+                      onChange={(e) => setFiles(e.target.files)}
+                    ></input>
+                  </label>
+                  <label
+                    className="button-profile"
+                    onClick={() => setFiles(null)}
+                  >
+                    Close
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  className="input-service"
+                  name="Name_Service"
+                  placeholder="Service"
+                  value={inputField.Name_Service}
+                  onChange={InputHandler}
+                />
+                <input
+                  type="number"
+                  className="input-service"
+                  name="Price"
+                  placeholder="Price"
+                  value={inputField.Price}
+                  onChange={InputHandler}
+                />
+                <textarea
+                  type="text"
+                  className="textarea-service"
+                  name="Description"
+                  placeholder="Description"
+                  value={inputField.Description}
+                  onChange={InputHandler}
+                />
+                <select
+                  name="Category"
+                  id=""
+                  value={inputField.Category}
+                  className="select-service"
+                  onChange={InputHandler}
+                >
+                  {category.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <button className="button-profile" onClick={CreateNewService}>
+                  Create
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
