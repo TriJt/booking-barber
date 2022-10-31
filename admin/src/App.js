@@ -10,6 +10,7 @@ import {
 import Home from "./pages/home/Home";
 import Booking from "./pages/booking/Booking";
 import Customer from "./pages/customer/Customer";
+import Category from "./pages/category/Category";
 import Services from "./pages/services/Services";
 import Staff from "./pages/staff/Staff";
 import Contact from "./pages/contact/Contact";
@@ -33,6 +34,7 @@ export default function App() {
         <Route exact path="/home" element={user ? <Home /> : <Login />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/customer" element={<Customer />} />
+        <Route path="/category" element={<Category />} />
         <Route path="/service" element={<Services />} />
         <Route path="/staff" element={<Staff />} />
         <Route path="/post" element={<Posts />} />
@@ -78,6 +80,12 @@ export default function App() {
         />
         <Route
           path="/service/profile/:Name"
+          element={
+            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
+          }
+        />
+        <Route
+          path="/category/profile/:Name"
           element={
             user ? <Navigate replace to="/profile/:Name" /> : <Profile />
           }

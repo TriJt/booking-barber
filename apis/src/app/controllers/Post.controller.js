@@ -8,6 +8,7 @@ export const CreatePost = async (req, res) => {
       Service: input.Service,
       Title: input.Title,
       Content: input.Content,
+      Image: input.Image,
       Note: input.Note,
     });
     const save = await newPost.save();

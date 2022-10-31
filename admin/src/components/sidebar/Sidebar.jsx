@@ -59,6 +59,12 @@ export default function Sidebar() {
               <div className="item-sidebar">Booking</div>
             </div>
           </NavLink>
+          <NavLink to={`/category`} className="Link">
+            <div className="items-sidebar">
+              <DiscountIcon className="icon" />
+              <div className="item-sidebar">Category</div>
+            </div>
+          </NavLink>
           <NavLink to={`/service`} className="Link">
             <div className="items-sidebar">
               <DiscountIcon className="icon" />
@@ -99,7 +105,13 @@ export default function Sidebar() {
               <div className="item-sidebar">Booking</div>
             </div>
           </NavLink>
-          <NavLink to={`/service`} className="">
+          <NavLink to={`/category`} className="Link">
+            <div className="items-sidebar">
+              <DiscountIcon className="icon" />
+              <div className="item-sidebar">Category</div>
+            </div>
+          </NavLink>
+          <NavLink to={`/service`} className="Link">
             <div className="items-sidebar">
               <DiscountIcon className="icon" />
               <div className="item-sidebar">Services</div>

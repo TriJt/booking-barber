@@ -44,8 +44,16 @@ export const UpdateCategory = async (req, res) => {
 //delete category and delete all service in category
 export const DeleteCategory = async (req, res) => {
   const responseType = {};
+  const service = req.body.Category;
   try {
-    const service = await Category.findByIdAndDelete(req.params.id);
+    try {
+      const services = await Service.deleteMany(service);
+    } catch (error) {
+      responseType.statusText = "Failed";
+      responseType.message = "Delete service Failed";
+      responseType.status = 500;
+    }
+    const category = await Category.findByIdAndDelete(req.params.id);
     responseType.statusText = "Success";
     responseType.message = "Delete Successfully";
     responseType.status = 200;

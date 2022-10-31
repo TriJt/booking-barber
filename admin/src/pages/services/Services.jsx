@@ -11,7 +11,7 @@ import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
 
 export default function Services() {
-  const [dataService, setDataService] = useState("");
+  const [dataService, setDataService] = useState([]);
   const [rowId, setRowId] = useState("");
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState("");
@@ -77,24 +77,23 @@ export default function Services() {
     );
   };
 
-  const Save = ({ params, rowId, setRowId }) => {
+  const Save = ({ params }) => {
     const handleSubmit = async () => {
       const data = {
-        ServiceId: params.row._id,
         Name_Service: params.row.Name_Service,
         Price: params.row.Price,
         Description: params.row.Description,
         Category: params.row.Category,
       };
       const response = await axios.put(
-        "http://localhost:8800/api/service/update/" + rowId,
+        "http://localhost:8800/api/service/update/" + params.row._id,
         data
       );
       const record = response.data;
-      if (record.statusText === "Success") {
+      if (record.status === 200) {
         toast.success("Update information successfully");
       } else {
-        toast.error("Delete information failed");
+        toast.error("Update information failed");
       }
     };
 
@@ -170,7 +169,7 @@ export default function Services() {
           );
           const record = response.data;
           setDataService(record.value);
-          if (record.statusText === "Success") {
+          if (record.status === 200) {
             toast.success(record.message);
           } else {
             toast.error(record.message);
@@ -298,7 +297,7 @@ export default function Services() {
     Name_Service: "",
     Price: "",
     Description: "",
-    Category: "",
+    Category: category[0],
     Image: "",
   });
 
@@ -335,18 +334,32 @@ export default function Services() {
           service
         );
         const record = response.data;
-        setDataService(record.value);
+        const newData = record.value;
+        setDataService([...dataService, newData]);
+        setFiles(null);
+        // ResetInput();
         if (record.status === 200) {
           toast.success(record.message);
         } else {
           toast.error(record.message);
         }
       } catch (err) {
-        toast.error("Update in SessionStorage Failed");
+        toast.error("Update is Failed");
       }
     } catch (err) {
       toast.error("Can get picture from Cloud");
     }
+  };
+
+  const Clear = () => {
+    setFiles(null);
+    setInputField({
+      Name_Service: "",
+      Price: "",
+      Description: "",
+      Category: category[0],
+      Image: "",
+    });
   };
 
   return (
@@ -400,10 +413,7 @@ export default function Services() {
                       onChange={(e) => setFiles(e.target.files)}
                     ></input>
                   </label>
-                  <label
-                    className="button-profile"
-                    onClick={() => setFiles(null)}
-                  >
+                  <label className="button-profile" onClick={Clear}>
                     Close
                   </label>
                 </div>
@@ -433,7 +443,6 @@ export default function Services() {
                 />
                 <select
                   name="Category"
-                  id=""
                   value={inputField.Category}
                   className="select-service"
                   onChange={InputHandler}

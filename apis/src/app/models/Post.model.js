@@ -12,6 +12,9 @@ const PostSchema = new Schema(
     Content: {
       type: String,
     },
+    Image: {
+      type: [String],
+    },
     Note: {
       type: String,
     },

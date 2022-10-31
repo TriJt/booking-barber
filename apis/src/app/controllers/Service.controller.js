@@ -35,14 +35,13 @@ export const CreateService = async (req, res) => {
 };
 // update information of Service
 export const UpdateService = async (req, res) => {
-  const input = req.body;
   const responseType = {};
   // check input
-  if (req.body.ServiceId === req.params.id) {
+  try {
     const service = await Service.findByIdAndUpdate(
       req.params.id,
       {
-        $set: input,
+        $set: req.body,
       },
       {
         new: true,
@@ -54,7 +53,7 @@ export const UpdateService = async (req, res) => {
     responseType.message = "Update successfully";
     responseType.status = 200;
     responseType.value = save;
-  } else {
+  } catch (err) {
     responseType.statusText = "Error";
     responseType.message = "Update Failed ";
     responseType.status = 404;
