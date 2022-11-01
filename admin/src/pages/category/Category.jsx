@@ -188,31 +188,53 @@ export default function Category() {
   const InputHandler = (e) => {
     setInputField({ ...inputField, [e.target.name]: e.target.value });
   };
+  const [errField, setErrField] = useState({
+    TitleErr: "",
+  }); // validate form before handClick action
+  const validateForm = () => {
+    let formValid = true;
+    setInputField({
+      TitleErr: "",
+    });
+    if (inputField.Title === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        TitleErr: "Please Enter Title !!",
+      }));
+    }
+
+    return formValid;
+  };
 
   const CreateCategory = async (e) => {
     e.preventDefault();
-
-    const category = {
-      Title: inputField.Title,
-    };
-    try {
-      const response = await axios.post(
-        "http://localhost:8800/api/category/add",
-        category
-      );
-      const record = response.data;
-      const newData = record.value;
-      setDataCategory([...dataCategory, newData]);
-      setInputField({
-        Title: "",
-      });
-      if (record.status === 200) {
-        toast.success(record.message);
-      } else {
-        toast.error(record.message);
+    if (validateForm()) {
+      const category = {
+        Title: inputField.Title,
+      };
+      try {
+        const response = await axios.post(
+          "http://localhost:8800/api/category/add",
+          category
+        );
+        const record = response.data;
+        const newData = record.value;
+        setDataCategory([...dataCategory, newData]);
+        setInputField({
+          Title: "",
+        });
+        setErrField({
+          TitleErr: "",
+        });
+        if (record.status === 200) {
+          toast.success(record.message);
+        } else {
+          toast.error(record.message);
+        }
+      } catch (err) {
+        toast.error("Update is Failed");
       }
-    } catch (err) {
-      toast.error("Update is Failed");
     }
   };
 
@@ -247,7 +269,6 @@ export default function Category() {
             <form>
               <div className="right-create">
                 <h3 className="header-service"> Create new category</h3>
-
                 <input
                   type="text"
                   className="input-service"
@@ -256,6 +277,9 @@ export default function Category() {
                   value={inputField.Title}
                   onChange={InputHandler}
                 />
+                {errField.TitleErr.length > 0 && (
+                  <span className="error">{errField.TitleErr} </span>
+                )}
                 <button className="button-profile" onClick={CreateCategory}>
                   Create
                 </button>

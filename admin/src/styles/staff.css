@@ -4,8 +4,28 @@
   padding-bottom: 75px;
   padding-left: 0px;
 }
-.staff-bottom {
+.bottom-staff {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+}
+
+.left-staff,
+.right-staff {
+  height: auto;
+  background-color: var(--background);
+  -webkit-box-shadow: var(--webkit);
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+}
+.left-staff {
+  width: 44%;
+}
+.right-staff {
+  width: 54%;
+  display: flex;
+}
+.right-staff form {
+  width: 100%;
+  display: flex;
 }

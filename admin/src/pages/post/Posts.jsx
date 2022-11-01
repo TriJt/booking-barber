@@ -207,6 +207,63 @@ export default function Posts({ placeholder }) {
     [rowId]
   );
 
+  const [errField, setErrField] = useState({
+    NameServiceErr: "",
+    PriceErr: "",
+    DescriptionErr: "",
+    CategoryErr: "",
+    ImageErr: "",
+  });
+
+  // validate form before handClick action
+  const validateForm = () => {
+    let formValid = true;
+    setInputField({
+      NameServiceErr: "",
+      PriceErr: "",
+      DescriptionErr: "",
+      CategoryErr: "",
+      ImageErr: "",
+    });
+    if (inputField.Name_Service === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        NameServiceErr: "Please Enter Services !!",
+      }));
+    }
+    if (inputField.Price === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        PriceErr: "Please Enter Price !!",
+      }));
+    }
+    if (inputField.Description === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        DescriptionErr: "Please Enter Description!!",
+      }));
+    }
+    if (inputField.Category === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        CategoryErr: "Please Choose Category !!",
+      }));
+    }
+    if (inputField.Image === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        ImageErr: "Please Choose Image !!",
+      }));
+    }
+
+    return formValid;
+  };
+
   // create new post
 
   const CreateNewPost = async (e) => {
