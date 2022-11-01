@@ -48,7 +48,7 @@
   font-family: var(--family-header);
 }
 .service-new-image {
-  height: 304px;
+  height: 100%;
   width: 100%;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -93,4 +93,15 @@
   border-radius: 4px;
   background-color: transparent;
   border: 1px solid var(--color-header);
+}
+.no-image-service {
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  margin: 5px;
+  border: 1px solid var(--color-header);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }

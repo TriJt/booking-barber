@@ -50,3 +50,14 @@
   justify-content: center;
   display: flex;
 }
+.bottom-post {
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 20px;
+  justify-content: left;
+  display: flex;
+  height: auto;
+}
+.button-div {
+  padding: 20px;
+}

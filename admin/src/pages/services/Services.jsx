@@ -16,6 +16,17 @@ export default function Services() {
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState("");
   const [category, setCategory] = useState([]);
+  const [inputField, setInputField] = useState({
+    Name_Service: "",
+    Price: "",
+    Description: "",
+    Category: category[0],
+    Image: "",
+  });
+
+  const InputHandler = (e) => {
+    setInputField({ ...inputField, [e.target.name]: e.target.value });
+  };
   //effect data staff
   useEffect(() => {
     const fetchService = async () => {
@@ -293,17 +304,6 @@ export default function Services() {
     [rowId]
   );
   // create new service
-  const [inputField, setInputField] = useState({
-    Name_Service: "",
-    Price: "",
-    Description: "",
-    Category: category[0],
-    Image: "",
-  });
-
-  const InputHandler = (e) => {
-    setInputField({ ...inputField, [e.target.name]: e.target.value });
-  };
 
   const CreateNewService = async (e) => {
     e.preventDefault();
@@ -336,7 +336,9 @@ export default function Services() {
         const record = response.data;
         const newData = record.value;
         setDataService([...dataService, newData]);
-        setFiles(null);
+        Clear();
+        // setFiles(null);
+        // setInputField(inputField);
         // ResetInput();
         if (record.status === 200) {
           toast.success(record.message);
@@ -392,12 +394,16 @@ export default function Services() {
           <div className="right-service">
             <form>
               <div className="left-create">
-                {files && (
+                {files ? (
                   <img
                     src={URL.createObjectURL(files[0])}
                     alt=""
                     className="service-new-image"
                   />
+                ) : (
+                  <div className="no-image-service">
+                    <span className="header-service"> image</span>
+                  </div>
                 )}
               </div>
               <div className="right-create">

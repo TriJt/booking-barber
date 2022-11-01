@@ -8,11 +8,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  AiFillEye,
-  AiFillEyeInvisible,
-  AiOutlineArrowRight,
-} from "react-icons/ai";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router";
 
 // send email to user and change page to resetPassword. OTP from mail will code to create new password to user forgot

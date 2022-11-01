@@ -8,23 +8,34 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
+import TextEditor from "../../components/Editor/TextEditor";
 
-export default function Posts() {
+export default function Posts({ placeholder }) {
   const [data, setData] = useState([]);
   const [services, SetServices] = useState([]);
   const [rowId, setRowId] = useState("");
   const [files, setFiles] = useState("");
-
   const [update, setUpdate] = useState(false);
+  const [content, setContent] = useState("");
 
   // create new post
   const [inputField, setInputField] = useState({
-    Service: "",
+    Service: services[0],
     Title: "",
-    Content: "",
     Note: "",
     Image: "",
   });
+  // clear after create new post
+  const Clear = () => {
+    setFiles(null);
+    setInputField({
+      Service: services[0],
+      Title: "",
+      Note: "",
+      Image: "",
+    });
+    setContent("");
+  };
 
   const InputHandler = (e) => {
     setInputField({ ...inputField, [e.target.name]: e.target.value });
@@ -60,14 +71,10 @@ export default function Posts() {
   const Delete = ({ params }) => {
     const handleDelete = async () => {
       const data = params.row._id;
-      const categoryName = params.row.Category;
       const response = await axios.delete(
-        "http://localhost:8800/api/service/delete/" + data,
-        categoryName
+        "http://localhost:8800/api/post/delete/" + data
       );
-      const fetchData = await axios.get(
-        "http://localhost:8800/api/service/all"
-      );
+      const fetchData = await axios.get("http://localhost:8800/api/post/all");
 
       const record = response.data;
       if (record.status === 200) {
@@ -95,13 +102,12 @@ export default function Posts() {
   const Save = ({ params }) => {
     const handleSubmit = async () => {
       const data = {
-        Name_Service: params.row.Name_Service,
-        Price: params.row.Price,
-        Description: params.row.Description,
-        Category: params.row.Category,
+        Title: params.row.Title,
+        Service: params.row.Service,
+        Note: params.row.Note,
       };
       const response = await axios.put(
-        "http://localhost:8800/api/service/update/" + params.row._id,
+        "http://localhost:8800/api/post/update/" + params.row._id,
         data
       );
       const record = response.data;
@@ -203,6 +209,51 @@ export default function Posts() {
 
   // create new post
 
+  const CreateNewPost = async (e) => {
+    e.preventDefault();
+    try {
+      const list = await Promise.all(
+        Object.values(files).map(async (file) => {
+          const data = new FormData();
+          data.append("file", file);
+          data.append("upload_preset", "social0722");
+          const uploadRes = await axios.post(
+            "https://api.cloudinary.com/v1_1/johnle/image/upload",
+            data
+          );
+          const { url } = uploadRes.data;
+          return url;
+        })
+      );
+      const post = {
+        Title: inputField.Title,
+        Service: inputField.Service,
+        Image: list,
+        Note: inputField.Note,
+        Content: content,
+      };
+      try {
+        const response = await axios.post(
+          "http://localhost:8800/api/post/add",
+          post
+        );
+        const record = response.data;
+        const newData = record.value;
+        setData([...data, newData]);
+        Clear();
+        if (record.status === 200) {
+          toast.success(record.message);
+        } else {
+          toast.error(record.message);
+        }
+      } catch (err) {
+        toast.error("Add is Failed");
+      }
+    } catch (err) {
+      toast.error("Can get picture from Cloud");
+    }
+  };
+
   return (
     <div className="container">
       <ToastContainer />
@@ -260,14 +311,14 @@ export default function Posts() {
                     onChange={InputHandler}
                   />
                   <select
-                    name="Category"
+                    name="Service"
                     id=""
-                    value={inputField.Category}
+                    value={inputField.Service}
                     className="select-service"
                     onChange={InputHandler}
                   >
                     {services.map((option) => (
-                      <option key={option} value={option}>
+                      <option key={option} value={option.Name_Service}>
                         {option.Name_Service}
                       </option>
                     ))}
@@ -290,25 +341,19 @@ export default function Posts() {
                     />
                   ) : (
                     <div className="no-image">
-                      <span className="header-service"> No image</span>
+                      <span className="header-service">image</span>
                     </div>
                   )}
                 </div>
               </div>
               <div className="bottom-post">
-                <textarea
-                  type="text"
-                  className="textarea-service"
-                  name="Description"
-                  placeholder="Description"
-                  value={inputField.Description}
-                  onChange={InputHandler}
-                />
+                <TextEditor setContent={setContent} intialValue={content} />
               </div>
-
-              {/* <button className="button-profile" onClick={CreateNewService}>
-                Create
-              </button> */}
+              <div className="button-div">
+                <button className="button-profile" onClick={CreateNewPost}>
+                  Create
+                </button>
+              </div>
             </div>
           </form>
         </div>

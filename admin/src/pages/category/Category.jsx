@@ -7,15 +7,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
-import { Avatar } from "@mui/material";
+
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
 
 export default function Category() {
   const [dataCategory, setDataCategory] = useState([]);
   const [rowId, setRowId] = useState("");
   const [open, setOpen] = useState(false);
-  const [files, setFiles] = useState("");
-  const [category, setCategory] = useState([]);
   //effect data staff
   useEffect(() => {
     const fetchCategory = async () => {
@@ -124,7 +122,6 @@ export default function Category() {
       fetchData();
     }, [category]);
 
-    console.log(dataService);
     if (!open) return null;
 
     return (
@@ -206,6 +203,9 @@ export default function Category() {
       const record = response.data;
       const newData = record.value;
       setDataCategory([...dataCategory, newData]);
+      setInputField({
+        Title: "",
+      });
       if (record.status === 200) {
         toast.success(record.message);
       } else {
