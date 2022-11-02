@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function TableUser({
-  title,
-  row,
-  column,
-  rowId,
-  setDeleted,
-  deletedId,
-  setRowId,
-}) {
+export default function TableUser({ title, row, column, setRowId }) {
   const [pageSize, setPageSize] = useState(5);
   return (
     <Box

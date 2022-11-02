@@ -22,7 +22,7 @@ router.delete("/delete/:id", DeleteService);
 router.get("/all", GetServices);
 
 // get service by name category
-router.get("/category", GetServicesByCategoryName);
+router.get("/category/", GetServicesByCategoryName);
 
 // get Service by id
 router.get("/", GetServiceById);

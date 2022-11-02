@@ -24,9 +24,6 @@ router.put("/update/:id", UpdateStaff);
 // delete Staff
 router.delete("/delete/:id", DeleteStaff);
 
-// get Staff by id
-router.get("/", GetStaffById);
-
 // get all Staff by id
 router.get("/all", GetStaffs);
 
@@ -35,5 +32,7 @@ router.get("/time", GetTime);
 
 // get all of date
 router.get("/date-all", GetAllDate);
+// get Staff by id
+router.get("/get/:id", GetStaffById);
 
 export default router;

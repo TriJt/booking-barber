@@ -1,0 +1,45 @@
+
+
+1. Staff
+Armani Bailey
+Holden Thompson
+Louis Douglas
+Raymond Lindsey
+Maximus Cox
+Davis Garcia
+Wade Ramos
+Taylor James
+Sebastian Johnson
+Greyson Cox
+
+armanibailey.staff@gmail.com
+holdenthompson.staff@gmail.com
+louisdouglas.staff@gmail.com
+raymondlindsey.staff@gmail.com
+maximuscox.staff@gmail.com
+davisgarcia.staff@gmail.com
+waderamos.staff@gmail.com
+taylorjames.staff@gmail.com
+sebastianjohnson.staff@gmail.com
+greysoncox.staff@gmail.com
+
+
+2. Services
+"Name_Service": "Shave ",
+  "Price": 40,
+  "Description": "Done by professional barber, gentle, comfortable",
+  "Image": [
+    "http://res.cloudinary.com/johnle/image/upload/v1667401245/upload/p7mutjzwvzcuv4yk8alx.jpg"
+  ],
+  "Category": "Shave",
+
+"Name_Service": "Shave ",
+  "Price": 40,
+  "Description": "\nDone by professional barber, gentle, comfortable",
+  "Image": [
+    "http://res.cloudinary.com/johnle/image/upload/v1667401245/upload/p7mutjzwvzcuv4yk8alx.jpg"
+  ],
+  "Category": "Shave",
+
+  
+

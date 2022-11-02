@@ -7,10 +7,19 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router";
 
 export default function TopBar() {
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(currentUser);
+
+  const history = useNavigate();
+  // Log out button
+  const LogoutHandle = () => {
+    window.sessionStorage.clear();
+    window.location.reload();
+    history("/login");
+  };
 
   return (
     <div className="topBar">
@@ -54,7 +63,7 @@ export default function TopBar() {
               {/* </Link> */}
             </li>
             {/* Quay lại trang cá nhân và xóa dữ liệu có trong localStorage */}
-            <li className="top-dropdown-item">
+            <li className="top-dropdown-item" onClick={LogoutHandle}>
               <LogoutOutlinedIcon />
               <span className="dropdown-text">Log out</span>
             </li>

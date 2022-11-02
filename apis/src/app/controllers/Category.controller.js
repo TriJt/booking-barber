@@ -20,12 +20,12 @@ export const CreateCategory = async (req, res) => {
 // update category
 export const UpdateCategory = async (req, res) => {
   const responseType = {};
-  const input = req.body;
+
   try {
     const category = await Category.findByIdAndUpdate(
       req.params.id,
       {
-        $set: input,
+        $set: req.body,
       },
       {
         new: true,

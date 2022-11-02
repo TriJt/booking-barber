@@ -32,13 +32,13 @@ export default function App() {
         />
 
         <Route exact path="/home" element={user ? <Home /> : <Login />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/customer" element={<Customer />} />
-        <Route path="/category" element={<Category />} />
-        <Route path="/service" element={<Services />} />
-        <Route path="/staff" element={<Staff />} />
-        <Route path="/post" element={<Posts />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/booking" element={user ? <Booking /> : <Login />} />
+        <Route path="/customer" element={user ? <Customer /> : <Login />} />
+        <Route path="/category" element={user ? <Category /> : <Login />} />
+        <Route path="/service" element={user ? <Services /> : <Login />} />
+        <Route path="/staff" element={user ? <Staff /> : <Login />} />
+        <Route path="/post" element={user ? <Posts /> : <Login />} />
+        <Route path="/contact" element={user ? <Contact /> : <Login />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />

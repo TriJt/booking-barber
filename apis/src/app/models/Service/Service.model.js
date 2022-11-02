@@ -4,6 +4,12 @@ const Schema = mongoose.Schema;
 
 const EvaluateSchema = new Schema(
   {
+    Service: {
+      type: String,
+    },
+    Staff: {
+      type: String,
+    },
     Customer_id: {
       type: String,
     },
@@ -54,7 +60,7 @@ const CategorySchema = new Schema({
     type: String,
     required: true,
   },
-  Services: [ServiceSchema],
+  Services: { type: [String] },
 });
 
 const Evaluate = mongoose.model("Evaluate", EvaluateSchema);

@@ -18,16 +18,13 @@ export const CreateStaff = async (req, res) => {
       Password: hashPassword,
       Image: input.Image,
       Gender: input.Gender,
-      isAdmin: input.isAdmin,
     });
     //save Customer in database and return response
     const save = await newStaff.save();
-    responseType.statusText = "Success";
     responseType.message = "Create new staff successfully";
     responseType.status = 200;
     responseType.value = save;
   } catch {
-    responseType.statusText = "Failed";
     responseType.status = 404;
     responseType.message = "Create staff failed";
   }
@@ -85,14 +82,8 @@ export const DeleteStaff = async (req, res) => {
 // COMPLETE in back-end
 export const GetStaffById = async (req, res) => {
   const responseType = {};
-  const StaffId = req.query.staffId;
-  const Name = req.query.Name;
   if (Staff) {
-    const staff = (await StaffId)
-      ? await Staff.findById(StaffId)
-      : await Staff.findOne({
-          Name: Name,
-        });
+    const staff = await Staff.findById(req.params.id);
     responseType.statusText = "Success";
     responseType.message = "Get customer successfully";
     responseType.status = 200;

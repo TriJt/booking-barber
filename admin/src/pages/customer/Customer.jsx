@@ -8,17 +8,10 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
-import { MdDriveFileRenameOutline, MdOutlineEmail } from "react-icons/md";
-import {
-  BsTelephoneForward,
-  BsGenderAmbiguous,
-  BsCollection,
-} from "react-icons/bs";
-import { FaRegAddressCard, FaBirthdayCake } from "react-icons/fa";
+import ModalCustomer from "../../components/Modal/ModalCustomer";
 
 export default function Customer() {
-  // input for table
-  const [dataCustomer, setDataCustomer] = useState("");
+  const [dataCustomer, setDataCustomer] = useState([]);
   const [rowId, setRowId] = useState("");
   const [count, setCount] = useState("");
   const [open, setOpen] = useState(false);
@@ -120,13 +113,13 @@ export default function Customer() {
     );
   };
 
-  const View = ({ params, rowId, setRowId }) => {
-    const submitHandle = () => {
+  const View = ({ params, setRowId }) => {
+    const submitHandle = (e) => {
+      e.preventDefault();
       setOpen(true);
       setRowId(params.row._id);
     };
 
-    // add link to page information customer
     return (
       <div className="view">
         <button className="button-view" onClick={submitHandle}>
@@ -135,120 +128,6 @@ export default function Customer() {
       </div>
     );
   };
-
-  const Modal = ({ open, onClose, rowId }) => {
-    const [data, setData] = useState("");
-
-    useEffect(() => {
-      const fetchData = async () => {
-        const res = await axios.get(
-          "http://localhost:8800/api/customer?CustomerId=" + rowId
-        );
-        setData(res.data.value);
-      };
-      fetchData();
-    }, [rowId]);
-
-    if (!open) return null;
-
-    return (
-      <div className="overlay">
-        <div className="modalContainer">
-          <p className="closeBtn" onClick={onClose}>
-            X
-          </p>
-          <div className="modalInformation">
-            <h3 className="title-value"> Information</h3>
-            <div className="items-value">
-              <span className="icon-value">
-                <MdDriveFileRenameOutline />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Name"
-                name="Name_Customer"
-                value={data.Name_Customer}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <BsTelephoneForward />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Telephone"
-                name="Telephone"
-                value={data.Telephone}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <MdOutlineEmail />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Email"
-                name="Email"
-                value={data.Email}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <FaRegAddressCard />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Address"
-                value={`${data.Number} ${data.Street} ${data.District} ${data.City}`}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <BsGenderAmbiguous />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Gender"
-                name="Gender"
-                value={data.Gender}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <FaBirthdayCake />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Birthday"
-                name="Birthday"
-                value={data.Birthday}
-              />
-            </div>
-
-            <div className="items-value">
-              <span className="icon-value">
-                <BsCollection />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Collect"
-                name="Collect"
-                value={data.Collect}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const columns = useMemo(
     () => [
       {
@@ -322,7 +201,7 @@ export default function Customer() {
   return (
     <div className="container">
       {/* container for sidebar */}
-      <Modal open={open} onClose={() => setOpen(false)} rowId={rowId} />
+      <ModalCustomer open={open} onClose={() => setOpen(false)} rowId={rowId} />
       <div className="left-container">
         <Sidebar />
       </div>

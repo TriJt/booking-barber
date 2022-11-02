@@ -233,7 +233,7 @@ export default function Category() {
           toast.error(record.message);
         }
       } catch (err) {
-        toast.error("Update is Failed");
+        toast.error("Create is Failed");
       }
     }
   };

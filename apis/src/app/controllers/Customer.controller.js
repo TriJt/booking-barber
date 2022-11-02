@@ -16,7 +16,13 @@ export const CreateCustomer = async (req, res) => {
       Telephone: input.Telephone,
       Email: input.Email,
       Password: hashPassword,
+      Image: input.Image,
       Gender: input.Gender,
+      Birthday: input.Birthday,
+      Number: input.Number,
+      Street: input.Street,
+      District: input.District,
+      City: input.City,
     });
     //save Customer in database and return response
     const save = await newCustomer.save();
@@ -90,14 +96,10 @@ export const DeleteCustomer = async (req, res) => {
 // Need connection to front-end
 export const GetCustomerById = async (req, res) => {
   const responseType = {};
-  const CustomerId = req.query.CustomerId;
-  const Name_Customer = req.query.Name_Customer;
+
   if (Customer) {
-    const customer = CustomerId
-      ? await Customer.findById(CustomerId)
-      : await Customer.findOne({
-          Name_Customer: Name_Customer,
-        });
+    const customer = await Customer.findById(req.params.id);
+
     responseType.statusText = "Success";
     responseType.message = "Get customer successfully";
     responseType.status = 200;

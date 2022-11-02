@@ -20,11 +20,10 @@ router.put("/update/:id", UpdateCustomer);
 
 // delete Customer
 router.delete("/delete/:id", DeleteCustomer);
-
-// get Customer by id
-router.get("/", GetCustomerById);
-
 // get all Customer by id
 router.get("/all", GetCustomers);
+
+// get Customer by id
+router.get("/:id", GetCustomerById);
 
 export default router;

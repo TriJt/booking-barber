@@ -57,7 +57,7 @@ export default function Login() {
           ...prevState,
           EmailErr: response.data.message,
         }));
-        // toast.error(response.data.message);
+        toast.error(response.data.message);
       } else {
         if (response.data.status === 301) {
           // check password

@@ -16,17 +16,7 @@ export default function Services() {
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState("");
   const [category, setCategory] = useState([]);
-  const [inputField, setInputField] = useState({
-    Name_Service: "",
-    Price: "",
-    Description: "",
-    Category: category[0],
-    Image: "",
-  });
 
-  const InputHandler = (e) => {
-    setInputField({ ...inputField, [e.target.name]: e.target.value });
-  };
   //effect data staff
   useEffect(() => {
     const fetchService = async () => {
@@ -53,18 +43,28 @@ export default function Services() {
     fetchTitleCategory();
   }, []);
 
+  const [inputField, setInputField] = useState({
+    Name_Service: "",
+    Price: "",
+    Description: "",
+    Category: "",
+    Image: "",
+  });
+
+  const InputHandler = (e) => {
+    setInputField({ ...inputField, [e.target.name]: e.target.value });
+  };
+
   const Delete = ({ params }) => {
     const handleDelete = async () => {
-      const data = params.row._id;
-      const categoryName = params.row.Category;
+      const id = params.row._id;
+      // const data = params.row.Category;
       const response = await axios.delete(
-        "http://localhost:8800/api/service/delete/" + data,
-        categoryName
+        "http://localhost:8800/api/service/delete/" + id
       );
       const fetchData = await axios.get(
         "http://localhost:8800/api/service/all"
       );
-
       const record = response.data;
       if (record.status === 200) {
         toast.success("Delete information successfully");
@@ -124,7 +124,8 @@ export default function Services() {
   };
 
   const View = ({ params, setRowId }) => {
-    const submitHandle = () => {
+    const submitHandle = async (e) => {
+      e.preventDefault();
       setOpen(true);
       setRowId(params.row._id);
     };
@@ -139,18 +140,16 @@ export default function Services() {
   };
 
   const Modal = ({ open, onClose, rowId }) => {
-    const [dataService, setDataService] = useState([]);
-
+    const [dataSelect, setDataSelect] = useState("");
     useEffect(() => {
       const fetchData = async () => {
         const res = await axios.get(
           "http://localhost:8800/api/service?ServiceId=" + rowId
         );
-        setDataService(res.data.value);
+        setDataSelect(res.data.value);
       };
       fetchData();
     }, [rowId]);
-
     const UpdateAvatar = async (e) => {
       e.preventDefault();
       // up load file to cloudinary and update coverPicture in database
@@ -203,11 +202,9 @@ export default function Services() {
           </p>
           <div className="modal-service">
             <div className="left-modal">
-              {dataService.Image && (
+              {dataSelect.Image && (
                 <img
-                  src={
-                    files ? URL.createObjectURL(files[0]) : dataService.Image
-                  }
+                  src={files ? URL.createObjectURL(files[0]) : dataSelect.Image}
                   alt=""
                   className="service-image"
                 />
@@ -273,8 +270,6 @@ export default function Services() {
         headerName: "Category",
         width: 90,
         editable: true,
-        // type: "singleSelect",
-        // valueOptions: [category],
       },
       {
         field: "save",
@@ -303,109 +298,52 @@ export default function Services() {
     ],
     [rowId]
   );
-  // create new service
-  const [errField, setErrField] = useState({
-    NameServiceErr: "",
-    PriceErr: "",
-    DescriptionErr: "",
-    CategoryErr: "",
-    ImageErr: "",
-  });
-
-  // validate form before handClick action
-  const validateForm = () => {
-    let formValid = true;
-    setInputField({
-      NameServiceErr: "",
-      PriceErr: "",
-      DescriptionErr: "",
-      CategoryErr: "",
-      ImageErr: "",
-    });
-    if (inputField.Name_Service === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        NameServiceErr: "Please Enter Services !!",
-      }));
-    }
-    if (inputField.Price === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        PriceErr: "Please Enter Price !!",
-      }));
-    }
-    if (inputField.Description === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        DescriptionErr: "Please Enter Description!!",
-      }));
-    }
-    if (inputField.Category === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        CategoryErr: "Please Choose Category !!",
-      }));
-    }
-    if (inputField.Image === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        ImageErr: "Please Choose Image !!",
-      }));
-    }
-
-    return formValid;
-  };
 
   const CreateNewService = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      try {
-        const list = await Promise.all(
-          Object.values(files).map(async (file) => {
-            const data = new FormData();
-            data.append("file", file);
-            data.append("upload_preset", "social0722");
-            const uploadRes = await axios.post(
-              "https://api.cloudinary.com/v1_1/johnle/image/upload",
-              data
-            );
-            const { url } = uploadRes.data;
-            return url;
-          })
-        );
-        const service = {
-          Name_Service: inputField.Name_Service,
-          Price: inputField.Price,
-          Image: list,
-          Description: inputField.Description,
-          Category: inputField.Category,
-        };
-        try {
-          const response = await axios.post(
-            "http://localhost:8800/api/service/add",
-            service
+
+    try {
+      const list = await Promise.all(
+        Object.values(files).map(async (file) => {
+          const data = new FormData();
+          data.append("file", file);
+          data.append("upload_preset", "social0722");
+          const uploadRes = await axios.post(
+            "https://api.cloudinary.com/v1_1/johnle/image/upload",
+            data
           );
-          const record = response.data;
-          const newData = record.value;
-          setDataService([...dataService, newData]);
-          Clear();
-          if (record.status === 200) {
-            toast.success(record.message);
-          } else {
-            toast.error(record.message);
-          }
-        } catch (err) {
-          toast.error("Update is Failed");
+          const { url } = uploadRes.data;
+          return url;
+        })
+      );
+      const service = {
+        Name_Service: inputField.Name_Service,
+        Price: inputField.Price,
+        Image: list,
+        Description: inputField.Description,
+        Category: inputField.Category,
+      };
+      try {
+        const response = await axios.post(
+          "http://localhost:8800/api/service/add",
+          service
+        );
+        const record = response.data;
+        const newData = record.value;
+        setDataService([...dataService, newData]);
+        Clear();
+        if (record.status === 200) {
+          toast.success(record.message);
+        } else {
+          toast.error(record.message);
         }
       } catch (err) {
-        toast.error("Can get picture from Cloud");
+        toast.error("Create is Failed");
       }
+    } catch (err) {
+      toast.error("Can get picture from Cloud");
     }
+    // }
   };
 
   const Clear = () => {
@@ -414,15 +352,8 @@ export default function Services() {
       Name_Service: "",
       Price: "",
       Description: "",
-      Category: category[0],
+      Category: "",
       Image: "",
-    });
-    setErrField({
-      NameServiceErr: "",
-      PriceErr: "",
-      DescriptionErr: "",
-      CategoryErr: "",
-      ImageErr: "",
     });
   };
 
@@ -465,9 +396,6 @@ export default function Services() {
                 ) : (
                   <div className="no-image-service">
                     <span className="header-service"> image</span>
-                    {errField.ImageErr.length > 0 && (
-                      <span className="error">{errField.ImageErr} </span>
-                    )}
                   </div>
                 )}
               </div>
@@ -480,6 +408,7 @@ export default function Services() {
                       type="file"
                       id="file"
                       multiple
+                      required
                       style={{ display: "none" }}
                       onChange={(e) => setFiles(e.target.files)}
                     ></input>
@@ -493,34 +422,31 @@ export default function Services() {
                   className="input-service"
                   name="Name_Service"
                   placeholder="Service"
+                  required
                   value={inputField.Name_Service}
                   onChange={InputHandler}
                 />
-                {errField.NameServiceErr.length > 0 && (
-                  <span className="error">{errField.NameServiceErr} </span>
-                )}
+
                 <input
                   type="number"
                   className="input-service"
                   name="Price"
                   placeholder="Price"
+                  required
                   value={inputField.Price}
                   onChange={InputHandler}
                 />
-                {errField.PriceErr.length > 0 && (
-                  <span className="error">{errField.PriceErr} </span>
-                )}
+
                 <textarea
                   type="text"
                   className="textarea-service"
                   name="Description"
                   placeholder="Description"
+                  required
                   value={inputField.Description}
                   onChange={InputHandler}
                 />
-                {errField.DescriptionErr.length > 0 && (
-                  <span className="error">{errField.DescriptionErr} </span>
-                )}
+
                 <select
                   name="Category"
                   value={inputField.Category}
@@ -533,9 +459,7 @@ export default function Services() {
                     </option>
                   ))}
                 </select>
-                {errField.CategoryErr.length > 0 && (
-                  <span className="error">{errField.CategoryErr} </span>
-                )}
+
                 <button className="button-profile" onClick={CreateNewService}>
                   Create
                 </button>

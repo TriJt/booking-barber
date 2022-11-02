@@ -5,6 +5,7 @@ import { Category, Service } from "../models/Service/Service.model.js";
 export const CreateService = async (req, res) => {
   const responseType = {};
   const input = req.body;
+  const nameCategory = input.Category;
   //create new user
   try {
     const newService = new Service({
@@ -12,14 +13,20 @@ export const CreateService = async (req, res) => {
       Price: input.Price,
       Description: input.Description,
       Image: input.Image,
-      Category: input.Category,
+      Category: nameCategory,
     });
-    //save Customer in database and return response
+    //insert id Service in to Category with name
     const save = await newService.save();
     try {
-      await Category.findOneAndUpdate(input.Category, {
-        $push: { Services: save._id },
-      });
+      const category = await Category.findOne({ Title: nameCategory });
+      const updateCategory = await Category.findOneAndUpdate(
+        { _id: category._id },
+        {
+          $push: { Services: save._id },
+        },
+        { new: true }
+      );
+      console.log(updateCategory);
     } catch (error) {
       responseType.status = 404;
       responseType.message = "Push service in category i failed";
@@ -49,7 +56,6 @@ export const UpdateService = async (req, res) => {
     );
 
     const save = await service.save();
-    responseType.statusText = "Success";
     responseType.message = "Update successfully";
     responseType.status = 200;
     responseType.value = save;
@@ -64,13 +70,16 @@ export const UpdateService = async (req, res) => {
 // delete information of Service
 export const DeleteService = async (req, res) => {
   const responseType = {};
-  const categoryName = req.body.Category;
+
   try {
     await Service.findByIdAndDelete(req.params.id);
     try {
-      await Category.findOneAndUpdate(categoryName, {
-        $pull: { Services: req.params.id },
-      });
+      const category = await Category.findOne({ Services: req.params.id });
+      if (category != null)
+        await Category.findByIdAndUpdate(category._id, {
+          $pull: { Services: req.params.id },
+        });
+
       responseType.statusText = "Success";
       responseType.message = "Delete Successfully";
       responseType.status = 200;

@@ -8,15 +8,14 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
-import { MdDriveFileRenameOutline, MdOutlineEmail } from "react-icons/md";
-import { BsTelephoneForward, BsGenderAmbiguous } from "react-icons/bs";
-import { FaRegAddressCard, FaBirthdayCake } from "react-icons/fa";
+import ModalStaff from "../../components/Modal/ModalStaff";
 
 export default function Staff() {
-  const [dataStaff, setDataStaff] = useState("");
+  const [dataStaff, setDataStaff] = useState([]);
   const [rowId, setRowId] = useState("");
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState("");
+  const [gender, setGender] = useState(["Male", "Female", "Other"]);
 
   const [inputField, setInputField] = useState({
     Name: "",
@@ -24,69 +23,10 @@ export default function Staff() {
     Email: "",
     Gender: "",
     Image: "",
-    Birthday: "",
   });
 
   const InputHandler = (e) => {
     setInputField({ ...inputField, [e.target.name]: e.target.value });
-  };
-  const [errField, setErrField] = useState({
-    NameErr: "",
-    TelephoneErr: "",
-    EmailErr: "",
-    GenderErr: "",
-    ImageErr: "",
-    BirthdayErr: "",
-  });
-
-  // validate form before handClick action
-  const validateForm = () => {
-    let formValid = true;
-    setInputField({
-      NameErr: "",
-      TelephoneErr: "",
-      EmailErr: "",
-      GenderErr: "",
-      ImageErr: "",
-      BirthdayErr: "",
-    });
-    if (inputField.Name === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        NameErr: "Please Enter Name !!",
-      }));
-    }
-    if (inputField.Telephone === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        TelephoneErr: "Please Enter Telephone !!",
-      }));
-    }
-    if (inputField.Email === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        EmailErr: "Please Enter Your Email !!",
-      }));
-    }
-    if (inputField.Gender === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        GenderErr: "Please Choose Gender !!",
-      }));
-    }
-    if (inputField.Image === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        ImageErr: "Please Choose Image !!",
-      }));
-    }
-
-    return formValid;
   };
 
   const Clear = () => {
@@ -97,15 +37,6 @@ export default function Staff() {
       Email: "",
       Gender: "",
       Image: "",
-      Birthday: "",
-    });
-    setErrField({
-      NameErr: "",
-      TelephoneErr: "",
-      EmailErr: "",
-      GenderErr: "",
-      ImageErr: "",
-      BirthdayErr: "",
     });
   };
 
@@ -123,7 +54,7 @@ export default function Staff() {
   }, []);
 
   const Delete = ({ params }) => {
-    const handleDelete = async (e) => {
+    const handleDelete = async () => {
       const data = params.row._id;
       const response = await axios.delete(
         "http://localhost:8800/api/staff/delete/" + data
@@ -190,9 +121,10 @@ export default function Staff() {
   };
 
   const View = ({ params, setRowId }) => {
-    const submitHandle = () => {
+    const submitHandle = async (e) => {
+      e.preventDefault();
       setOpen(true);
-      setRowId(params.row._id);
+      await setRowId(params.row._id);
     };
     // add link to page information customer
     return (
@@ -200,106 +132,6 @@ export default function Staff() {
         <button className="button-view" onClick={submitHandle}>
           <MdViewHeadline className="icon-view" />
         </button>
-      </div>
-    );
-  };
-
-  const Modal = ({ open, onClose, rowId }) => {
-    const [data, setData] = useState("");
-
-    useEffect(() => {
-      const fetchData = async () => {
-        const res = await axios.get(
-          "http://localhost:8800/api/staff?staffId=" + rowId
-        );
-        setData(res.data.value);
-      };
-      fetchData();
-    }, [rowId]);
-
-    if (!open) return null;
-
-    return (
-      <div className="overlay">
-        <div className="modalContainer">
-          <p className="closeBtn" onClick={onClose}>
-            X
-          </p>
-          <div className="modalInformation">
-            <h3 className="title-value"> Information</h3>
-            <div className="items-value">
-              <span className="icon-value">
-                <MdDriveFileRenameOutline />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Name"
-                name="Name"
-                value={data.Name}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <BsTelephoneForward />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Telephone"
-                name="Telephone"
-                value={data.Telephone}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <MdOutlineEmail />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Email"
-                name="Email"
-                value={data.Email}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <FaRegAddressCard />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Address"
-                value={`${data.Number} ${data.Street} ${data.District} ${data.City}`}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <BsGenderAmbiguous />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Gender"
-                name="Gender"
-                value={data.Gender}
-              />
-            </div>
-            <div className="items-value">
-              <span className="icon-value">
-                <FaBirthdayCake />
-              </span>
-              <input
-                type="text"
-                className="text-value"
-                placeholder="Birthday"
-                name="Birthday"
-                value={data.Birthday}
-              />
-            </div>
-          </div>
-        </div>
       </div>
     );
   };
@@ -353,7 +185,6 @@ export default function Staff() {
         headerName: "Admin",
         width: 90,
         type: "boolean",
-        editable: true,
       },
       {
         field: "save",
@@ -386,55 +217,54 @@ export default function Staff() {
   // create new staff
   const HandlerSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      try {
-        const list = await Promise.all(
-          Object.values(files).map(async (file) => {
-            const data = new FormData();
-            data.append("file", file);
-            data.append("upload_preset", "social0722");
-            const uploadRes = await axios.post(
-              "https://api.cloudinary.com/v1_1/johnle/image/upload",
-              data
-            );
-            const { url } = uploadRes.data;
-            return url;
-          })
-        );
-        const service = {
-          Name: inputField.Name,
-          Telephone: inputField.Telephone,
-          Image: list,
-          Gender: inputField.Gender,
-          Email: inputField.Email,
-        };
-        try {
-          const response = await axios.post(
-            "http://localhost:8800/api/service/add",
-            service
+    try {
+      const list = await Promise.all(
+        Object.values(files).map(async (file) => {
+          const data = new FormData();
+          data.append("file", file);
+          data.append("upload_preset", "social0722");
+          const uploadRes = await axios.post(
+            "https://api.cloudinary.com/v1_1/johnle/image/upload",
+            data
           );
-          const record = response.data;
-          const newData = record.value;
-          setDataStaff([...dataStaff, newData]);
-          Clear();
-          if (record.status === 200) {
-            toast.success(record.message);
-          } else {
-            toast.error(record.message);
-          }
-        } catch (err) {
-          toast.error("Create is Failed");
+          const { url } = uploadRes.data;
+          return url;
+        })
+      );
+      const staff = {
+        Name: inputField.Name,
+        Telephone: inputField.Telephone,
+
+        Image: list,
+        Gender: inputField.Gender,
+        Email: inputField.Email,
+      };
+      try {
+        const response = await axios.post(
+          "http://localhost:8800/api/staff/add",
+          staff
+        );
+        const record = response.data;
+        const newData = record.value;
+        setDataStaff([...dataStaff, newData]);
+        Clear();
+        if (record.status === 200) {
+          toast.success(record.message);
+        } else {
+          toast.error(record.message);
         }
       } catch (err) {
-        toast.error("Can get picture from Cloud");
+        toast.error("Create is Failed");
       }
+    } catch (err) {
+      console.log(err);
     }
   };
 
   return (
     <div className="container">
       {/* container for sidebar */}
-      <Modal open={open} onClose={() => setOpen(false)} rowId={rowId} />
+      <ModalStaff open={open} onClose={() => setOpen(false)} rowId={rowId} />
 
       <div className="left-container">
         <Sidebar />
@@ -474,9 +304,6 @@ export default function Staff() {
                 ) : (
                   <div className="no-image-service">
                     <span className="header-service"> image</span>
-                    {errField.ImageErr.length > 0 && (
-                      <span className="error">{errField.ImageErr} </span>
-                    )}
                   </div>
                 )}
               </div>
@@ -505,9 +332,7 @@ export default function Staff() {
                   value={inputField.Name}
                   onChange={InputHandler}
                 />
-                {errField.NameErr.length > 0 && (
-                  <span className="error">{errField.NameErr} </span>
-                )}
+
                 <input
                   type="text"
                   className="input-service"
@@ -518,9 +343,7 @@ export default function Staff() {
                   value={inputField.Telephone}
                   onChange={InputHandler}
                 />
-                {errField.TelephoneErr.length > 0 && (
-                  <span className="error">{errField.TelephoneErr} </span>
-                )}
+
                 <input
                   type="email"
                   className="input-service"
@@ -529,22 +352,20 @@ export default function Staff() {
                   value={inputField.Email}
                   onChange={InputHandler}
                 />
-                {errField.EmailErr.length > 0 && (
-                  <span className="error">{errField.EmailErr} </span>
-                )}
+
                 <select
                   name="Gender"
                   value={inputField.Gender}
                   className="select-service"
                   onChange={InputHandler}
                 >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other genders">Other genders</option>
+                  {gender.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
                 </select>
-                {errField.GenderErr.length > 0 && (
-                  <span className="error">{errField.GenderErr} </span>
-                )}
+
                 <button className="button-profile" onClick={HandlerSubmit}>
                   Create
                 </button>
