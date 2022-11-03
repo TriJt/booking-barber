@@ -70,11 +70,13 @@ export default function Register() {
           // toast.error(response.data.message);
         } else {
           if (response.data.status === 300) {
+            toast.error(response.data.message);
+          } else {
             toast.success(response.data.message);
             setTimeout(() => {
               history("/login");
             }, 3000);
-          } else toast.error(response.data.message);
+          }
         }
       } catch (err) {
         toast.error("Form Invalid!");
@@ -121,6 +123,7 @@ export default function Register() {
               type="text"
               name="Telephone"
               required
+              maxLength={11}
               value={inputField.Telephone}
               onChange={InputHandler}
             />

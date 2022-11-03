@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import "../../styles/components/topBar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { MdAccountCircle, MdLogout } from "react-icons/md";
+import { useNavigate } from "react-router";
 
 export default function TopBar() {
   const { user: currentUser } = useContext(AuthContext);
@@ -19,6 +21,14 @@ export default function TopBar() {
   };
   window.addEventListener("scroll", changeBackground);
 
+  const history = useNavigate();
+  // Log out button
+  const LogoutHandle = () => {
+    window.sessionStorage.clear();
+    window.location.reload();
+    history("/login");
+  };
+
   return (
     <div className={navbar ? "topBar action" : "topBar"}>
       <div className="top-topBar">
@@ -30,46 +40,86 @@ export default function TopBar() {
             <label className="label-topBar"> bookingbarber.ad@gmail.com</label>
           </div>
         </div>
-        <div className="right-topBar"></div>
+        <div className="right-topBar">
+          <Link to={`/appointment`}>
+            <span> Make a appointment</span>
+          </Link>
+        </div>
       </div>
       <div className="bottom-topBar">
         <div className="logo">
           <h5 className="logo">BARBERJT</h5>
         </div>
         <div className={`navigation-menu ${isOpen && "open"}`}>
-          <NavLink className="link" to="/">
-            Home
-          </NavLink>
-
-          <NavLink className="link" to="/about">
-            About
-          </NavLink>
-
-          <NavLink className="link" to="/services">
-            Service
-          </NavLink>
-
-          <NavLink className="link" to="/gallery">
-            Gallery
-          </NavLink>
-
-          <NavLink className="link" to="/blog">
-            Blog
-          </NavLink>
-
-          <NavLink className="link" to="/contact">
-            Contact
-          </NavLink>
-
+          <div className="items-link">
+            <NavLink className="link" to="/home">
+              Home
+            </NavLink>
+          </div>
+          <div className="items-link">
+            <NavLink className="link" to="/about">
+              About
+            </NavLink>
+          </div>
+          <div className="items-link">
+            <NavLink className="link" to="/services">
+              Service
+            </NavLink>
+          </div>
+          <div className="items-link">
+            <NavLink className="link" to="/gallery">
+              Gallery
+            </NavLink>
+          </div>
+          <div className="items-link">
+            <NavLink className="link" to="/blog">
+              Blog
+            </NavLink>
+          </div>
+          <div className="items-link">
+            <NavLink className="link" to="/contact">
+              Contact
+            </NavLink>
+          </div>
+        </div>
+        <div className="login-topBar">
+          <span> </span>
           {user ? (
-            <NavLink to={`/profile/${user.Name_Customer}`} className="link">
-              {user.Name_Customer}
-              <AiOutlineArrowRight />
-            </NavLink>
+            <div className="items-topBar">
+              <div className="top-dropdown">
+                <div className="top-dropdown-select">
+                  <NavLink
+                    to={`/profile/${user.Name_Customer}`}
+                    className="link"
+                  >
+                    Welcome {user.Name_Customer}
+                  </NavLink>
+                  <img src={user.Image} alt="" className="image-item" />
+                </div>
+                <ul className="top-dropdown-list">
+                  <li className="top-dropdown-item">
+                    <MdAccountCircle className="icon" />
+                    <Link
+                      to={`/profile/${user.Name_Customer}`}
+                      className="link"
+                    >
+                      <span className="dropdown-text">My profile</span>
+                    </Link>
+                  </li>
+
+                  <li className="top-dropdown-item" onClick={LogoutHandle}>
+                    <MdLogout className="icon" />
+                    <span className="dropdown-text">Log out</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           ) : (
-            <NavLink className="link" to="/login">
-              Login
-            </NavLink>
+            <div className="login-div">
+              <NavLink className="link" to="/login">
+                Login
+              </NavLink>
+            </div>
           )}
         </div>
         <div

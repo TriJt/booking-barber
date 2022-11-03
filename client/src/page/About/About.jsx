@@ -1,11 +1,10 @@
 import React from "react";
 import "../../styles/home.css";
 import TopBar from "../../components/Topbar/TopBar";
-import Slider from "../../components/Home/Slider/Slider";
-import Service from "../../components/Home/Service/Service";
-import Pricing from "../../components/Home/Pricing/Pricing";
+import { SliderAbout } from "../../components/Home/Slider/Slider";
 import Footer from "../../components/Footer/Footer";
-
+import Evaluate from "../../components/Evaluate/Evaluate";
+import Telephone from "../../components/Appointment/Telephone";
 export default function About() {
   return (
     <div className="container">
@@ -13,9 +12,8 @@ export default function About() {
         <div className="background-image">
           <div className="container-item">
             <TopBar />
-            <div className="slider">
-              <Slider />
-            </div>
+
+            <SliderAbout />
           </div>
         </div>
       </section>
@@ -43,7 +41,16 @@ export default function About() {
           </div>
         </div>
       </div>
-      <div className="pricing-container"></div>
+      <div className="pricing-container">
+        <span className="subheading"> TESTIMONIAL</span>
+        <h2 className="h2-about">PEOPLE SAY ABOUT US </h2>
+        <div className="pricing-item">
+          <Evaluate />
+        </div>
+      </div>
+      <div className="telephone">
+        <Telephone />
+      </div>
       <Footer />
     </div>
   );

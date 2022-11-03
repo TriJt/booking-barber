@@ -152,3 +152,19 @@ export const GetServicesByCategoryName = async (req, res) => {
   }
   res.json(responseType);
 };
+
+// get service with category name
+export const GetServicesLimit = async (req, res) => {
+  const responseType = {};
+  try {
+    const service = await Service.find().limit(3);
+    responseType.message = "Get customer successfully";
+    responseType.status = 200;
+    responseType.value = service;
+  } catch (error) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};

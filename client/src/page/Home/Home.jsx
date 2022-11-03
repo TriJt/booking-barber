@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/home.css";
 import TopBar from "../../components/Topbar/TopBar";
-import Slider from "../../components/Home/Slider/Slider";
+import { SliderHome } from "../../components/Home/Slider/Slider";
 import Service from "../../components/Home/Service/Service";
 import Pricing from "../../components/Home/Pricing/Pricing";
 import Footer from "../../components/Footer/Footer";
@@ -15,16 +15,15 @@ export default function Home() {
           <div className="container-item">
             <TopBar />
             <div className="slider">
-              <Slider />
+              <SliderHome />
             </div>
           </div>
         </div>
       </section>
-
       <section className="section-2">
-        <div className="service-container">
+        <div className="service-container ">
           <Service
-            title={"hair style"}
+            title={"HairCut"}
             p={
               "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts"
             }
@@ -51,7 +50,7 @@ export default function Home() {
             }
           />
           <Service
-            title={"HAIR SHAMPOO"}
+            title={"SHAMPOO"}
             p={
               "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts"
             }

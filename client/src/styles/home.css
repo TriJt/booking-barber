@@ -80,7 +80,7 @@
 
 /* pricing */
 .pricing-container {
-  margin: 100px 70px 0px 70px;
-  padding: 0px 15px;
+  padding: 40px 15px;
   text-align: center;
+  background-color: rgb(235, 232, 222);
 }

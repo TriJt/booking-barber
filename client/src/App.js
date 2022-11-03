@@ -16,6 +16,7 @@ import Contact from "./page/Contact/Contact";
 import Gallery from "./page/Gallenry/Gallery";
 import Blog from "./page/Blog/Blog";
 import About from "./page/About/About.jsx";
+import Appointment from "./page/Appointment/Appointment";
 
 import { AuthContext } from "./context/AuthContext";
 
@@ -24,7 +25,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/home" element={<Home />} />
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
@@ -34,6 +35,9 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
         <Route exact path="/about" element={<About />} />
+        <Route exact path="/appointment" element={<Appointment />} />
+        {/* use Navigate  */}
+        <Route path="/" element={<Navigate replace to="/home" />} />
       </Routes>
     </Router>
   );

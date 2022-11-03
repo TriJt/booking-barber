@@ -34,12 +34,17 @@
   text-transform: uppercase;
   color: var(--background);
   margin: 0px 0px 30px;
-  font-size: 24px;
+  font-size: 22px;
+  font-family: var(--family-header);
 }
 
 .div-footer p {
   color: var(--background);
   opacity: 0.9;
+  font-size: 14px;
+}
+.div-footer span {
+  font-size: 14px;
 }
 .div-icon {
   width: 100%;
@@ -66,16 +71,18 @@
 .link-footer {
   height: 20px;
   width: 100%;
+
   margin-bottom: 15px;
 }
 .link-footer a {
   text-decoration: none;
   color: var(--background);
+  font-size: 14px;
   opacity: 0.9;
 }
 .link-footer span {
   color: var(--background);
-  font-size: 20px;
+  font-size: 16px;
 }
 .link-footer button {
   border: 2px solid var(--color-button);
@@ -92,8 +99,10 @@
   text-transform: uppercase;
   border-radius: 5px;
   margin-top: 20px;
+  font-family: var(--family-header);
 }
 .link-footer button span {
+  font-family: var(--family-header);
   color: var(--color-button);
   margin-right: 10px;
 }
@@ -105,7 +114,9 @@
   padding-bottom: 20px;
 }
 .question span {
+  margin-right: 5px;
   font-size: 16px;
+  font-family: var(--family-header);
 }
 
 @media screen and (max-width: 768px) {
@@ -120,8 +131,10 @@
   .div-footer .question .text-span,
   .last span {
     font-size: 13px;
+    font-family: var(--family-header);
   }
   .div-footer .question .text-span2 {
     font-size: 10px;
+    font-family: var(--family-header);
   }
 }

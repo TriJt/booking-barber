@@ -1,10 +1,11 @@
 import React from "react";
 import "../../../styles/components/slider.css";
 import { Link } from "react-router-dom";
+import { FiChevronRight, FiChevronsRight } from "react-icons/fi";
 
-export default function Slider() {
+export function SliderHome() {
   return (
-    <div className="slider-container">
+    <div className="slider-container fadeInUp animation">
       <span className="subheading"> WELCOME TO BARBERJT </span>
       <h1 className="slider-text">
         we will make <span> YOUR </span> <br /> <span> STYLE</span> of your
@@ -21,6 +22,42 @@ export default function Slider() {
             Learn more about us
           </Link>
         </button>
+      </div>
+    </div>
+  );
+}
+
+export function SliderAbout() {
+  return (
+    <div className="slider-container fadeInUp animation">
+      <div className="about-slider">
+        <div className="title-about">
+          <Link to="/home" className="link">
+            <h5>Home</h5>
+          </Link>
+          <FiChevronsRight className="icon-link" />
+          <h5>About</h5>
+          <FiChevronsRight className="icon-link" />
+        </div>
+        <h1 className="slider-text"> About US</h1>
+      </div>
+    </div>
+  );
+}
+
+export function SliderServices() {
+  return (
+    <div className="slider-container fadeInUp animation">
+      <div className="about-slider">
+        <div className="title-about">
+          <Link to="/home" className="link">
+            <h5>Home</h5>
+          </Link>
+          <FiChevronsRight className="icon-link" />
+          <h5>Service</h5>
+          <FiChevronsRight className="icon-link" />
+        </div>
+        <h1 className="slider-text"> Services</h1>
       </div>
     </div>
   );

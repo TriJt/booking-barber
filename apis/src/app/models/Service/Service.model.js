@@ -13,9 +13,6 @@ const EvaluateSchema = new Schema(
     Customer_id: {
       type: String,
     },
-    Title: {
-      type: String,
-    },
     Star: {
       type: Number,
       default: 0,

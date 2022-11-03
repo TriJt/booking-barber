@@ -3,7 +3,7 @@ import "../../../styles/components/service.css";
 
 export default function Service({ title, p, image }) {
   return (
-    <div className="Service">
+    <div className="Service ">
       <div className="image-service">
         <img src={image} alt="" className="img-service" />
       </div>

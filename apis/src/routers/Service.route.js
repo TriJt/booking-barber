@@ -7,6 +7,7 @@ import {
   GetServiceById,
   GetServices,
   GetServicesByCategoryName,
+  GetServicesLimit,
 } from "../app/controllers/Service.controller.js";
 
 // create Service
@@ -26,5 +27,8 @@ router.get("/category/", GetServicesByCategoryName);
 
 // get Service by id
 router.get("/", GetServiceById);
+
+//get by name
+router.get("/limit", GetServicesLimit);
 
 export default router;

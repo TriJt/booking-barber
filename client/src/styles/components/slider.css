@@ -1,20 +1,51 @@
 .slider-container {
   padding-top: 200px;
   width: 50%;
+  justify-content: flex-end;
+  z-index: 0;
+}
+.animation {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-fill-mode: both;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.fadeInUp {
+  opacity: 0;
   animation-name: fadeInUp;
   -webkit-animation-name: fadeInUp;
-  -webkit-box-pack: end !important;
-  -ms-flex-pack: end !important;
-  justify-content: flex-end;
-  z-index: -1;
 }
+
 .subheading {
   font-size: 17px;
   color: #bf925b;
   font-weight: 600;
   margin-bottom: 0;
   text-transform: uppercase;
-  font-family: "Poppins", Arial, sans-serif;
+  font-family: var(--family-header);
 }
 .slider-text {
   font-size: 50px;
@@ -24,6 +55,7 @@
   text-transform: uppercase;
   margin-top: 10px;
   margin-bottom: 20px;
+  font-family: var(--family-header);
 }
 
 .slider-text span {
@@ -62,6 +94,37 @@
 }
 .link-about .link {
   color: var(--color-button);
+}
+
+/* slider for about  */
+
+.about-slider {
+  display: flex;
+  z-index: 1;
+  flex-direction: column;
+  padding-left: 100px;
+  margin-top: 200px;
+}
+.title-about {
+  justify-content: left;
+  display: flex;
+  align-items: center;
+  color: var(--background);
+}
+
+.title-about h5 {
+  font-size: 14px;
+}
+.title-about .link {
+  color: var(--background);
+  margin-bottom: 5px;
+}
+.title-about .link:hover {
+  color: var(--color-button);
+}
+
+.title-about .icon-link {
+  font-size: 25px;
 }
 
 @media screen and (max-width: 768px) {

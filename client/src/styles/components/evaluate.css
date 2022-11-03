@@ -1,0 +1,53 @@
+.container-eval {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+}
+.evaluate {
+  width: 250px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.text-eval {
+  width: 100%;
+  height: 100px;
+  display: flex;
+}
+
+.image-eval {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: left;
+}
+.image-eval img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.image-eval .name-eval {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  text-align: left;
+  gap: 10px;
+}
+.name-eval h5 {
+  font-weight: 600;
+  font-size: 18px;
+  font-family: var(--family-header);
+  margin: 0;
+}
+.name-eval span {
+  font-size: 14px;
+  color: var(--color-button);
+  font-weight: 500;
+}
