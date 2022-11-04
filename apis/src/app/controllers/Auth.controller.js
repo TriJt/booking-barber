@@ -56,18 +56,57 @@ export const LoginForCustomer = async (req, res) => {
   });
   if (!user) {
     responseType.status = 300;
-    responseType.message = "Email Invalid!";
-  } else {
-    const match = bcryptjs.compare(req.body.Password, user.Password);
-    if (match) {
+    responseType.message = "Email was wrong!";
+  }
+
+  try {
+    const match = await bcryptjs.compare(req.body.Password, user.Password);
+    if (!match) {
+      responseType.status = 301;
+      responseType.message = "Password not match!";
+    } else {
       responseType.status = 200;
       responseType.message = "Login Successfully";
       responseType.value = user;
-    } else {
-      responseType.status = 301;
-      responseType.message = "Password not match!";
     }
+  } catch (err) {
+    console.log(err);
   }
+
+  res.json(responseType);
+};
+
+export const changePasswordWithOldPassword = async (req, res) => {
+  const newPassword = req.body.newPassword;
+  const pass = req.body.Password;
+  const id = req.params.id;
+  const responseType = {};
+  // find customer with id
+  try {
+    const user = await Customer.findById({ _id: id });
+    if (!user) {
+      responseType.message = "Customer not found";
+    }
+    // valid old Password
+    const check = await bcryptjs.compare(pass, user.Password);
+    if (!check) {
+      responseType.message = "Old password is wrong";
+      responseType.status = 500;
+    } else {
+      const salt = bcryptjs.genSaltSync(10);
+      const newPass = await newPassword;
+      const hashPassword = bcryptjs.hashSync(newPass, salt);
+      // update password with new pass word
+      user.Password = hashPassword;
+      const updated = await user.save();
+      responseType.message = "Password change successfully";
+      responseType.status = 200;
+      responseType.value = updated;
+    }
+  } catch (err) {
+    responseType.message = "Update password was failed";
+  }
+
   res.json(responseType);
 };
 
@@ -179,9 +218,10 @@ export const LoginForStaff = async (req, res) => {
 
   if (!user) {
     responseType.status = 300;
-    responseType.message = "Email Invalid!";
-  } else {
-    const match = bcryptjs.compare(req.body.Password, user.Password);
+    responseType.message = "Email is wrong!";
+  }
+  try {
+    const match = await bcryptjs.compare(req.body.Password, user.Password);
     if (match) {
       responseType.status = 200;
       responseType.message = "Login Successfully";
@@ -190,7 +230,10 @@ export const LoginForStaff = async (req, res) => {
       responseType.status = 301;
       responseType.message = "Password not match!";
     }
+  } catch (error) {
+    console.log(error);
   }
+
   res.json(responseType);
 };
 

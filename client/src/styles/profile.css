@@ -1,0 +1,57 @@
+.profile-container {
+  width: 100%;
+  height: auto;
+  background-color: rgb(37, 37, 37, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+.setting {
+  width: 80%;
+  display: flex;
+  height: auto;
+  background-color: white;
+  border: 0.1px solid rgb(191, 191, 191);
+  border-radius: 2px;
+}
+.setting-left.active {
+  border-left: 3px solid var(--color-button);
+}
+.left-title .active::before {
+  content: "";
+  display: block;
+  position: relative;
+  top: 10%;
+  height: 20px;
+  width: 100%;
+  border-left: 2px solid var(--color-button);
+}
+.setting-left {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  border-right: 0.1px solid rgb(25, 25, 25, 0.6);
+}
+.left-title {
+  padding: 16px 16px 16px 30px;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: var(--family-header);
+  font-size: 18px;
+}
+.left-title:hover {
+  color: var(--color-button);
+  background-color: rgb(25, 25, 25, 0.2);
+  border-right: 3px solid var(--color-button);
+}
+.left-title::before {
+  content: "";
+  position: relative;
+  height: 55px;
+  left: -30px;
+}
+
+.setting-right {
+  width: 70%;
+}

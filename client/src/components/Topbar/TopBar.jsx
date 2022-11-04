@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import "../../styles/components/topBar.css";
 import { NavLink, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import { MdAccountCircle, MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router";
 

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import "../../../styles/components/slider.css";
 import { Link } from "react-router-dom";
 import { FiChevronRight, FiChevronsRight } from "react-icons/fi";
+import { AuthContext } from "../../../context/AuthContext";
 
 export function SliderHome() {
   return (
@@ -58,6 +59,27 @@ export function SliderServices() {
           <FiChevronsRight className="icon-link" />
         </div>
         <h1 className="slider-text"> Services</h1>
+      </div>
+    </div>
+  );
+}
+
+export function SliderProfile() {
+  // const { user: currentUser } = useContext(AuthContext);
+  // const [user, setUser] = useState(currentUser);
+  return (
+    <div className="slider-container fadeInUp animation profile">
+      <div className="about-slider">
+        <div className="title-about">
+          <Link to="/home" className="link">
+            <h5>Home</h5>
+          </Link>
+          <FiChevronsRight className="icon-link" />
+          <h5>Profile</h5>
+          <FiChevronsRight className="icon-link" />
+        </div>
+        <h1 className="slider-text">welcome to barberjt</h1>
+        <p className="content">Thank you for trusting and using our service</p>
       </div>
     </div>
   );

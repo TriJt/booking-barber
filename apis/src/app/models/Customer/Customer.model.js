@@ -62,10 +62,6 @@ const CustomerSchema = new Schema(
       type: String,
     },
     Interests: [StyleSchema],
-    Birthday: {
-      type: Date,
-      default: "",
-    },
     Collect: {
       type: String,
       default: 0,

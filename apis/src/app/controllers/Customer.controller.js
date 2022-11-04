@@ -18,7 +18,6 @@ export const CreateCustomer = async (req, res) => {
       Password: hashPassword,
       Image: input.Image,
       Gender: input.Gender,
-      Birthday: input.Birthday,
       Number: input.Number,
       Street: input.Street,
       District: input.District,
@@ -26,14 +25,12 @@ export const CreateCustomer = async (req, res) => {
     });
     //save Customer in database and return response
     const save = await newCustomer.save();
-    responseType.statusText = "Success";
-    responseType.message = "Create new staff successfully";
+    responseType.message = "Create new customer successfully";
     responseType.status = 200;
     responseType.value = save;
   } catch (err) {
-    responseType.statusText = "Failed";
     responseType.status = 404;
-    responseType.message = "Create staff failed";
+    responseType.message = "Create customer failed";
     responseType.value = err;
   }
   res.json(responseType);
@@ -46,9 +43,7 @@ export const UpdateCustomer = async (req, res) => {
   const input = req.body;
   const responseType = {};
   // check input
-  if (!input) {
-    responseType.message("Input can null");
-  }
+
   if (req.body.CustomerId === req.params.id) {
     const customer = await Customer.findByIdAndUpdate(
       req.params.id,
@@ -61,7 +56,6 @@ export const UpdateCustomer = async (req, res) => {
     );
 
     const saveCustomer = await customer.save();
-    responseType.statusText = "Success";
     responseType.message = "Update successfully";
     responseType.status = 200;
     responseType.value = saveCustomer;

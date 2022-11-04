@@ -1,0 +1,94 @@
+.information {
+  width: 100%;
+  height: auto;
+}
+.header-information {
+  font-weight: 700;
+  font-family: var(--family-header);
+  font-size: 24px;
+  color: var(--background-dark);
+  margin: 20px;
+  width: 200px;
+  text-transform: uppercase;
+  border-bottom: 4px solid var(--color-button);
+}
+.image-information {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.image-information img {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.change-image button,
+.list-information button,
+.button-profile {
+  background-color: transparent;
+  border: 1px solid var(--color-button);
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-family: var(--family-header);
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+.change-image button:hover,
+.list-information button:hover,
+.button-profile:hover {
+  background-color: var(--color-button);
+  color: var(--background);
+}
+.list-information {
+  padding-top: 30px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 30px;
+}
+.item-information {
+  width: 100%;
+  display: flex;
+  font-family: var(--family-header);
+}
+.item-information span {
+  width: 30%;
+  font-weight: 500;
+  font-size: 20px;
+  margin: 5px 0px 5px 50px;
+}
+.item-information .input-container,
+.item-information select {
+  width: 70%;
+  margin-right: 20px;
+  border: 1px solid var(--color-button);
+  border-radius: 4px;
+  font-family: var(--family-header);
+  font-size: 16px;
+}
+.item-information .dateTime {
+  width: 70%;
+  margin-right: 20px;
+  border: 1px solid var(--color-button);
+  border-radius: 4px;
+  font-family: var(--family-header);
+  font-size: 16px;
+}
+.item-information input:focus,
+.item-information select:focus {
+  outline: none;
+}
+.list-information button {
+  width: fit-content;
+}

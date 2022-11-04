@@ -4,40 +4,6 @@
   justify-content: flex-end;
   z-index: 0;
 }
-.animation {
-  animation-duration: 2s;
-  animation-fill-mode: both;
-  -webkit-animation-duration: 2s;
-  -webkit-animation-fill-mode: both;
-}
-
-@keyframes fadeInUp {
-  from {
-    transform: translate3d(0, 40px, 0);
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fadeInUp {
-  from {
-    transform: translate3d(0, 40px, 0);
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-
-.fadeInUp {
-  opacity: 0;
-  animation-name: fadeInUp;
-  -webkit-animation-name: fadeInUp;
-}
 
 .subheading {
   font-size: 17px;
@@ -54,7 +20,7 @@
   font-weight: 700;
   text-transform: uppercase;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-family: var(--family-header);
 }
 
@@ -127,6 +93,15 @@
   font-size: 25px;
 }
 
+/* slider for  profile */
+.profile {
+  padding: 0px;
+}
+
+.content {
+  color: var(--background);
+  font-family: var(--family-header);
+}
 @media screen and (max-width: 768px) {
   .slider-container {
     padding-top: 100px;
@@ -141,4 +116,38 @@
   .slider-text {
     font-size: 40px;
   }
+}
+.animation {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-fill-mode: both;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.fadeInUp {
+  opacity: 0;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
 }
