@@ -143,24 +143,24 @@ export const ChangePassword = async (req, res) => {
 // nodemailer
 // send mail to get otp
 
-const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID;
-const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET;
-const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-const ADMIN_EMAIL_ADDRESS = "thanhtri6776@gmail.com";
-
 //Initialize(Khởi tạo) OAuth2Client with Client ID and Client Secret
-
-const myOAuth2Client = new OAuth2Client(
-  GOOGLE_MAILER_CLIENT_ID,
-  GOOGLE_MAILER_CLIENT_SECRET
-);
-// Set Refresh Token vào OAuth2Client Credentials
-myOAuth2Client.setCredentials({
-  refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
-});
 
 // Send email for customer
 export const SendEmail = async (req, res) => {
+  const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID_CONTACT;
+  const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET_CONTACT;
+  const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_RESET;
+  const ADMIN_EMAIL_ADDRESS = process.env.EMAIL_ADMIN;
+
+  const myOAuth2Client = new OAuth2Client(
+    GOOGLE_MAILER_CLIENT_ID,
+    GOOGLE_MAILER_CLIENT_SECRET
+  );
+  // Set Refresh Token vào OAuth2Client Credentials
+  myOAuth2Client.setCredentials({
+    refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
+  });
+
   let data = await Customer.findOne({
     Email: req.body.Email,
   });

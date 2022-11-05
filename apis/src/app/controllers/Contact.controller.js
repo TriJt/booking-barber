@@ -50,7 +50,7 @@ export const SendEmailContact = async (req, res) => {
       },
     });
     const mailOptions = {
-      to: process.env.EMAIL_FROM, // Gửi đến ai?
+      to: process.env.EMAIL_ADMIN, // Gửi đến ai?
       subject: input.Subject, // Tiêu đề email
       html: input.Message, // Nội dung email
     };
