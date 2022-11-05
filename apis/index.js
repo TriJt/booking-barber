@@ -16,6 +16,7 @@ import ReceiptsRoute from "./src/routers/Receipt.route.js";
 import ServiceRoute from "./src/routers/Service.route.js";
 import CategoryRoute from "./src/routers/Category.route.js";
 import PostRoute from "./src/routers/Post.route.js";
+import ContactRoute from "./src/routers/Contact.route.js";
 
 const app = express();
 dotenv.config();
@@ -57,6 +58,9 @@ app.use("/api/receipt", ReceiptsRoute);
 app.use("/api/post", PostRoute);
 // route for Appointment
 app.use("/api/appointment", AppointmentRoute);
+
+// route for Appointment
+app.use("/api/contact", ContactRoute);
 
 function getCurrentTime() {
   const date = new Date();

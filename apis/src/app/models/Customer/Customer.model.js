@@ -2,6 +2,26 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+const ContactSchema = new Schema(
+  {
+    Name: {
+      type: String,
+    },
+    Email: {
+      type: String,
+    },
+    Subject: {
+      type: String,
+    },
+    Message: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const StyleSchema = new Schema(
   {
     Name: {
@@ -71,6 +91,7 @@ const CustomerSchema = new Schema(
     timestamps: true,
   }
 );
+const Contact = mongoose.model("Contact", ContactSchema);
 const Styles = mongoose.model("Styles", StyleSchema);
 const Customer = mongoose.model("Customer", CustomerSchema);
-export { Customer, Styles };
+export { Customer, Styles, Contact };

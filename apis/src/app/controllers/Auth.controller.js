@@ -146,7 +146,7 @@ export const ChangePassword = async (req, res) => {
 const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID;
 const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET;
 const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-const ADMIN_EMAIL_ADDRESS = process.env.EMAIL_FROM;
+const ADMIN_EMAIL_ADDRESS = "thanhtri6776@gmail.com";
 
 //Initialize(Khởi tạo) OAuth2Client with Client ID and Client Secret
 
