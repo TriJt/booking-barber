@@ -1,0 +1,115 @@
+.contact {
+  width: 100%;
+  height: 600px;
+  background-color: var(--background);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.contact-container {
+  width: 70%;
+  height: 500px;
+  -webkit-box-shadow: var(--webkit);
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+  display: flex;
+}
+.contact-left {
+  width: 40%;
+  height: 100%;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background-color: var(--color-button);
+}
+.contact-items {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+.contact-items .contact-header,
+.contact-items .contact-header-black {
+  font-weight: 700;
+  font-size: 24px;
+  font-family: var(--family-header);
+  text-transform: uppercase;
+}
+.contact-items .contact-header {
+  color: var(--background);
+}
+.contact-items .contact-header-black {
+  color: var(--background-dark);
+}
+.contact-items .contact-item {
+  width: 100%;
+  height: auto;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--background);
+}
+.contact-item .contact-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.contact-item .contact-text {
+  width: 80%;
+  font-size: 16px;
+  font-family: var(--family-header);
+}
+
+.contact-right {
+  width: 60%;
+  height: 100%;
+  background-color: transparent;
+}
+.contact-form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.contact-form input,
+.contact-form textarea {
+  border: 2px solid rgba(0, 0, 0, 0.05) !important;
+  padding: 15px;
+  color: rgba(0, 0, 0, 0.8) !important;
+  font-family: var(--family-header);
+}
+.contact-form input:focus,
+.contact-form textarea {
+  outline: none;
+}
+#name {
+  width: 35%;
+}
+#email {
+  width: 45%;
+}
+#subject {
+  width: 100%;
+}
+.contact-form textarea {
+  width: 100%;
+}
+.contact-form button {
+  padding: 8px 15px;
+  border: none;
+  background-color: var(--color-button);
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-family: var(--family-header);
+  font-weight: 600;
+  color: var(--background);
+  cursor: pointer;
+}

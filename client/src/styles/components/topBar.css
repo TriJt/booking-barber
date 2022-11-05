@@ -10,7 +10,7 @@
 
 /* active in NavLink */
 .items-link .active {
-  color: var(--background);
+  color: var(--background) !important;
 }
 .items-link .active:hover {
   color: black;
@@ -22,7 +22,10 @@
   top: 10%;
   height: 2px;
   width: 100%;
-  border-bottom: 2px solid var(--color-button);
+  border-bottom: 2px solid var(--color-button) !important;
+}
+.active {
+  background-color: transparent !important;
 }
 
 /* change background when click  */
@@ -41,7 +44,7 @@
 .topBar.action .logo,
 .topBar.action .items-link .link,
 .topBar.action .login-topBar .link {
-  color: var(--background-dark);
+  color: var(--background-dark) !important;
 }
 
 .topBar.action .left-topBar {
@@ -124,9 +127,8 @@
 
 .navigation-menu .items-link .link {
   text-decoration: none;
-
   font-size: 18px;
-  color: var(--background);
+  color: var(--background) !important;
   font-weight: 600;
   text-transform: uppercase;
   opacity: 0.9;

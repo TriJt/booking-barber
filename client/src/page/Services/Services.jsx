@@ -102,7 +102,7 @@ export default function Services() {
         <div className="background-image">
           <div className="container-item">
             <TopBar />
-            <SliderServices />
+            <SliderServices title="Service" />
           </div>
         </div>
       </section>

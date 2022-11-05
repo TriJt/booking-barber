@@ -222,13 +222,13 @@ export const LoginForStaff = async (req, res) => {
   }
   try {
     const match = await bcryptjs.compare(req.body.Password, user.Password);
-    if (match) {
+    if (!match) {
+      responseType.status = 301;
+      responseType.message = "Password not match!";
+    } else {
       responseType.status = 200;
       responseType.message = "Login Successfully";
       responseType.value = user;
-    } else {
-      responseType.status = 301;
-      responseType.message = "Password not match!";
     }
   } catch (error) {
     console.log(error);

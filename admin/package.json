@@ -2,7 +2,6 @@
   "name": "admin",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000/home",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",

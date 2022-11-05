@@ -15,4 +15,6 @@ body {
   --size-logo: 30px;
   --size-heading: 50px;
   --family-header: "Barlow Condensed", Arial, sans-serif;
+  --box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  --webkit: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
 }

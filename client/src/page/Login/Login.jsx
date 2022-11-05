@@ -57,6 +57,16 @@ export default function Login() {
           ...prevState,
           EmailErr: response.data.message,
         }));
+        setTimeout(() => {
+          setErrField({
+            EmailErr: "",
+            PasswordErr: "",
+          });
+          setInputField({
+            Email: "",
+            Password: "",
+          });
+        }, 3000);
         toast.error(response.data.message);
       } else {
         if (response.data.status === 301) {
@@ -65,6 +75,16 @@ export default function Login() {
             ...prevState,
             PasswordErr: response.data.message,
           }));
+          setTimeout(() => {
+            setErrField({
+              EmailErr: "",
+              PasswordErr: "",
+            });
+            setInputField({
+              Email: "",
+              Password: "",
+            });
+          }, 3000);
         } else {
           // login success
           toast.success(response.data.message);
@@ -96,6 +116,7 @@ export default function Login() {
               required
               value={inputField.Email}
               onChange={InputHandler}
+              autoComplete="off"
             />
             <label>Email</label>
           </div>

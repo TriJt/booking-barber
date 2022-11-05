@@ -28,7 +28,7 @@ export function SliderHome() {
   );
 }
 
-export function SliderAbout() {
+export function SliderServices({ title }) {
   return (
     <div className="slider-container fadeInUp animation">
       <div className="about-slider">
@@ -37,28 +37,10 @@ export function SliderAbout() {
             <h5>Home</h5>
           </Link>
           <FiChevronsRight className="icon-link" />
-          <h5>About</h5>
+          <h5>{title}</h5>
           <FiChevronsRight className="icon-link" />
         </div>
-        <h1 className="slider-text"> About US</h1>
-      </div>
-    </div>
-  );
-}
-
-export function SliderServices() {
-  return (
-    <div className="slider-container fadeInUp animation">
-      <div className="about-slider">
-        <div className="title-about">
-          <Link to="/home" className="link">
-            <h5>Home</h5>
-          </Link>
-          <FiChevronsRight className="icon-link" />
-          <h5>Service</h5>
-          <FiChevronsRight className="icon-link" />
-        </div>
-        <h1 className="slider-text"> Services</h1>
+        <h1 className="slider-text"> {title}</h1>
       </div>
     </div>
   );

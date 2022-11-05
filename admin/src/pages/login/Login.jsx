@@ -49,7 +49,16 @@ export default function Login() {
             ...prevState,
             EmailErr: response.data.message,
           }));
-          // toast.error(response.data.message);
+          setTimeout(() => {
+            setErrField({
+              EmailErr: "",
+              PasswordErr: "",
+            });
+            setInputField({
+              Email: "",
+              Password: "",
+            });
+          }, 3000);
         } else {
           if (response.data.status === 301) {
             // check password
@@ -57,6 +66,16 @@ export default function Login() {
               ...prevState,
               PasswordErr: response.data.message,
             }));
+            setTimeout(() => {
+              setErrField({
+                EmailErr: "",
+                PasswordErr: "",
+              });
+              setInputField({
+                Email: "",
+                Password: "",
+              });
+            }, 3000);
           } else {
             // login success
             toast.success(response.data.message);

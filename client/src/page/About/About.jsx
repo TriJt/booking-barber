@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/home.css";
 import TopBar from "../../components/Topbar/TopBar";
-import { SliderAbout } from "../../components/Home/Slider/Slider";
+import { SliderServices } from "../../components/Home/Slider/Slider";
 import Footer from "../../components/Footer/Footer";
 import Evaluate from "../../components/Evaluate/Evaluate";
 import Telephone from "../../components/Appointment/Telephone";
@@ -13,7 +13,7 @@ export default function About() {
           <div className="container-item">
             <TopBar />
 
-            <SliderAbout />
+            <SliderServices title="About" />
           </div>
         </div>
       </section>

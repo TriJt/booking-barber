@@ -6,6 +6,7 @@ import Service from "../../components/Home/Service/Service";
 import Pricing from "../../components/Home/Pricing/Pricing";
 import Footer from "../../components/Footer/Footer";
 import Telephone from "../../components/Appointment/Telephone";
+import ReactPlayer from "react-player";
 
 export default function Home() {
   return (
@@ -83,6 +84,16 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </div>
+      <div className="video">
+        <ReactPlayer
+          url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+          playing={true}
+          volume={1}
+          width="100%"
+          height="100%"
+          onReady={() => console.log("ready now")}
+        />
       </div>
       <div className="telephone">
         <Telephone />

@@ -71,11 +71,17 @@
   padding: 48px 15px 48px 48px;
 }
 .h2-about {
-  opacity: 0.5;
+  opacity: 0.7;
   font-size: 40px;
+  font-family: var(--family-header);
 }
 .text-about-mb p {
   color: #666666;
+}
+/* video  */
+.video {
+  width: 100%;
+  height: 300px;
 }
 
 /* pricing */
@@ -83,4 +89,10 @@
   padding: 40px 15px;
   text-align: center;
   background-color: rgb(235, 232, 222);
+}
+
+.pricing-item {
+  height: auto;
+  width: 100%;
+  padding-bottom: 40px;
 }
