@@ -1,6 +1,23 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+const CommentSchema = new Schema(
+  {
+    PostId: {
+      type: String,
+    },
+    User: {
+      type: String,
+    },
+    Text: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const PostSchema = new Schema(
   {
     Service: {
@@ -23,6 +40,7 @@ const PostSchema = new Schema(
     timestamps: true,
   }
 );
+const Comment = mongoose.model("Comment", CommentSchema);
 
 const Post = mongoose.model("Post", PostSchema);
-export default Post;
+export { Post, Comment };

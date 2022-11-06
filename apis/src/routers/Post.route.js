@@ -1,11 +1,14 @@
 import express from "express";
 import {
+  CreateComment,
   CreatePost,
   DeletePost,
+  GetCommentByIdBlog,
   getPostById,
   GetPostByService,
   GetPostLimit,
   GetPosts,
+  GetUserByIdInComment,
   UpdatePost,
 } from "../app/controllers/Post.controller.js";
 const router = express.Router();
@@ -30,5 +33,14 @@ router.get("/name-service", GetPostByService);
 
 // get post with id
 router.get("/:id", getPostById);
+
+// add comment
+router.post("/comment", CreateComment);
+
+// get all comment
+router.get("/comment/all/", GetCommentByIdBlog);
+
+//get user in comment
+router.get("/comment/user", GetUserByIdInComment);
 
 export default router;

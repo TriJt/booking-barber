@@ -1,4 +1,5 @@
-import Post from "../models/Post.model.js";
+import { Post, Comment } from "../models/Post.model.js";
+import { Customer } from "../models/Customer/Customer.model.js";
 
 export const CreatePost = async (req, res) => {
   const responseType = {};
@@ -125,6 +126,62 @@ export const GetPostLimit = async (req, res) => {
     responseType.statusText = "Error";
     responseType.message = "Get Failed ";
     responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+export const CreateComment = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  try {
+    const newComment = new Comment({
+      PostId: input.PostId,
+      User: input.User,
+      Text: input.Text,
+    });
+    const save = await newComment.save();
+    responseType.message = "Create new comment successfully";
+    responseType.status = 200;
+    responseType.value = save;
+  } catch (error) {
+    responseType.status = 404;
+    responseType.message = "Create comment failed";
+  }
+  res.json(responseType);
+};
+
+// get comment
+export const GetCommentByIdBlog = async (req, res) => {
+  const responseType = {};
+  const input = req.query.PostId;
+
+  const data = await Comment.find({ PostId: input });
+  if (data.length !== 0) {
+    responseType.message = "get comment successfully";
+    responseType.status = 200;
+    responseType.value = data;
+    console.log(true);
+  } else {
+    responseType.status = 404;
+    responseType.message = "Get comment failed";
+    console.log(false);
+  }
+  res.json(responseType);
+};
+
+export const GetUserByIdInComment = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+
+  const check = await Comment.findById({ _id: input.id });
+  try {
+    const user = await Customer.findById({ _id: check.User });
+    responseType.message = "get user comment successfully";
+    responseType.status = 200;
+    responseType.value = user;
+  } catch (error) {
+    responseType.status = 404;
+    responseType.message = "Get user failed";
   }
   res.json(responseType);
 };

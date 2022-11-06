@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import TopBar from "../../components/Topbar/TopBar";
 import { SliderServices } from "../../components/Home/Slider/Slider";
 import Footer from "../../components/Footer/Footer";
@@ -7,13 +7,16 @@ import "../../styles/components/singleBlog.css";
 import axios from "axios";
 import { BiSearchAlt } from "react-icons/bi";
 import { useParams } from "react-router-dom";
-import parse from "html-react-parser";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function SingleBlog() {
+  const { user: currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState(currentUser);
   const [data, setData] = useState([]);
   const [services, setServices] = useState([]);
   const { id } = useParams();
   const [single, setSingle] = useState("");
+  const [comment, setComment] = useState([]);
 
   // fetch for recent data
   useEffect(() => {
@@ -22,18 +25,14 @@ export default function SingleBlog() {
       setData(res.data.value);
     };
     fetchData();
-  }, []);
-
-  //   fetch for service
-  useEffect(() => {
+    //   fetch for service
     const fetchService = async () => {
       const res = await axios.get("http://localhost:8800/api/service/all");
       setServices(res.data.value);
     };
     fetchService();
   }, []);
-
-  // fetch for single blog
+  // fetch single
   useEffect(() => {
     const fetchSingle = async () => {
       const res = await axios.get("http://localhost:8800/api/post/" + id);
@@ -41,7 +40,18 @@ export default function SingleBlog() {
     };
     fetchSingle();
   }, [id]);
-  console.log(id);
+
+  // fetch for single blog
+  useEffect(() => {
+    const fetchComment = async () => {
+      const res = await axios.get(
+        "http://localhost:8800/api/post/comment/all?PostId=" + id
+      );
+      console.log(res.data);
+      setComment(res.data.value);
+    };
+    fetchComment();
+  }, [id]);
 
   return (
     <div className="container">
@@ -64,7 +74,33 @@ export default function SingleBlog() {
             />
           </div>
           {/* make comment for blog */}
-          <div className="comment-single-blog"></div>
+          {user ? (
+            <div className="comment-single-blog">
+              {/* show comment  */}
+
+              {/* create new comment  */}
+              <div className="form-create-comment">
+                <form action="">
+                  <div className="create-comment-blog">
+                    <img
+                      src={user.Image}
+                      alt=""
+                      className="img-create-comment"
+                    />
+                    <input
+                      type="text"
+                      className="input-create-comment"
+                      placeholder="Comment..."
+                    />
+                  </div>
+                  <div className="action-comment">
+                    <button className="exit-comment"> Exit</button>
+                    <button className="submit-comment">Comment</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          ) : null}
         </div>
         <div className="right-blog">
           <div className="search-blog">
