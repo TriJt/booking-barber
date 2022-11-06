@@ -43,52 +43,36 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
         <Route
-          path="/contact/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/contact/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route
-          path="/customer/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/customer/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route
-          path="/staff/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/staff/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route
-          path="/booking/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/booking/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route
-          path="/post/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/post/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route
-          path="/home/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/home/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route
-          path="/service/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/service/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route
-          path="/category/profile/:Name"
-          element={
-            user ? <Navigate replace to="/profile/:Name" /> : <Profile />
-          }
+          path="/category/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
       </Routes>
     </Router>

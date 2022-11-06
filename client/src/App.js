@@ -17,6 +17,7 @@ import Gallery from "./page/Gallenry/Gallery";
 import Blog from "./page/Blog/Blog";
 import About from "./page/About/About.jsx";
 import Appointment from "./page/Appointment/Appointment";
+import SingleBlog from "./components/Blog/SingleBlog.jsx";
 
 import { AuthContext } from "./context/AuthContext";
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<SingleBlog />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
         <Route exact path="/about" element={<About />} />
         <Route exact path="/appointment" element={<Appointment />} />

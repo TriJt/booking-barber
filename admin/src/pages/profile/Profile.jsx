@@ -17,7 +17,6 @@ export default function Profile() {
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(currentUser);
   const [files, setFiles] = useState("");
-  const [SelectedDay, setSelectedDay] = useState(new Date(user.Birthday));
 
   // declaration fields in form
   const [inputField, setInputField] = useState({
@@ -103,7 +102,6 @@ export default function Profile() {
       District: inputField.District,
       City: inputField.City,
       Gender: inputField.Gender,
-      Birthday: SelectedDay,
     };
     try {
       const response = await axios.put(
@@ -294,24 +292,6 @@ export default function Profile() {
                     <option value="Female">Female</option>
                     <option value="Other genders">Other genders</option>
                   </select>
-                </div>
-                <div className="input-container-profile">
-                  <span className="icon-input">
-                    <FaBirthdayCake />
-                  </span>
-                  <DatePicker
-                    className="input-profile"
-                    name="Birthday"
-                    value={SelectedDay}
-                    selected={SelectedDay}
-                    onChange={(date) => setSelectedDay(date)}
-                    onSelect={(date) => setSelectedDay(date)}
-                    dateFormat="dd/MM/yyyy"
-                    maxDate={new Date()}
-                    showYearDropdown
-                    scrollableYearDropdown
-                    placeholder={user.Birthday}
-                  />
                 </div>
 
                 <div className="action-profile">

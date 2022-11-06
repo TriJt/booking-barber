@@ -29,25 +29,41 @@ export default function Login() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-
     dispatch({
       type: "LOGIN_START",
     });
-    if (validateForm()) {
-      const data = {
-        Email: inputField.Email,
-        Password: inputField.Password,
-      };
-      try {
-        const response = await axios.post(
-          "http://localhost:8800/api/auth/login_staff",
-          data
-        );
-        if (response.data.status === 300) {
-          // check email
+
+    const data = {
+      Email: inputField.Email,
+      Password: inputField.Password,
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:8800/api/auth/login_staff",
+        data
+      );
+      if (response.data.status === 300) {
+        // check email
+        setErrField((prevState) => ({
+          ...prevState,
+          EmailErr: response.data.message,
+        }));
+        setTimeout(() => {
+          setErrField({
+            EmailErr: "",
+            PasswordErr: "",
+          });
+          setInputField({
+            Email: "",
+            Password: "",
+          });
+        }, 3000);
+      } else {
+        if (response.data.status === 301) {
+          // check password
           setErrField((prevState) => ({
             ...prevState,
-            EmailErr: response.data.message,
+            PasswordErr: response.data.message,
           }));
           setTimeout(() => {
             setErrField({
@@ -60,70 +76,27 @@ export default function Login() {
             });
           }, 3000);
         } else {
-          if (response.data.status === 301) {
-            // check password
-            setErrField((prevState) => ({
-              ...prevState,
-              PasswordErr: response.data.message,
-            }));
-            setTimeout(() => {
-              setErrField({
-                EmailErr: "",
-                PasswordErr: "",
-              });
-              setInputField({
-                Email: "",
-                Password: "",
-              });
-            }, 3000);
-          } else {
-            // login success
-            toast.success(response.data.message);
-            dispatch({
-              type: "LOGIN_SUCCESS",
-              payload: response.data.value,
-            });
-          }
+          // login success
+          toast.success(response.data.message);
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: response.data.value,
+          });
         }
-      } catch (err) {
-        dispatch({
-          type: "LOGIN_FAILURE",
-          payload: err,
-        });
-        throw err;
       }
+    } catch (err) {
+      dispatch({
+        type: "LOGIN_FAILURE",
+        payload: err,
+      });
+      throw err;
     }
-  };
-
-  // validate form before handClick action
-  const validateForm = () => {
-    let formValid = true;
-    setInputField({
-      EmailErr: "",
-      PasswordErr: "",
-    });
-    if (inputField.Email === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        EmailErr: "Please Enter Your Email !!",
-      }));
-    }
-
-    if (inputField.Password === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        PasswordErr: "Please Enter Your Password !!",
-      }));
-    }
-    return formValid;
   };
 
   return (
     <div className="Login">
       <ToastContainer />
-      <form onSubmit={handleClick}>
+      <form>
         <div className="container-login">
           <h2 className="header-login"> Sign in to your account</h2>
           <div className="items">

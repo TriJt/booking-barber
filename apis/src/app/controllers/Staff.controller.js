@@ -18,6 +18,7 @@ export const CreateStaff = async (req, res) => {
       Password: hashPassword,
       Image: input.Image,
       Gender: input.Gender,
+      isAdmin: input.Admin,
     });
     //save Customer in database and return response
     const save = await newStaff.save();

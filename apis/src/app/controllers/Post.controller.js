@@ -21,6 +21,7 @@ export const CreatePost = async (req, res) => {
   }
   res.json(responseType);
 };
+
 export const UpdatePost = async (req, res) => {
   const input = req.body;
   const responseType = {};
@@ -83,6 +84,40 @@ export const GetPosts = async (req, res) => {
   // check input
   try {
     const data = await Post.find();
+    responseType.message = "Get successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "Get Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+export const getPostById = async (req, res) => {
+  const responseType = {};
+  // check input
+  try {
+    const data = await Post.findById(req.params.id);
+    responseType.message = "Get successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "Get Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// get post with limit = 3
+
+export const GetPostLimit = async (req, res) => {
+  const responseType = {};
+  // check input
+  try {
+    const data = await Post.find().limit(3);
     responseType.message = "Get successfully";
     responseType.status = 200;
     responseType.value = data;

@@ -3,24 +3,28 @@ import TopBar from "../../components/Topbar/TopBar";
 import { SliderServices } from "../../components/Home/Slider/Slider";
 import Footer from "../../components/Footer/Footer";
 import Telephone from "../../components/Appointment/Telephone";
-import "../../styles/blog.css";
+import "../../styles/components/singleBlog.css";
 import axios from "axios";
 import { BiSearchAlt } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import parse from "html-react-parser";
 
-export default function Blog() {
+export default function SingleBlog() {
   const [data, setData] = useState([]);
   const [services, setServices] = useState([]);
-  const [limit, setLimit] = useState([]);
+  const { id } = useParams();
+  const [single, setSingle] = useState("");
 
+  // fetch for recent data
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:8800/api/post/all");
+      const res = await axios.get("http://localhost:8800/api/post/limit");
       setData(res.data.value);
     };
     fetchData();
   }, []);
 
+  //   fetch for service
   useEffect(() => {
     const fetchService = async () => {
       const res = await axios.get("http://localhost:8800/api/service/all");
@@ -29,13 +33,15 @@ export default function Blog() {
     fetchService();
   }, []);
 
+  // fetch for single blog
   useEffect(() => {
-    const fetchLimit = async () => {
-      const res = await axios.get("http://localhost:8800/api/post/limit");
-      setLimit(res.data.value);
+    const fetchSingle = async () => {
+      const res = await axios.get("http://localhost:8800/api/post/" + id);
+      setSingle(res.data.value);
     };
-    fetchLimit();
-  }, []);
+    fetchSingle();
+  }, [id]);
+  console.log(id);
 
   return (
     <div className="container">
@@ -48,26 +54,17 @@ export default function Blog() {
         </div>
       </section>
       <div className="blog">
-        <div className="left-blog">
-          {/* <ItemBlog id={data._id} /> */}
-          {data.map((value) => (
-            <div className="item-blog fadeInUp animation">
-              <div className="image-blog">
-                <Link
-                  to={{
-                    pathname: `/blog/${value._id}`,
-                    state: { id: value._id },
-                  }}
-                >
-                  <img src={value.Image} alt="" className="image-item-blog " />
-                </Link>
-              </div>
-              <div className="content-blog">
-                <h3 className="title-blog">{value.Title}</h3>
-                <p> {value.Note}</p>
-              </div>
-            </div>
-          ))}
+        <div className="left-single-blog">
+          {/* container for single blog  */}
+          <div className="content-single-blog">
+            <h3 className="title-blog single-blog-header"> {single.Title}</h3>
+            <div
+              className="content-single-blog"
+              dangerouslySetInnerHTML={{ __html: single.Content }}
+            />
+          </div>
+          {/* make comment for blog */}
+          <div className="comment-single-blog"></div>
         </div>
         <div className="right-blog">
           <div className="search-blog">
@@ -92,7 +89,7 @@ export default function Blog() {
           {/*  recent blog limit 3 */}
           <div className="list-service-blog">
             <h3 className="title-blog"> RECENT BLOG</h3>
-            {limit.map((value) => (
+            {data.map((value) => (
               <div className="recent-blog-item">
                 <img src={value.Image} alt="" className="image-recent" />
                 <div className="title-recent-blog"> {value.Title} </div>

@@ -46,7 +46,7 @@ export default function TopBar() {
           <ul className="top-dropdown-list">
             <li className="top-dropdown-item">
               <AccountCircleOutlinedIcon />
-              <Link to={`profile/${user.Name}`} className="Link">
+              <Link to={`profile/${user._id}`} className="Link">
                 <span className="dropdown-text">My profile</span>
               </Link>
             </li>
