@@ -52,6 +52,7 @@
   display: flex;
   justify-content: flex-end;
   padding: 0px 20px 0px 20px;
+  margin-bottom: 40px;
 }
 .action-comment .exit-comment,
 .action-comment .submit-comment {
@@ -72,4 +73,61 @@
 .action-comment .submit-comment {
   background-color: rgb(25, 25, 25, 0.2);
   cursor: pointer;
+}
+
+/* show comment */
+.show-comment {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.comment-container {
+  display: flex;
+  width: auto;
+  height: auto;
+  justify-content: center;
+}
+.comment-container .img-comment {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  object-fit: cover;
+  opacity: 0.9;
+}
+.form-show-comment {
+  width: 90%;
+  padding: 0px 20px;
+}
+.form-show-comment .header-comment {
+  display: flex;
+  justify-content: left;
+  height: auto;
+  width: 100%;
+  align-items: center;
+}
+.form-show-comment .header-comment .name-comment {
+  font-weight: 500;
+  font-family: var(--family-header);
+  font-size: 18px;
+}
+.form-show-comment .header-comment .time-comment {
+  font-size: 14px;
+  font-family: var(--family-header);
+  margin-left: 20px;
+}
+.text-comment {
+  font-size: 18px;
+  font-weight: 300;
+  font-family: var(--family-header);
+  height: auto;
+  width: 650px;
+  display: flex;
+}
+/* count commnet */
+.count-comment {
+  padding: 20px;
+  font-family: var(--family-header);
+  font-size: 20px;
 }

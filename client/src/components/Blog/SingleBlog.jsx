@@ -8,6 +8,8 @@ import axios from "axios";
 import { BiSearchAlt } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import moment from "moment";
 
 export default function SingleBlog() {
   const { user: currentUser } = useContext(AuthContext);
@@ -17,6 +19,8 @@ export default function SingleBlog() {
   const { id } = useParams();
   const [single, setSingle] = useState("");
   const [comment, setComment] = useState([]);
+  const [edit, setEdit] = useState(false);
+  const [count, setCount] = useState("");
 
   // fetch for recent data
   useEffect(() => {
@@ -47,10 +51,19 @@ export default function SingleBlog() {
       const res = await axios.get(
         "http://localhost:8800/api/post/comment/all?PostId=" + id
       );
-      console.log(res.data);
+
       setComment(res.data.value);
     };
     fetchComment();
+
+    // count comment
+    const countComment = async () => {
+      const res = await axios.get(
+        "http://localhost:8800/api/post/comment/count?PostId=" + id
+      );
+      setCount(res.data.value);
+    };
+    countComment();
   }, [id]);
 
   return (
@@ -74,10 +87,12 @@ export default function SingleBlog() {
             />
           </div>
           {/* make comment for blog */}
+          <div className="count-comment">
+            {count ? <span>{count} Comment</span> : <span> 0 Comment</span>}
+          </div>
+
           {user ? (
             <div className="comment-single-blog">
-              {/* show comment  */}
-
               {/* create new comment  */}
               <div className="form-create-comment">
                 <form action="">
@@ -99,6 +114,28 @@ export default function SingleBlog() {
                   </div>
                 </form>
               </div>
+            </div>
+          ) : null}
+
+          {comment ? (
+            <div className="show-comment">
+              {comment.map((value, key) => (
+                <div className="comment-container">
+                  <img src={value.Image} alt="" className="img-comment" />
+                  <div className="form-show-comment">
+                    <div className="header-comment">
+                      <span className="name-comment">{value.Name}</span>
+                      <span className="time-comment">
+                        {moment(value.createdAt).fromNow()}
+                      </span>
+                    </div>
+                    <p className="text-comment">{value.Text}</p>
+                  </div>
+                  <div className="form-action">
+                    <BiDotsVerticalRounded />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : null}
         </div>

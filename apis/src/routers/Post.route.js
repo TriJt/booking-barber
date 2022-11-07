@@ -2,14 +2,16 @@ import express from "express";
 import {
   CreateComment,
   CreatePost,
+  DeleteComment,
   DeletePost,
   GetCommentByIdBlog,
   getPostById,
   GetPostByService,
   GetPostLimit,
   GetPosts,
-  GetUserByIdInComment,
+  UpdateComment,
   UpdatePost,
+  CountComments,
 } from "../app/controllers/Post.controller.js";
 const router = express.Router();
 
@@ -37,10 +39,18 @@ router.get("/:id", getPostById);
 // add comment
 router.post("/comment", CreateComment);
 
-// get all comment
-router.get("/comment/all/", GetCommentByIdBlog);
+// update comment
+router.put("/comment/:id", UpdateComment);
 
-//get user in comment
-router.get("/comment/user", GetUserByIdInComment);
+//delete comment
+router.delete("/comment/:id", DeleteComment);
+
+// get all comment
+router.get("/comment/all", GetCommentByIdBlog);
+// count comment
+router.get("/comment/count", CountComments);
+
+// //get user in comment
+// router.get("/comment/user/", GetUserByIdInComment);
 
 export default router;

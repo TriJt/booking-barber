@@ -6,7 +6,13 @@ const CommentSchema = new Schema(
     PostId: {
       type: String,
     },
-    User: {
+    UserId: {
+      type: String,
+    },
+    Name: {
+      type: String,
+    },
+    Image: {
       type: String,
     },
     Text: {
@@ -31,6 +37,10 @@ const PostSchema = new Schema(
     },
     Image: {
       type: [String],
+    },
+    Like: {
+      type: Array,
+      default: [],
     },
     Note: {
       type: String,

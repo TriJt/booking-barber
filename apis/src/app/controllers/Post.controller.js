@@ -136,7 +136,9 @@ export const CreateComment = async (req, res) => {
   try {
     const newComment = new Comment({
       PostId: input.PostId,
-      User: input.User,
+      UserId: input.UserId,
+      Name: input.Name,
+      Image: input.Image,
       Text: input.Text,
     });
     const save = await newComment.save();
@@ -150,38 +152,106 @@ export const CreateComment = async (req, res) => {
   res.json(responseType);
 };
 
+// update comment
+export const UpdateComment = async (req, res) => {
+  const input = req.body;
+  const responseType = {};
+  const check = await Comment.findOne({ UserId: req.body.UserId });
+  // check input
+  try {
+    if (check) {
+      const update = await Comment.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: input,
+        },
+        {
+          new: true,
+        }
+      );
+    }
+
+    const save = await update.save();
+    responseType.statusText = "Success";
+    responseType.message = "Update successfully";
+    responseType.status = 200;
+    responseType.value = save;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "Update Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// delete comment
+export const DeleteComment = async (req, res) => {
+  const responseType = {};
+  // find comment and check userId
+
+  const check = await Comment.findOne({ UserId: req.body.UserId });
+  try {
+    if (check) {
+      await Comment.findByIdAndDelete(req.params.id);
+    }
+    responseType.message = "Delete successfully";
+    responseType.status = 200;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "Delete Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
 // get comment
 export const GetCommentByIdBlog = async (req, res) => {
   const responseType = {};
   const input = req.query.PostId;
 
   const data = await Comment.find({ PostId: input });
+
   if (data.length !== 0) {
     responseType.message = "get comment successfully";
     responseType.status = 200;
     responseType.value = data;
-    console.log(true);
   } else {
     responseType.status = 404;
     responseType.message = "Get comment failed";
-    console.log(false);
   }
   res.json(responseType);
 };
 
-export const GetUserByIdInComment = async (req, res) => {
+export const CountComments = async (req, res) => {
   const responseType = {};
-  const input = req.body;
-
-  const check = await Comment.findById({ _id: input.id });
+  const input = req.query.PostId;
+  const data = await Comment.countDocuments({ PostId: input });
   try {
-    const user = await Customer.findById({ _id: check.User });
-    responseType.message = "get user comment successfully";
+    responseType.statusText = "Success";
+    responseType.message = "Count customer successfully";
     responseType.status = 200;
-    responseType.value = user;
-  } catch (error) {
+    responseType.value = data;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
     responseType.status = 404;
-    responseType.message = "Get user failed";
   }
   res.json(responseType);
 };
+
+// don't use
+// export const GetUserByIdInComment = async (req, res) => {
+//   const responseType = {};
+//   const input = req.query.userId;
+//   const check = await Comment.findById({ _id: input });
+//   try {
+//     const user = await Customer.findById({ _id: check.User });
+//     responseType.message = "get user comment successfully";
+//     responseType.status = 200;
+//     responseType.value = user;
+//   } catch (error) {
+//     responseType.status = 404;
+//     responseType.message = "Get user failed";
+//   }
+//   res.json(responseType);
+// };
