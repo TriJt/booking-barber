@@ -12,7 +12,7 @@ export default function Category({ image, name, description, price }) {
           <div className="price-link">
             <span className="price"> {price}$</span>
             <Link to={``} className="link">
-              <span> See Detail</span>
+              <span>See Detail</span>
             </Link>
           </div>
         </div>

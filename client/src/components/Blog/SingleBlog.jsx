@@ -19,8 +19,10 @@ export default function SingleBlog() {
   const { id } = useParams();
   const [single, setSingle] = useState("");
   const [comment, setComment] = useState([]);
+  const [text, setText] = useState("");
   const [edit, setEdit] = useState(false);
   const [count, setCount] = useState("");
+  const [commentId, setCommentId] = useState("");
 
   // fetch for recent data
   useEffect(() => {
@@ -55,7 +57,8 @@ export default function SingleBlog() {
       setComment(res.data.value);
     };
     fetchComment();
-
+  }, [id]);
+  useEffect(() => {
     // count comment
     const countComment = async () => {
       const res = await axios.get(
@@ -64,7 +67,101 @@ export default function SingleBlog() {
       setCount(res.data.value);
     };
     countComment();
-  }, [id]);
+  });
+
+  const [inputField, setInputField] = useState({
+    Text: "",
+  });
+  const InputHandler = (e) => {
+    setInputField({ ...inputField, [e.target.name]: e.target.value });
+  };
+  const Exit = (e) => {
+    e.preventDefault();
+    setInputField({ Text: "" });
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      PostId: id,
+      UserId: user._id,
+      Name: user.Name_Customer,
+      Image: user.Image[0],
+      Text: inputField.Text,
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:8800/api/post/comment",
+        data
+      );
+
+      const record = response.data;
+      setComment([...comment, record.value]);
+      setInputField({ Text: "" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCommentId = (id, text) => {
+    setEdit(true);
+    setCommentId(id);
+    setText(text);
+  };
+  const closeCommnet = () => {
+    setEdit(false);
+    setCommentId(null);
+  };
+
+  const onChangeText = (e) => {
+    setText(e.target.value);
+  };
+
+  const updateHandle = async () => {
+    const data = {
+      UserId: user._id,
+      Text: text,
+    };
+
+    try {
+      const res = await axios.put(
+        "http://localhost:8800/api/post/comment/" + commentId,
+        data
+      );
+      console.log(res.data);
+      setEdit(false);
+      setCommentId(null);
+      const response = await axios.get(
+        "http://localhost:8800/api/post/comment/all?PostId=" + id
+      );
+
+      setComment(response.data.value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const DeleteHandle = async (idComment) => {
+    try {
+      const res = await axios.delete(
+        "http://localhost:8800/api/post/comment-del/" + idComment,
+        {
+          data: {
+            UserId: user._id,
+          },
+        }
+      );
+
+      const response = await axios.get(
+        "http://localhost:8800/api/post/comment/all?PostId=" + id
+      );
+
+      setComment(response.data.value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="container">
@@ -106,11 +203,18 @@ export default function SingleBlog() {
                       type="text"
                       className="input-create-comment"
                       placeholder="Comment..."
+                      name="Text"
+                      value={inputField.Text}
+                      onChange={InputHandler}
                     />
                   </div>
                   <div className="action-comment">
-                    <button className="exit-comment"> Exit</button>
-                    <button className="submit-comment">Comment</button>
+                    <button className="exit-comment" onClick={Exit}>
+                      Exit
+                    </button>
+                    <button className="submit-comment" onClick={submitHandler}>
+                      Comment
+                    </button>
                   </div>
                 </form>
               </div>
@@ -119,8 +223,8 @@ export default function SingleBlog() {
 
           {comment ? (
             <div className="show-comment">
-              {comment.map((value, key) => (
-                <div className="comment-container">
+              {comment.map((value, i) => (
+                <div className="comment-container" key={i}>
                   <img src={value.Image} alt="" className="img-comment" />
                   <div className="form-show-comment">
                     <div className="header-comment">
@@ -129,10 +233,65 @@ export default function SingleBlog() {
                         {moment(value.createdAt).fromNow()}
                       </span>
                     </div>
-                    <p className="text-comment">{value.Text}</p>
+
+                    {commentId === value._id ? (
+                      <div className="update-comment" key={value._id}>
+                        <input
+                          name="text"
+                          type="text"
+                          className="item-update"
+                          value={text}
+                          onChange={onChangeText}
+                        />
+                        <div className="update-action">
+                          <button
+                            onClick={closeCommnet}
+                            className="cancel-update"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={updateHandle}
+                            className="save-update"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <React.Fragment>
+                        <p className="text-comment">{value.Text}</p>
+                      </React.Fragment>
+                    )}
                   </div>
                   <div className="form-action">
-                    <BiDotsVerticalRounded />
+                    {user._id === value.UserId ? (
+                      <div className="dropdown-comment">
+                        <div className="dropdown-comment-select">
+                          <BiDotsVerticalRounded />
+                        </div>
+                        <ul className="dropdown-comment-list">
+                          <li className="dropdown-comment-item">
+                            <span
+                              className="dropdown-comment-text"
+                              onClick={() => {
+                                handleCommentId(value._id, value.Text);
+                              }}
+                            >
+                              Update
+                            </span>
+                          </li>
+                          <li className="dropdown-comment-item">
+                            <span
+                              className="dropdown-comment-text"
+                              onClick={() => DeleteHandle(value._id)}
+                            >
+                              Delete
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               ))}
@@ -153,8 +312,8 @@ export default function SingleBlog() {
           {/* list service */}
           <div className="list-service-blog">
             <h3 className="title-blog"> Services</h3>
-            {services.map((value) => (
-              <div className="service-blog">
+            {services.map((value, u) => (
+              <div className="service-blog" key={u}>
                 <span>{value.Name_Service}</span>
               </div>
             ))}

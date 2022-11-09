@@ -154,7 +154,6 @@ export const CreateComment = async (req, res) => {
 
 // update comment
 export const UpdateComment = async (req, res) => {
-  const input = req.body;
   const responseType = {};
   const check = await Comment.findOne({ UserId: req.body.UserId });
   // check input
@@ -163,19 +162,18 @@ export const UpdateComment = async (req, res) => {
       const update = await Comment.findByIdAndUpdate(
         req.params.id,
         {
-          $set: input,
+          Text: req.body.Text,
         },
         {
           new: true,
         }
       );
+      const save = await update.save();
+      responseType.statusText = "Success";
+      responseType.message = "Update successfully";
+      responseType.status = 200;
+      responseType.value = save;
     }
-
-    const save = await update.save();
-    responseType.statusText = "Success";
-    responseType.message = "Update successfully";
-    responseType.status = 200;
-    responseType.value = save;
   } catch (err) {
     responseType.statusText = "Error";
     responseType.message = "Update Failed ";
@@ -190,16 +188,20 @@ export const DeleteComment = async (req, res) => {
   // find comment and check userId
 
   const check = await Comment.findOne({ UserId: req.body.UserId });
-  try {
-    if (check) {
-      await Comment.findByIdAndDelete(req.params.id);
+  console.log("USER", req.body.UserId);
+  if (check) {
+    const respone = await Comment.findByIdAndDelete(req.params.id);
+    console.log(req.params.id);
+    if (respone) {
+      responseType.message = "Delete successfully";
+      responseType.status = 200;
+    } else {
+      responseType.statusText = "Error";
+      responseType.message = "Delete Failed ";
+      responseType.status = 404;
     }
-    responseType.message = "Delete successfully";
-    responseType.status = 200;
-  } catch (err) {
-    responseType.statusText = "Error";
-    responseType.message = "Delete Failed ";
-    responseType.status = 404;
+  } else {
+    responseType.message = "wrong user";
   }
   res.json(responseType);
 };

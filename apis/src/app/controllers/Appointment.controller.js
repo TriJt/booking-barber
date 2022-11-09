@@ -13,82 +13,86 @@ function createDate(date) {
     date: date,
     slots: [
       new Slot({
-        Time: "08:00:00",
+        Time: "08:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "08:30:00",
+        Time: "08:30",
         isBooked: false,
       }),
       new Slot({
-        Time: "09:00:00",
+        Time: "09:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "09:30:00",
+        Time: "09:30",
         isBooked: false,
       }),
       new Slot({
-        Time: "10:00:00",
+        Time: "10:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "10:30:00",
+        Time: "10:30",
         isBooked: false,
       }),
       new Slot({
-        Time: "11:00:00",
+        Time: "11:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "11:30:00",
+        Time: "11:30",
         isBooked: false,
       }),
       new Slot({
-        Time: "12:00:00",
+        Time: "12:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "12:30:00",
+        Time: "12:30",
         isBooked: false,
       }),
 
       new Slot({
-        Time: "13:00:00",
+        Time: "13:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "13:30:00",
+        Time: "13:30",
         isBooked: false,
       }),
       new Slot({
-        Time: "14:00:00",
+        Time: "14:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "14:30:00",
+        Time: "14:30",
         isBooked: false,
       }),
       new Slot({
-        Time: "15:00:00",
+        Time: "15:00",
         isBooked: false,
       }),
       new Slot({
-        Time: "15:30:00",
+        Time: "15:30",
         isBooked: false,
       }),
       new Slot({
-        Time: "16:00:00",
-        isBooked: false,
-      }),
-      ,
-      new Slot({
-        Time: "16:30:00",
+        Time: "16:00",
         isBooked: false,
       }),
       ,
       new Slot({
-        Time: "17:00:00",
+        Time: "16:30",
+        isBooked: false,
+      }),
+      ,
+      new Slot({
+        Time: "17:00",
+        isBooked: false,
+      }),
+      new Slot({
+        Time: "17:30",
         isBooked: false,
       }),
     ],
@@ -149,7 +153,7 @@ export const GetSlots = async (req, res) => {
 // id date 6356d5d446f871f2f213a530
 // id slots  6356d5d446f871f2f213a51d
 // for client
-export const AddAppointment = (req, res) => {
+export const AddAppointment = async (req, res) => {
   const staffId = req.body.StaffId; // staff id
   const customerId = req.body.CustomerId; // Customer id
   const customerName = req.body.NameCustomer;
@@ -158,12 +162,28 @@ export const AddAppointment = (req, res) => {
   const dateId = req.body.DateId;
   const email = req.body.Email;
   const status = "pending";
-  const note = req.body.Note;
   const manyService = req.body.Services;
+
+  // const staff = await Staff.findById({ _id: staffId });
+  // console.log(staff);
+  // const date = staff.Dates.in(dateId);
+  // console.log(date);
+  // const slot = await date.slots.in(slotId);
+  // console.log(slot);
+  // await slot.findByIdAndUpdate(
+  //   { _id: slotId },
+  //   { isBooked: true },
+  //   { new: true }
+  // );
 
   Staff.findOne({ _id: staffId }).then((staff) => {
     const date = staff.Dates.id(dateId);
+    console.log("date", date);
     const slot = date.slots.id(slotId);
+    console.log("slot", slot);
+    // const slotTime = slot.Time;
+    // console.log(slotTime);
+    // slot.findByIdAndUpdate({ _id: slotId }, { isBooked: true }, { new: true });
     slot.isBooked = true;
 
     staff.save().then(() => {
@@ -181,7 +201,6 @@ export const AddAppointment = (req, res) => {
         Email: email,
         Services: manyService,
         Status: status,
-        Note: note,
       });
       console.log(newAppointment);
       newAppointment

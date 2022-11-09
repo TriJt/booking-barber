@@ -41,9 +41,6 @@ const AppointmentSchema = new Schema(
       type: String,
     },
     Services: {
-      type: Array,
-    },
-    Note: {
       type: String,
     },
   },

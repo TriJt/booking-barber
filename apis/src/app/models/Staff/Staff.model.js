@@ -85,7 +85,7 @@ const StaffSchema = new Schema(
       type: Boolean,
       default: true,
     },
-    Salary: [SalarySchema],
+    Salary: [],
     Gender: {
       type: String,
     },

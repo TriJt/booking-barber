@@ -37,7 +37,7 @@ function App() {
         <Route path="/blog/:id" element={<SingleBlog />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
         <Route exact path="/about" element={<About />} />
-        <Route exact path="/appointment" element={<Appointment />} />
+        <Route exact path="/appointment/:telephone" element={<Appointment />} />
         {/* use Navigate  */}
         <Route path="/" element={<Navigate replace to="/home" />} />
       </Routes>

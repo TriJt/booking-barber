@@ -56,7 +56,6 @@ export default function Contact() {
         <div className="background-image">
           <div className="container-item">
             <TopBar />
-
             <SliderServices title="Contact" />
           </div>
         </div>

@@ -43,7 +43,7 @@ router.post("/comment", CreateComment);
 router.put("/comment/:id", UpdateComment);
 
 //delete comment
-router.delete("/comment/:id", DeleteComment);
+router.delete("/comment-del/:id", DeleteComment);
 
 // get all comment
 router.get("/comment/all", GetCommentByIdBlog);
