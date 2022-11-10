@@ -7,6 +7,7 @@ import "../../styles/blog.css";
 import axios from "axios";
 import { BiSearchAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import Scroll from "../../components/ScrollToTop/Scroll";
 
 export default function Blog() {
   const [data, setData] = useState([]);
@@ -56,7 +57,6 @@ export default function Blog() {
                 <Link
                   to={{
                     pathname: `/blog/${value._id}`,
-                    state: { id: value._id },
                   }}
                 >
                   <img src={value.Image} alt="" className="image-item-blog " />
@@ -94,8 +94,15 @@ export default function Blog() {
             <h3 className="title-blog"> RECENT BLOG</h3>
             {limit.map((value) => (
               <div className="recent-blog-item">
-                <img src={value.Image} alt="" className="image-recent" />
-                <div className="title-recent-blog"> {value.Title} </div>
+                <Link
+                  to={{
+                    pathname: `/blog/${value._id}`,
+                  }}
+                  className="link-limit"
+                >
+                  <img src={value.Image} alt="" className="image-recent" />
+                  <div className="title-recent-blog"> {value.Title} </div>
+                </Link>
               </div>
             ))}
           </div>
@@ -113,6 +120,7 @@ export default function Blog() {
       <div className="telephone">
         <Telephone />
       </div>
+      <Scroll />
       <Footer />
     </div>
   );

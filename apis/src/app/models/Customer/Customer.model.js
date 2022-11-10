@@ -22,24 +22,6 @@ const ContactSchema = new Schema(
   }
 );
 
-const StyleSchema = new Schema(
-  {
-    Name: {
-      type: String,
-      require: true,
-    },
-    Image: {
-      type: String,
-    },
-    Description: {
-      type: String,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
 const CustomerSchema = new Schema(
   {
     Name_Customer: {
@@ -81,7 +63,6 @@ const CustomerSchema = new Schema(
     Gender: {
       type: String,
     },
-    Interests: [StyleSchema],
     Collect: {
       type: String,
       default: 0,
@@ -92,6 +73,5 @@ const CustomerSchema = new Schema(
   }
 );
 const Contact = mongoose.model("Contact", ContactSchema);
-const Styles = mongoose.model("Styles", StyleSchema);
 const Customer = mongoose.model("Customer", CustomerSchema);
-export { Customer, Styles, Contact };
+export { Customer, Contact };

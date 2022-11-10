@@ -5,6 +5,8 @@ import { SliderServices } from "../../components/Home/Slider/Slider";
 import Footer from "../../components/Footer/Footer";
 import Evaluate from "../../components/Evaluate/Evaluate";
 import Telephone from "../../components/Appointment/Telephone";
+import Scroll from "../../components/ScrollToTop/Scroll";
+
 export default function About() {
   return (
     <div className="container">
@@ -51,6 +53,7 @@ export default function About() {
       <div className="telephone">
         <Telephone />
       </div>
+      <Scroll />
       <Footer />
     </div>
   );

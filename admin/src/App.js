@@ -13,7 +13,7 @@ import Customer from "./pages/customer/Customer";
 import Category from "./pages/category/Category";
 import Services from "./pages/services/Services";
 import Staff from "./pages/staff/Staff";
-import Contact from "./pages/contact/Contact";
+import Receipt from "./pages/receipt/Receipt";
 import Forgot from "./pages/forgot/Forget";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
@@ -26,19 +26,18 @@ export default function App() {
   return (
     <Router>
       <Routes>
+        <Route exact path="/home" element={user ? <Home /> : <Login />} />
         <Route
           path="/"
           element={user ? <Navigate replace to="/home" /> : <Home />}
         />
-
-        <Route exact path="/home" element={user ? <Home /> : <Login />} />
         <Route path="/booking" element={user ? <Booking /> : <Login />} />
         <Route path="/customer" element={user ? <Customer /> : <Login />} />
         <Route path="/category" element={user ? <Category /> : <Login />} />
         <Route path="/service" element={user ? <Services /> : <Login />} />
         <Route path="/staff" element={user ? <Staff /> : <Login />} />
         <Route path="/post" element={user ? <Posts /> : <Login />} />
-        <Route path="/contact" element={user ? <Contact /> : <Login />} />
+        <Route path="/receipt" element={user ? <Receipt /> : <Login />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />

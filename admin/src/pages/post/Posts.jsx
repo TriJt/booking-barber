@@ -10,7 +10,7 @@ import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
 import TextEditor from "../../components/Editor/TextEditor";
 
-export default function Posts({ placeholder }) {
+export default function Posts() {
   const [data, setData] = useState([]);
   const [services, SetServices] = useState([]);
   const [rowId, setRowId] = useState("");
@@ -374,8 +374,8 @@ export default function Posts({ placeholder }) {
                     className="select-service"
                     onChange={InputHandler}
                   >
-                    {services.map((option) => (
-                      <option key={option} value={option.Name_Service}>
+                    {services.map((option, i) => (
+                      <option key={i} value={option.Name_Service}>
                         {option.Name_Service}
                       </option>
                     ))}

@@ -144,3 +144,8 @@
   font-family: var(--family-header);
   padding-bottom: 40px;
 }
+.link-limit {
+  display: flex;
+  color: var(--background-dark);
+  text-decoration: none;
+}

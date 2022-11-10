@@ -190,8 +190,8 @@ export const AddAppointment = async (req, res) => {
       // create an entry in the appointment database
       const newAppointment = new Appointment({
         StaffId: staffId,
-        dateId,
-        slotId,
+        DateId: dateId,
+        SlotId: slotId,
         CustomerId: customerId,
         date: date.date,
         slotTime: slot.Time,
@@ -227,7 +227,7 @@ export const UpdateAppointment = async (req, res) => {
   const slotId = req.body.SlotId; // slot id
   const dateId = req.body.DateId;
   const email = req.body.Email;
-  const status = "pending";
+  const status = req.body.Status;
   const note = req.body.Note;
   const manyService = req.body.Services;
 
@@ -253,15 +253,14 @@ export const UpdateAppointment = async (req, res) => {
         Status: status,
         Note: note,
       };
-      const newAppointment = Appointment.findByIdAndUpdate(
+      Appointment.findByIdAndUpdate(
         { appointmentId },
         { $set: data },
         {
           new: true,
         }
-      );
-      newAppointment
-        .save()
+      )
+        .exec()
         .then((appointment) => {
           return res.status(200).json(appointment);
         })
@@ -273,8 +272,32 @@ export const UpdateAppointment = async (req, res) => {
   });
 };
 
-// delete information of Appointment
-export const DeleteAppointment = async (req, res) => {};
+// delete information of Appointment for customer
+export const UpdateCancelStatusAppointment = async (req, res) => {
+  const staffId = req.body.StaffId;
+  const slotId = req.body.SlotId;
+  const dateId = req.body.DateId;
+  const status = req.body.Status;
+
+  Staff.findOne({ _id: staffId }).then((staff) => {
+    const date = staff.Dates.id(dateId);
+    const slot = date.slots.id(slotId);
+    slot.isBooked = false;
+    const appointmentId = req.params.id;
+    staff.save().then(() => {
+      // create an entry in the appointment database
+      Appointment.findByIdAndUpdate(appointmentId, { Status: status })
+        .exec()
+        .then((status) => {
+          return res.status(200).json(status);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).json(err);
+        });
+    });
+  });
+};
 
 // get information of Appointment by id
 export const GetAppointmentById = async (req, res) => {
@@ -330,6 +353,55 @@ export const GetAppointments = async (req, res) => {
   const responseType = {};
   try {
     const appointment = await Appointment.find();
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};
+
+export const GetAppointmentByUserId = async (req, res) => {
+  const responseType = {};
+  const userId = req.query.UserId;
+  try {
+    const appointment = await Appointment.find({ CustomerId: userId });
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};
+
+export const GetAppointmentMatchPending = async (req, res) => {
+  const userId = req.query.UserId;
+  const responseType = {};
+  try {
+    const appointment = await Appointment.find({
+      $and: [{ CustomerId: userId }, { Status: "pending" }],
+    });
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};
+
+export const GetAppointmentMatchCancel = async (req, res) => {
+  const userId = req.query.UserId;
+  const responseType = {};
+  try {
+    const appointment = await Appointment.find({
+      $and: [{ CustomerId: userId }, { Status: "cancel" }],
+    });
     responseType.message = "Get appointment successfully";
     responseType.status = 200;
     responseType.value = appointment;

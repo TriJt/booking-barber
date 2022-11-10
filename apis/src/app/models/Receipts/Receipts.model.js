@@ -22,8 +22,8 @@ const ReceiptsSchema = new mongoose.Schema(
     },
     Status: {
       type: String,
-      default: "advise",
-      // advise,processing, complete
+      default: "processing",
+      //  processing, complete
     },
     // customer requirements when performing the service process
     Note: {

@@ -10,7 +10,7 @@ import { GiEarthAmerica } from "react-icons/gi";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Scroll from "../../components/ScrollToTop/Scroll";
 export default function Contact() {
   //declaration fields in form
   const [inputField, setInputField] = useState({
@@ -175,6 +175,7 @@ export default function Contact() {
       <div className="telephone">
         <Telephone />
       </div>
+      <Scroll />
       <Footer />
     </div>
   );

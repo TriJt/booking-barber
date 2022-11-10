@@ -7,6 +7,7 @@ import Telephone from "../../components/Appointment/Telephone";
 import Category from "../../components/Category/Category";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Scroll from "../../components/ScrollToTop/Scroll";
 
 export default function Services() {
   const [hairCut, setHairCut] = useState([]);
@@ -232,7 +233,7 @@ export default function Services() {
       <div className="telephone">
         <Telephone />
       </div>
-
+      <Scroll />
       <Footer />
     </div>
   );

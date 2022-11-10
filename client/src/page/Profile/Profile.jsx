@@ -6,9 +6,9 @@ import Information from "../../components/Profile/Information";
 import History from "../../components/Profile/History";
 import ChangePassword from "../../components/Profile/ChangePassword";
 import Appointment from "../../components/Profile/Appointment";
-import Email from "../../components/Profile/Email";
 import "../../styles/profile.css";
 import { NavLink } from "react-router-dom";
+import Scroll from "../../components/ScrollToTop/Scroll";
 
 export default function Profile() {
   const [active, setActive] = useState("1");
@@ -37,9 +37,7 @@ export default function Profile() {
               <div className="left-title" onClick={() => setActive("3")}>
                 Appointment
               </div>
-              <div className="left-title" onClick={() => setActive("4")}>
-                Email
-              </div>
+
               <div className="left-title " onClick={() => setActive("5")}>
                 History
               </div>
@@ -48,12 +46,13 @@ export default function Profile() {
               {active === "1" && <Information />}
               {active === "2" && <ChangePassword />}
               {active === "3" && <Appointment />}
-              {active === "4" && <Email />}
+
               {active === "5" && <History />}
             </div>
           </div>
         </div>
       </section>
+      <Scroll />
     </div>
   );
 }

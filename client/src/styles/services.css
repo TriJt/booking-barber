@@ -13,13 +13,11 @@
   background-color: var(--background);
 }
 .title-category {
-  width: 100%;
+  width: auto;
   height: 40px;
   display: flex;
   justify-content: left;
-  align-items: center;
-  margin-left: 30px;
-  padding-left: 10px;
+  padding-left: 40px;
   border-left: 4px solid var(--color-button);
 }
 .div-service {

@@ -3,28 +3,37 @@ const router = express.Router();
 import {
   AddAppointment,
   UpdateAppointment,
-  DeleteAppointment,
+  UpdateCancelStatusAppointment,
   GetAppointmentById,
   GetAppointments,
   GetSlots,
+  GetAppointmentByUserId,
+  GetAppointmentMatchPending,
 } from "../app/controllers/Appointment.controller.js";
 
+// get appointment with status pending
+router.get("/pending", GetAppointmentMatchPending);
+
 // get slot of staff to booking appointment
+
 router.post("/get-slots", GetSlots);
 
 // create Appointment
 router.post("/add", AddAppointment);
 
 // update information of Appointment
-router.put("/update/:id", UpdateAppointment);
+router.put("/update", UpdateAppointment);
 
-// delete Appointment
-router.delete("/delete/:id", DeleteAppointment);
+// update cancel Appointment for customer
+router.put("/update-cancel/:id", UpdateCancelStatusAppointment);
 
 // get all Appointment by id
 router.get("/all", GetAppointments);
 
 // get Appointment by id
 router.get("/:id", GetAppointmentById);
+
+// get appointment with userId
+router.get("/", GetAppointmentByUserId);
 
 export default router;

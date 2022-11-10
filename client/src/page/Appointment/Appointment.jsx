@@ -10,11 +10,11 @@ import ModalLogin from "../../components/Modal/ModalLogin";
 import { MdContentCut } from "react-icons/md";
 import moment from "moment";
 import { toast } from "react-toastify";
+import Scroll from "../../components/ScrollToTop/Scroll";
 
 export default function Appointment() {
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(currentUser);
-  const { telephone } = useParams();
   const [open, setOpen] = useState(false);
   const [staff, setStaff] = useState([]);
   const [service, setService] = useState([]);
@@ -274,6 +274,7 @@ export default function Appointment() {
           </button>
         </div>
       )}
+      <Scroll />
     </div>
   );
 }

@@ -27,6 +27,11 @@
   cursor: pointer;
   text-transform: uppercase;
   font-family: var(--font-header);
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+.logo:hover {
+  color: var(--color-header);
 }
 .burger {
   display: none;
@@ -56,6 +61,8 @@
   margin-left: 10px;
   font-size: 16px;
   padding: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .Link {

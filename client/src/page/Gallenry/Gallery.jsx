@@ -4,6 +4,7 @@ import { SliderServices } from "../../components/Home/Slider/Slider";
 import Footer from "../../components/Footer/Footer";
 import Telephone from "../../components/Appointment/Telephone";
 import Galleries from "../../components/Gallery/Gallery";
+import Scroll from "../../components/ScrollToTop/Scroll";
 
 export default function Gallery() {
   return (
@@ -28,6 +29,7 @@ export default function Gallery() {
       <div className="telephone">
         <Telephone />
       </div>
+      <Scroll />
       <Footer />
     </div>
   );

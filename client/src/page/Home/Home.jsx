@@ -7,6 +7,7 @@ import Pricing from "../../components/Home/Pricing/Pricing";
 import Footer from "../../components/Footer/Footer";
 import Telephone from "../../components/Appointment/Telephone";
 import ReactPlayer from "react-player";
+import Scroll from "../../components/ScrollToTop/Scroll";
 
 export default function Home() {
   return (
@@ -87,7 +88,7 @@ export default function Home() {
       </div>
       <div className="video">
         <ReactPlayer
-          url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+          url="https://youtu.be/r9lvNDkQhd4"
           playing={true}
           volume={1}
           width="100%"
@@ -105,6 +106,7 @@ export default function Home() {
           <Pricing />
         </div>
       </div>
+      <Scroll />
       <Footer />
     </div>
   );

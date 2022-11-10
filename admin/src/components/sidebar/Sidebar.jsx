@@ -16,23 +16,23 @@ export default function Sidebar() {
   const [user, setUser] = useState(currentUser);
   const [admin, setAdmin] = useState(false);
 
-  useEffect(() => {
-    if (user.isAdmin === true) {
-      setAdmin(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if () {
+  //     setAdmin(true);
+  //   }
+  // });
 
   return (
     <div className="Sidebar">
       <div className="top-sidebar">
         <div className="div-logo">
-          <span className="logo"> BarberJt</span>{" "}
+          <span className="logo"> BarberJt</span>
           <span className="burger">
             <GiHamburgerMenu />
           </span>
         </div>
       </div>
-      {admin ? (
+      {user.isAdmin === true ? (
         <div className="bottom-sidebar">
           {/* item with icon and name */}
           <NavLink to={`/home`} className="Link">
@@ -77,10 +77,10 @@ export default function Sidebar() {
               <div className="item-sidebar">Posts</div>
             </div>
           </NavLink>
-          <NavLink to="/contact" className="Link">
+          <NavLink to="/receipt" className="Link">
             <div className="items-sidebar">
               <ContactsIcon className="icon" />
-              <div className="item-sidebar">Contacts</div>
+              <div className="item-sidebar">Receipts</div>
             </div>
           </NavLink>
         </div>
@@ -123,10 +123,10 @@ export default function Sidebar() {
               <div className="item-sidebar">Posts</div>
             </div>
           </NavLink>
-          <NavLink to="/contact" className="Link">
+          <NavLink to="/receipt" className="Link">
             <div className="items-sidebar">
               <ContactsIcon className="icon" />
-              <div className="item-sidebar">Contacts</div>
+              <div className="item-sidebar">Receipts</div>
             </div>
           </NavLink>
         </div>

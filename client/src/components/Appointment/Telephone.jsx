@@ -7,7 +7,11 @@ export default function Telephone() {
     Telephone: "",
   });
   const InputHandler = (e) => {
-    setInputField({ ...inputField, [e.target.name]: e.target.value });
+    const limit = 11;
+    setInputField({
+      ...inputField,
+      [e.target.name]: e.target.value.slice(0, 11),
+    });
   };
 
   return (
@@ -16,10 +20,11 @@ export default function Telephone() {
       <span>After cutting the payment, it's okay to cancel the schedule</span>
       <div className="item-tel">
         <input
-          type="text"
+          type="number"
           placeholder="Telephone"
           className="input-tel"
           name="Telephone"
+          maxLength="11"
           value={inputField.Telephone}
           onChange={InputHandler}
         />

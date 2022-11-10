@@ -39,11 +39,7 @@ export default function TopBar() {
             <label className="label-topBar"> bookingbarber.ad@gmail.com</label>
           </div>
         </div>
-        <div className="right-topBar">
-          <Link to={`/appointment`}>
-            <span> Make a appointment</span>
-          </Link>
-        </div>
+        <div className="right-topBar"></div>
       </div>
       <div className="bottom-topBar">
         <div className="logo">

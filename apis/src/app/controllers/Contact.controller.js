@@ -60,3 +60,17 @@ export const SendEmailContact = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+// get all contact
+export const getAll = async (req, res) => {
+  const responseType = {};
+
+  try {
+    const contact = await Contact.find();
+    responseType.message = "Get contact successfully";
+    responseType.value = contact;
+  } catch (error) {
+    responseType.message = "Can't get contact";
+  }
+  res.json(responseType);
+};

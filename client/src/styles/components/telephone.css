@@ -24,6 +24,11 @@
 .item-tel {
   color: var(--background);
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .item-tel .input-tel {
   background-color: transparent;
   border: 2px solid var(--color-button);

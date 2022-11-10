@@ -1,0 +1,123 @@
+.receipt-container {
+  display: flex;
+  width: auto;
+  height: auto;
+  justify-content: space-between;
+}
+.left-receipt,
+.right-receipt {
+  height: 500px;
+  background-color: var(--background);
+  box-shadow: var(--box-shadow);
+  border-radius: 10px;
+}
+.left-receipt {
+  width: 60%;
+}
+.right-receipt {
+  width: 38%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.header-receipt {
+  width: 200px;
+  margin: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 24px;
+  border-bottom: 4px solid var(--color-header);
+}
+.item-receipt {
+  margin: 5px 20px;
+  display: flex;
+  width: auto;
+  align-items: center;
+  font-family: var(--family-header);
+  border: 1px solid var(--color-header);
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  padding-left: 20px;
+}
+.item-receipt .input-receipt {
+  display: flex;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+
+  font-family: var(--family-header);
+}
+.item-receipt .input-receipt:focus {
+  outline: none;
+}
+.input-receipt::placeholder {
+  color: rgb(25, 25, 25);
+}
+.show-service-booking {
+  height: 400px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-y: scroll;
+  justify-content: center;
+}
+.grid-service {
+  width: 100%;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
+  gap: 20px;
+}
+.items-service-booking {
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  font-family: var(--family-header);
+  align-items: center;
+  border: 1px solid var(--color-header);
+  cursor: pointer;
+}
+.img-booking {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.items-service-booking span {
+  font-size: 18px;
+
+  font-weight: 600;
+}
+
+.items-service-booking button {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid var(--color-button);
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+
+.items-service-booking button:hover {
+  background-color: var(--color-button);
+  color: var(--background);
+}
+
+.desc-booking {
+  font-size: 14px !important;
+
+  text-align: center;
+  font-weight: 300 !important;
+  overflow: hidden;
+  max-width: 200px;
+  height: 60px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

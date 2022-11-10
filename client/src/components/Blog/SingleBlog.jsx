@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 export default function SingleBlog() {
   const { user: currentUser } = useContext(AuthContext);
@@ -323,8 +324,15 @@ export default function SingleBlog() {
             <h3 className="title-blog"> RECENT BLOG</h3>
             {data.map((value) => (
               <div className="recent-blog-item">
-                <img src={value.Image} alt="" className="image-recent" />
-                <div className="title-recent-blog"> {value.Title} </div>
+                <Link
+                  to={{
+                    pathname: `/blog/${value._id}`,
+                  }}
+                  className="link-limit"
+                >
+                  <img src={value.Image} alt="" className="image-recent" />
+                  <div className="title-recent-blog"> {value.Title} </div>
+                </Link>
               </div>
             ))}
           </div>
