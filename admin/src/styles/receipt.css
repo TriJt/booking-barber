@@ -6,15 +6,16 @@
 }
 .left-receipt,
 .right-receipt {
-  height: 500px;
   background-color: var(--background);
   box-shadow: var(--box-shadow);
   border-radius: 10px;
+  padding-bottom: 40px;
 }
 .left-receipt {
   width: 60%;
 }
 .right-receipt {
+  height: auto;
   width: 38%;
   display: flex;
   flex-direction: column;
@@ -40,6 +41,7 @@
   cursor: pointer;
   padding-left: 20px;
 }
+
 .item-receipt .input-receipt {
   display: flex;
   font-size: 16px;
@@ -60,7 +62,6 @@
   display: flex;
   justify-content: center;
   position: relative;
-  overflow-y: scroll;
   justify-content: center;
 }
 .grid-service {
@@ -109,15 +110,36 @@
   color: var(--background);
 }
 
-.desc-booking {
-  font-size: 14px !important;
-
-  text-align: center;
-  font-weight: 300 !important;
-  overflow: hidden;
-  max-width: 200px;
-  height: 60px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+/* list-service */
+.list-service {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.item-service-receipt {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.button-receipt {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.button-action {
+  background-color: transparent;
+  border: 1px solid var(--color-header);
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: var(--family-header);
+  transition: all 0.3s ease-in-out;
+}
+.button-action:hover {
+  color: var(--background);
+  background-color: var(--color-header);
 }

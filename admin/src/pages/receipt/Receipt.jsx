@@ -6,15 +6,29 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ImMan } from "react-icons/im";
-
+import { TiDeleteOutline } from "react-icons/ti";
 export default function Receipt() {
   const [staff, setStaff] = useState([]);
   const [service, setService] = useState([]);
   const [nameStaff, setNameStaff] = useState("");
-
   const [showService, setShowService] = useState(false);
-  const [step1, setStep1] = useState(false);
+  const [discount, setDiscount] = useState();
   const [nameService, setNameService] = useState([]);
+  const [telephone, setTelephone] = useState("");
+
+  const [inputField, setInputField] = useState({
+    Name_Customer: "",
+    Email: "",
+  });
+  const InputHandler = (e) => {
+    setInputField({ ...inputField, [e.target.name]: e.target.value });
+  };
+  const onChangTelephone = (e) => {
+    setTelephone(e.target.value.slice(0, 11));
+  };
+  const OnChangeDiscount = (e) => {
+    setDiscount(e.target.value);
+  };
 
   useEffect(() => {
     const fetchStaff = async () => {
@@ -37,8 +51,35 @@ export default function Receipt() {
 
   const handleServices = async (name) => {
     setNameService([...nameService, name]);
-    setStep1(true);
   };
+
+  const handelDeleteService = async (value) => {
+    const new_Arr = nameService.filter((item) => item !== value);
+    setNameService(new_Arr);
+  };
+
+  const submitReceipt = async (e) => {
+    e.preventDeafault();
+    const data = {
+      Name_Customer: inputField.Name_Customer,
+      Telephone: inputField.Telephone,
+      Email: inputField.Email,
+      Staff_Name: nameStaff,
+      Services: nameService,
+      Discount: discount,
+    };
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8800/api/receipt/add",
+        data
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="container">
       <ToastContainer />
@@ -75,8 +116,10 @@ export default function Receipt() {
               <input
                 type="text"
                 className="input-receipt"
-                name="Name"
+                name="Name_Customer"
                 placeholder="Name"
+                value={inputField.Name_Customer}
+                onChange={InputHandler}
               />
             </div>
             <div className="item-receipt">
@@ -85,6 +128,8 @@ export default function Receipt() {
                 className="input-receipt"
                 name="Telephone"
                 placeholder="Telephone"
+                value={telephone}
+                onChange={onChangTelephone}
               />
             </div>
             <div className="item-receipt">
@@ -93,6 +138,8 @@ export default function Receipt() {
                 className="input-receipt"
                 name="Email"
                 placeholder="Email"
+                value={inputField.Email}
+                onChange={InputHandler}
               />
             </div>
             <div className="item-receipt">
@@ -110,15 +157,40 @@ export default function Receipt() {
                 ))}
               </select>
             </div>
-            <div
-              className="item-receipt"
-              onClick={() => {
-                setShowService(true);
-              }}
-            >
-              {step1 ? <span> {nameService}</span> : "View all services"}
+            <div className="item-receipt">
+              {nameService.length >= 1 ? (
+                <div className="list-service">
+                  {nameService.map((value, i) => (
+                    <div className="item-service-receipt" key={i}>
+                      <span> {value} </span>
+                      <span>
+                        <TiDeleteOutline
+                          onClick={() => {
+                            handelDeleteService(value);
+                          }}
+                        />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                "View all services"
+              )}
+            </div>
+            <div className="item-receipt">
+              <input
+                type="number"
+                className="input-receipt"
+                placeholder="Discount"
+                value={discount}
+                onChange={OnChangeDiscount}
+              />
+            </div>
+            <div className="button-receipt">
+              <button className="button-action"> Create </button>
             </div>
           </div>
+          <div className="bottom-receipt"></div>
         </div>
       </div>
     </div>

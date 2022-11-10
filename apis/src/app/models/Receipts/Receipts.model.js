@@ -20,15 +20,7 @@ const ReceiptsSchema = new mongoose.Schema(
     Services: {
       type: Array,
     },
-    Status: {
-      type: String,
-      default: "processing",
-      //  processing, complete
-    },
     // customer requirements when performing the service process
-    Note: {
-      type: String,
-    },
     Discount: {
       type: Number,
     },

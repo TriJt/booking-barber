@@ -1,5 +1,6 @@
 import Receipt from "../models/Receipts/Receipts.model.js";
 import { Service } from "../models/Service/Service.model.js";
+import { Customer } from "../models/Customer/Customer.model.js";
 // create information of Receipt
 export const CreateReceipt = async (req, res) => {
   const responseType = {};
@@ -29,12 +30,11 @@ export const CreateReceipt = async (req, res) => {
       Telephone: input.Telephone,
       Email: input.Email,
       Services: manyService,
-      Status: input.Status,
-      Note: input.Note,
       Discount: discount,
       Total: total,
     });
     const save = await newReceipt.save();
+    await Customer.findOneAndUpdate({ Email: input.Email }, { Collect: 1 });
     responseType.message = "Create successfully";
     responseType.status = 200;
     responseType.value = save;
@@ -73,8 +73,6 @@ export const UpdateReceipt = async (req, res) => {
       Telephone: input.Telephone,
       Email: input.Email,
       Services: manyService,
-      Status: input.Status,
-      Note: input.Note,
       Discount: discount,
       Total: total,
     };
