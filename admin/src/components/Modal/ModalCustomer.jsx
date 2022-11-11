@@ -6,7 +6,8 @@ import {
   BsGenderAmbiguous,
   BsCollection,
 } from "react-icons/bs";
-import { FaRegAddressCard, FaBirthdayCake } from "react-icons/fa";
+import { FaRegAddressCard } from "react-icons/fa";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export default function ModalCustomer({ open, onClose, rowId }) {
   const [data, setData] = useState([]);
@@ -17,11 +18,9 @@ export default function ModalCustomer({ open, onClose, rowId }) {
         "http://localhost:8800/api/customer/" + rowId
       );
       setData(res.data.value);
-      console.log(res.data.value);
     };
-
     fetchData();
-  }, [rowId]);
+  }, []);
 
   if (!open) return null;
 
@@ -29,7 +28,7 @@ export default function ModalCustomer({ open, onClose, rowId }) {
     <div className="overlay">
       <div className="modalContainer">
         <p className="closeBtn" onClick={onClose}>
-          X
+          <IoIosCloseCircleOutline />
         </p>
         <div className="modalInformation">
           <h3 className="title-value"> Information</h3>
@@ -90,18 +89,6 @@ export default function ModalCustomer({ open, onClose, rowId }) {
               placeholder="Gender"
               name="Gender"
               value={data.Gender}
-            />
-          </div>
-          <div className="items-value">
-            <span className="icon-value">
-              <FaBirthdayCake />
-            </span>
-            <input
-              type="text"
-              className="text-value"
-              placeholder="Birthday"
-              name="Birthday"
-              value={data.Birthday}
             />
           </div>
 

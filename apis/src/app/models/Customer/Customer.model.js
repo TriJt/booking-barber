@@ -62,9 +62,10 @@ const CustomerSchema = new Schema(
     },
     Gender: {
       type: String,
+      default: "Male",
     },
     Collect: {
-      type: String,
+      type: Number,
       default: 0,
     },
   },

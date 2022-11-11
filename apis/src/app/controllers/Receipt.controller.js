@@ -1,6 +1,7 @@
 import Receipt from "../models/Receipts/Receipts.model.js";
 import { Service } from "../models/Service/Service.model.js";
 import { Customer } from "../models/Customer/Customer.model.js";
+import bcryptjs from "bcryptjs";
 // create information of Receipt
 export const CreateReceipt = async (req, res) => {
   const responseType = {};
@@ -21,7 +22,36 @@ export const CreateReceipt = async (req, res) => {
   //the final price to charge the customer
   const discount = input.Discount;
   const total = (totalPrice * (100 - discount)) / 100;
+  // check mail in database
+  // if check === null  => update collect +=1
 
+  const check = await Customer.findOne({ Email: input.Email });
+  if (check !== null) {
+    const update = await Customer.findOneAndUpdate(
+      { Email: input.Email },
+      { $inc: { Collect: 1 } }
+    );
+    console.log(update);
+  }
+  // if  check === null => create new customer
+  if (check === null) {
+    try {
+      const salt = bcryptjs.genSaltSync(10);
+      const pass = await input.Telephone;
+      const hashPassword = bcryptjs.hashSync(pass, salt);
+      const newCus = new Customer({
+        Name_Customer: input.Name_Customer,
+        Telephone: input.Telephone,
+        Email: input.Email,
+        Password: hashPassword,
+        Collect: 1,
+      });
+      const save = await newCus.save();
+      console.log(newCus);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   // save information to database
   try {
     const newReceipt = new Receipt({
@@ -30,12 +60,13 @@ export const CreateReceipt = async (req, res) => {
       Telephone: input.Telephone,
       Email: input.Email,
       Services: manyService,
+      SumPrice: totalPrice,
       Discount: discount,
       Total: total,
     });
+
     const save = await newReceipt.save();
-    await Customer.findOneAndUpdate({ Email: input.Email }, { Collect: 1 });
-    responseType.message = "Create successfully";
+    responseType.message = "Create  successfully";
     responseType.status = 200;
     responseType.value = save;
   } catch (error) {
@@ -45,6 +76,30 @@ export const CreateReceipt = async (req, res) => {
   res.json(responseType);
 };
 
+// complete
+export const GetByDateChoose = async (req, res) => {
+  const input = req.body;
+  const start = input.Start;
+  const end = input.End;
+  try {
+    const getByDate = await Receipt.aggregate([
+      {
+        $match: { createdAt: { $gte: new Date(start), $lt: new Date(end) } },
+      },
+    ]);
+    const length = getByDate.length;
+
+    let sumTotal = 0;
+    for (let i = 0; i < length; i++) {
+      const total = getByDate[i].Total;
+      sumTotal += total;
+    }
+
+    res.status(200).json(sumTotal);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
 // update information of Receipt
 export const UpdateReceipt = async (req, res) => {
   const responseType = {};
@@ -150,25 +205,6 @@ export const GetReceipts = async (req, res) => {
   res.json(responseType);
 };
 
-// get information of Receipt by status
-export const GetReceiptByStatus = async (req, res) => {
-  const responseType = {};
-  const Status = req.query.Status;
-  if (Receipt) {
-    const receipt = await Receipt.find({
-      Status: Status,
-    });
-    responseType.message = "Get receipt successfully";
-    responseType.status = 200;
-    responseType.value = receipt;
-  } else {
-    responseType.statusText = "Error";
-    responseType.message = "We have error in somewhere";
-    responseType.status = 404;
-  }
-  res.json(responseType);
-};
-
 //get with a date in when staff input
 export const GetListReceiptByDate = async (req, res) => {
   const responseType = {};
@@ -203,38 +239,8 @@ export const GetADate = async (req, res) => {
           count: { $sum: 1 },
         },
       },
-      { $sort: { date: 1 } },
-    ]);
-    responseType.message = "Get receipt successfully";
-    responseType.status = 200;
-    responseType.value = getByDate;
-  } catch (err) {
-    responseType.statusText = "Error";
-    responseType.message = "We have error ";
-    responseType.status = 404;
-  }
-  res.json(responseType);
-};
-
-// have error, i can't fix
-export const GetByDateChoose = async (req, res) => {
-  const responseType = {};
-  const input = req.body;
-  const start = input.Start;
-  const end = input.End;
-  try {
-    const getByDate = await Receipt.aggregate([
-      { $match: { createdAt: { $gte: new Date(start), $lt: new Date(end) } } },
-      {
-        $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-          totalAmount: { $sum: "$Total" },
-          count: { $sum: 1 },
-        },
-      },
       { $sort: { _id: 1 } },
     ]);
-
     responseType.message = "Get receipt successfully";
     responseType.status = 200;
     responseType.value = getByDate;

@@ -20,6 +20,9 @@ const ReceiptsSchema = new mongoose.Schema(
     Services: {
       type: Array,
     },
+    SumPrice: {
+      type: Number,
+    },
     // customer requirements when performing the service process
     Discount: {
       type: Number,

@@ -3,6 +3,7 @@ import axios from "axios";
 import { MdDriveFileRenameOutline, MdOutlineEmail } from "react-icons/md";
 import { BsTelephoneForward, BsGenderAmbiguous } from "react-icons/bs";
 import { FaRegAddressCard, FaBirthdayCake } from "react-icons/fa";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export default function ModalStaff({ open, onClose, rowId }) {
   const [data, setData] = useState([]);
@@ -25,7 +26,7 @@ export default function ModalStaff({ open, onClose, rowId }) {
     <div className="overlay">
       <div className="modalContainer">
         <p className="closeBtn" onClick={onClose}>
-          X
+          <IoIosCloseCircleOutline />
         </p>
         <div className="modalInformation">
           <h3 className="title-value"> Information</h3>
@@ -86,18 +87,6 @@ export default function ModalStaff({ open, onClose, rowId }) {
               placeholder="Gender"
               name="Gender"
               value={data.Gender}
-            />
-          </div>
-          <div className="items-value">
-            <span className="icon-value">
-              <FaBirthdayCake />
-            </span>
-            <input
-              type="text"
-              className="text-value"
-              placeholder="Birthday"
-              name="Birthday"
-              value={data.Birthday}
             />
           </div>
         </div>

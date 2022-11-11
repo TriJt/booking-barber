@@ -6,7 +6,6 @@ import {
   DeleteReceipt,
   GetReceiptByName,
   GetReceipts,
-  GetReceiptByStatus,
   GetADate,
   GetByMonth,
   GetByDateChoose,
@@ -26,27 +25,22 @@ router.delete("/delete/:id", DeleteReceipt);
 // get all Receipt by id
 router.get("/all", GetReceipts);
 
-// get Receipt by id
-router.get("/", GetReceiptByName);
-
-//get receipt by status
-router.get("/status/", GetReceiptByStatus);
-
 //get list receipt by date
-router.get("/list", GetListReceiptByDate);
+router.post("/list/date", GetListReceiptByDate);
+
+// sum total get by date i choose
+router.post("/Choose", GetByDateChoose);
 
 //sum total in a day
 router.get("/date", GetADate);
-
-// sum total get by date i choose
-router.get("/Choose", GetByDateChoose);
-
-//sum total in a week
 
 // sum total in a month
 router.get("/month", GetByMonth);
 
 //sum total in a  year
 router.get("/year", GetByYear);
+
+// get Receipt by id
+router.get("/", GetReceiptByName);
 
 export default router;

@@ -5,16 +5,32 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { ImMan } from "react-icons/im";
 import { TiDeleteOutline } from "react-icons/ti";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import moment from "moment";
+import TableUser from "../../components/table/table-custom/TableUser";
+import { Avatar } from "@mui/material";
+
 export default function Receipt() {
+  const [dataReceipt, setDataReceipt] = useState([]);
   const [staff, setStaff] = useState([]);
   const [service, setService] = useState([]);
   const [nameStaff, setNameStaff] = useState("");
-  const [showService, setShowService] = useState(false);
   const [discount, setDiscount] = useState();
   const [nameService, setNameService] = useState([]);
   const [telephone, setTelephone] = useState("");
+  const [bill, setBill] = useState("");
+  const [showBill, setShowBill] = useState(false);
+
+  // get date now
+  const current = new Date();
+  const start = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+
+  const end = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() + 1
+  }`;
 
   const [inputField, setInputField] = useState({
     Name_Customer: "",
@@ -29,6 +45,24 @@ export default function Receipt() {
   const OnChangeDiscount = (e) => {
     setDiscount(e.target.value);
   };
+
+  // fetch receipt for a day
+  useEffect(() => {
+    const data = {
+      Start: start,
+      End: end,
+    };
+    const fetchReceiptForADay = async () => {
+      const res = await axios.post(
+        "http://localhost:8800/api/receipt/list/date",
+        data
+      );
+      setDataReceipt(res.data.value);
+    };
+    fetchReceiptForADay();
+  }, []);
+
+  console.log(dataReceipt);
 
   useEffect(() => {
     const fetchStaff = async () => {
@@ -58,11 +92,22 @@ export default function Receipt() {
     setNameService(new_Arr);
   };
 
+  const resetForm = () => {
+    setNameService([]);
+    setNameStaff("");
+    setDiscount("");
+    setInputField({
+      Name_Customer: "",
+      Email: "",
+    });
+    setTelephone("");
+  };
+
   const submitReceipt = async (e) => {
-    e.preventDeafault();
+    e.preventDefault();
     const data = {
       Name_Customer: inputField.Name_Customer,
-      Telephone: inputField.Telephone,
+      Telephone: telephone,
       Email: inputField.Email,
       Staff_Name: nameStaff,
       Services: nameService,
@@ -74,11 +119,67 @@ export default function Receipt() {
         "http://localhost:8800/api/receipt/add",
         data
       );
-      console.log(res);
+
+      setBill(res.data.value);
+      setShowBill(true);
+      resetForm();
     } catch (error) {
       console.log(error);
     }
   };
+
+  const columns = useMemo(
+    () => [
+      {
+        field: "Image",
+        headerName: "Avatar",
+        width: 60,
+        renderCell: (params) => <Avatar src={params.row.Image} />,
+        sortable: false,
+        filterable: false,
+      },
+      {
+        field: "Name",
+        headerName: "Name",
+        width: 120,
+        editable: true,
+      },
+      {
+        field: "Telephone",
+        headerName: "Telephone",
+        width: 90,
+        editable: true,
+      },
+      {
+        field: "Email",
+        headerName: "Email",
+        width: 180,
+      },
+      {
+        field: "Gender",
+        headerName: "Gender",
+        width: 90,
+        type: "singleSelect",
+        valueOptions: ["Male", "Female", "Other"],
+        editable: true,
+      },
+      {
+        field: "Active",
+        headerName: "Active",
+        width: 90,
+        type: "boolean",
+        editable: true,
+      },
+
+      {
+        field: "isAdmin",
+        headerName: "Admin",
+        width: 90,
+        type: "boolean",
+      },
+    ],
+    []
+  );
 
   return (
     <div className="container">
@@ -93,22 +194,73 @@ export default function Receipt() {
         </div>
         <div className="receipt-container">
           <div className="left-receipt">
-            <div className="show-service-booking">
-              <div className="grid-service">
-                {service.map((services, i) => (
-                  <div
-                    key={i}
-                    className="items-service-booking"
-                    onClick={() => {
-                      handleServices(services.Name_Service);
-                    }}
-                  >
-                    <span> {services.Name_Service}</span>
-                    <span> {services.Price}</span>
+            {showBill ? (
+              <div className="show-bill">
+                <div className="exit" onClick={() => setShowBill(false)}>
+                  <IoIosCloseCircleOutline />
+                </div>
+                <div className="header-bill">Welcome to BARBERJT</div>
+                <div div className="items-bill">
+                  <div className="item-bill">
+                    <span className="title-bill">Name : </span>
+                    <span className="value-bill">{bill.Name_Customer}</span>
                   </div>
-                ))}
+                  <div className="item-bill">
+                    <span className="title-bill">Telephone: </span>
+                    <span className="value-bill"> {bill.Telephone} </span>
+                  </div>
+                  <div className="item-bill">
+                    <span className="title-bill"> Email: </span>
+                    <span className="value-bill">{bill.Email} </span>
+                  </div>
+                  <div className="item-bill">
+                    <span className="title-bill">Staff:</span>
+                    <span className="value-bill"> {bill.Staff_Name} </span>
+                  </div>
+                  <div className="item-bill">
+                    <span className="title-bill"> Sum price:</span>
+                    <span className="value-bill">{bill.SumPrice} </span>
+                  </div>
+                  <div className="item-bill">
+                    <span className="title-bill">Discount: </span>
+                    <span className="value-bill"> {bill.Discount} </span>
+                  </div>
+
+                  <div className="item-bill">
+                    <span className="title-bill">Total: </span>
+                    <span className="value-bill">{bill.Total} </span>
+                  </div>
+                  <div className="item-bill">
+                    <span className="title-bill">Date: </span>
+                    <span className="value-bill">
+                      {moment(bill.createdAt).format("DD-MM-yyyy")}
+                    </span>
+                  </div>
+                  <span className="thank-bill">
+                    Thank you for using our service
+                  </span>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="show-service-booking">
+                <div className="header-receipt">Service</div>
+
+                <div className="grid-service">
+                  {service.map((services, i) => (
+                    <div
+                      key={i}
+                      className="items-service-booking"
+                      onClick={() => {
+                        handleServices(services.Name_Service);
+                      }}
+                    >
+                      <span> {services.Name_Service}</span>
+                      <span> {services.Price}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="right-receipt">
             <div className="header-receipt">Create new Receipt</div>
@@ -126,7 +278,6 @@ export default function Receipt() {
               <input
                 type="number"
                 className="input-receipt"
-                name="Telephone"
                 placeholder="Telephone"
                 value={telephone}
                 onChange={onChangTelephone}
@@ -187,10 +338,19 @@ export default function Receipt() {
               />
             </div>
             <div className="button-receipt">
-              <button className="button-action"> Create </button>
+              <button className="button-action" onClick={submitReceipt}>
+                {" "}
+                Create{" "}
+              </button>
             </div>
           </div>
-          <div className="bottom-receipt"></div>
+        </div>
+        <div className="bottom-receipt">
+          <TableUser
+            title={"list receipt"}
+            column={columns}
+            row={dataReceipt}
+          />
         </div>
       </div>
     </div>

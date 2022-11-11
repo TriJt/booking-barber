@@ -16,12 +16,7 @@ export const CreateCustomer = async (req, res) => {
       Telephone: input.Telephone,
       Email: input.Email,
       Password: hashPassword,
-      Image: input.Image,
-      Gender: input.Gender,
-      Number: input.Number,
-      Street: input.Street,
-      District: input.District,
-      City: input.City,
+      Collect: 1,
     });
     //save Customer in database and return response
     const save = await newCustomer.save();

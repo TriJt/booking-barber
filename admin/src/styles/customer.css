@@ -77,11 +77,12 @@
 }
 .modalContainer .closeBtn {
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 10px;
+  top: 2px;
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
+  font-size: 20px;
 }
 
 .modalContainer .modalInformation {

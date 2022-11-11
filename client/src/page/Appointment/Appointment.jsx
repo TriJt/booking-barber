@@ -269,8 +269,7 @@ export default function Appointment() {
               setOpen(true);
             }}
           >
-            {" "}
-            Login{" "}
+            Login
           </button>
         </div>
       )}

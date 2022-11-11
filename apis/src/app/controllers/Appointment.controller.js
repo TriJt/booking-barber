@@ -147,12 +147,24 @@ export const GetSlots = async (req, res) => {
   }
 };
 
+export const GetByDateChoose = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  const start = input.Start;
+  const end = input.End;
+  try {
+    const getByDate = await Appointment.aggregate([
+      { $match: { createdAt: { $gte: new Date(start), $lt: new Date(end) } } },
+      { $sort: { _id: 1 } },
+    ]);
+    const length = getByDate.length;
+    res.status(200).json(length);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 // add new appointment
-// id customer 6340237b2378a5e81354d518
-// id staff 6343c7f4eb8b8c758a36a837
-// id date 6356d5d446f871f2f213a530
-// id slots  6356d5d446f871f2f213a51d
-// for client
 export const AddAppointment = async (req, res) => {
   const staffId = req.body.StaffId; // staff id
   const customerId = req.body.CustomerId; // Customer id
@@ -163,18 +175,6 @@ export const AddAppointment = async (req, res) => {
   const email = req.body.Email;
   const status = "pending";
   const manyService = req.body.Services;
-
-  // const staff = await Staff.findById({ _id: staffId });
-  // console.log(staff);
-  // const date = staff.Dates.in(dateId);
-  // console.log(date);
-  // const slot = await date.slots.in(slotId);
-  // console.log(slot);
-  // await slot.findByIdAndUpdate(
-  //   { _id: slotId },
-  //   { isBooked: true },
-  //   { new: true }
-  // );
 
   Staff.findOne({ _id: staffId }).then((staff) => {
     const date = staff.Dates.id(dateId);

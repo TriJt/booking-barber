@@ -9,10 +9,13 @@ import {
   GetSlots,
   GetAppointmentByUserId,
   GetAppointmentMatchPending,
+  GetByDateChoose,
 } from "../app/controllers/Appointment.controller.js";
 
 // get appointment with status pending
 router.get("/pending", GetAppointmentMatchPending);
+
+router.post("/choose", GetByDateChoose);
 
 // get slot of staff to booking appointment
 

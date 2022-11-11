@@ -90,10 +90,10 @@ export default function Customer() {
           data
         );
         const record = response.data;
-        if (record.statusText === "Success") {
+        if (record.status === 200) {
           toast.success("Update information successfully");
         } else {
-          toast.error("Delete information failed");
+          toast.error("Update information failed");
         }
       }, 500);
     };

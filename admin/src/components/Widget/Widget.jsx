@@ -20,6 +20,16 @@ export default function Widget() {
   const [user, setUser] = useState(currentUser);
   const [staff, setStaff] = useState("");
   const [customer, setCustomer] = useState("");
+  const [revenue, setRevenue] = useState();
+  const [booking, setBooking] = useState();
+  const current = new Date();
+  const start = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+
+  const end = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() + 1
+  }`;
 
   useEffect(() => {
     // count staff
@@ -32,10 +42,9 @@ export default function Widget() {
       }
     };
     countStaff();
-  }, []);
 
-  useEffect(() => {
-    // count customer
+    // get evenuw
+
     const countCustomer = async () => {
       try {
         const res = await axios.get("http://localhost:8800/api/customer/count");
@@ -45,6 +54,32 @@ export default function Widget() {
       }
     };
     countCustomer();
+  }, []);
+
+  useEffect(() => {
+    const data = {
+      Start: start,
+      End: end,
+    };
+    const getRevenue = async () => {
+      const res = await axios.post(
+        "http://localhost:8800/api/receipt/Choose",
+        data
+      );
+      const value = res.data;
+      setRevenue(value);
+    };
+    getRevenue();
+
+    const getAppointment = async () => {
+      const res = await axios.post(
+        "http://localhost:8800/api/appointment/Choose",
+        data
+      );
+      const value = res.data;
+      setBooking(value);
+    };
+    getAppointment();
   }, []);
 
   const Items = ({ title, isMoney, link, icon, amount }) => {
@@ -83,7 +118,7 @@ export default function Widget() {
             }}
           />
         }
-        amount={100}
+        amount={revenue}
       />
       <Items
         title="Customer"
@@ -137,7 +172,7 @@ export default function Widget() {
             }}
           />
         }
-        amount={1000}
+        amount={booking}
       />
     </div>
   );
