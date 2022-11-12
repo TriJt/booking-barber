@@ -1,12 +1,36 @@
 import "../../styles/home.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Widget from "../../components/Widget/Widget";
 import Charts from "../../components/Charts/Charts";
 import Table from "../../components/table/Table";
 import TotalBooking from "../../components/total/TotalBooking";
+import axios from "axios";
+
 export default function Home() {
+  const [revenue, setRevenue] = useState();
+  const current = new Date();
+  const start = `${current.getFullYear()}-${current.getMonth() + 1}-01`;
+
+  const end = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = {
+        Start: start,
+        End: end,
+      };
+      const res = await axios.post(
+        "http://localhost:8800/api/receipt/Choose",
+        data
+      );
+      const value = res.data;
+      setRevenue(value);
+    };
+    fetchData();
+  });
+
   return (
     <div className="container">
       {/* container for sidebar */}
@@ -22,11 +46,10 @@ export default function Home() {
           <Widget />
           <div className="chart-container">
             <div className="top-chart">
-              <span className="span-chart"> Sales Value</span>
+              <span className="span-chart"> Revenue</span>
               <div className="value-chart">
-                <div className="left-value">$1000.212</div>
+                <div className="left-value">{revenue}$</div>
                 <div className="right-value">
-                  <button className="button-week">Week</button>
                   <button className="button-month">Month</button>
                 </div>
               </div>

@@ -138,3 +138,66 @@ export const CountCustomer = async (req, res) => {
   }
   res.json(responseType);
 };
+
+export const GetAWeek = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  const start = input.Start;
+  const end = input.End;
+  try {
+    const getByDate = await Customer.aggregate([
+      {
+        $match: { createdAt: { $gte: new Date(start), $lt: new Date(end) } },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = getByDate;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// get count in week
+export const CountCustomerInASevenDay = async (req, res) => {
+  const input = req.body;
+  const start = input.Start;
+  const end = input.End;
+  try {
+    const getByDate = await Customer.aggregate([
+      {
+        $match: { createdAt: { $gte: new Date(start), $lt: new Date(end) } },
+      },
+    ]);
+    const length = getByDate.length;
+
+    res.status(200).json(length);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
+// find last customer with limit = 3
+export const GetLastCustomerLimit3 = async (req, res) => {
+  const responseType = {};
+  if (Customer) {
+    const customer = await Customer.find({}).sort({ _id: -1 }).limit(5);
+    responseType.message = "Get customer successfully";
+    responseType.status = 200;
+    responseType.value = customer;
+  } else {
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};

@@ -95,7 +95,7 @@ export const GetByDateChoose = async (req, res) => {
       sumTotal += total;
     }
 
-    res.status(200).json(sumTotal);
+    res.status(200).json(sumTotal.toFixed(1));
   } catch (err) {
     res.status(400).json(err);
   }

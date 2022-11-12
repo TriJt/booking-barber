@@ -234,7 +234,6 @@ export default function Staff() {
       const staff = {
         Name: inputField.Name,
         Telephone: inputField.Telephone,
-
         Image: list,
         Gender: inputField.Gender,
         Email: inputField.Email,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/components/totalBooking.css";
 import {
   BarChart,
@@ -11,68 +11,74 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import axios from "axios";
 
 export default function TotalBooking() {
   // data for recharts
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  const [data, setData] = useState([]);
+  const [count, setCount] = useState();
+  const current = new Date();
+  const start = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() - 7
+  }`;
+
+  const end = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+
+  useEffect(() => {
+    const data = {
+      Start: start,
+      End: end,
+    };
+    const fetData = async () => {
+      const res = await axios.post(
+        "http://localhost:8800/api/customer/week",
+        data
+      );
+      setData(res.data.value);
+    };
+    fetData();
+  }, []);
+
+  useEffect(() => {
+    const data = {
+      Start: start,
+      End: end,
+    };
+    const fetData = async () => {
+      const res = await axios.post(
+        "http://localhost:8800/api/customer/count-7day",
+        data
+      );
+      setCount(res.data);
+    };
+    fetData();
+  }, []);
 
   return (
     <div className="Total">
       <div className="top-total">
-        <h4 className="header-total"> Revenue of Day </h4>
-        <span className="span-total"> 1000$</span>
-        <h6 className="span-avg"> 12.2%</h6>
+        <h4 className="header-total"> Customer in a 7 day </h4>
+        <span className="span-total">{count}</span>
       </div>
       <div className="bottom-total">
-        <ResponsiveContainer width="100%" height="75%">
+        <ResponsiveContainer
+          width="100%"
+          height="90%"
+          margin={{
+            top: 20,
+            right: 5,
+            left: 5,
+            bottom: 5,
+          }}
+        >
           <BarChart width="100%" height="75%" data={data}>
-            <XAxis dataKey="name" style={{ fontSize: "11px" }} />
+            <XAxis dataKey="_id" style={{ fontSize: "11px" }} />
+            <YAxis />
             <Tooltip />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5 " />
-            <Bar dataKey="uv" fill="#914123" barSize={30} />
+            <Bar dataKey="count" fill="#bf925b" barSize={10} />
           </BarChart>
         </ResponsiveContainer>
       </div>

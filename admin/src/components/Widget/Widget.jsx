@@ -87,7 +87,10 @@ export default function Widget() {
       <div className="widget">
         <div className="left">
           <span className="title">{title}</span>
-          <span className="counter">{amount}</span>
+          <span className="counter">
+            {amount}
+            {isMoney}
+          </span>
           <span className="link">{link}</span>
         </div>
         <div className="right">
@@ -103,7 +106,7 @@ export default function Widget() {
   return (
     <div className="widgets">
       <Items
-        title="Store"
+        title="Revenue Today"
         link={
           <Link to="/store" className="link">
             <span> Go to Store</span>
@@ -119,6 +122,7 @@ export default function Widget() {
           />
         }
         amount={revenue}
+        isMoney={"$"}
       />
       <Items
         title="Customer"
@@ -157,7 +161,7 @@ export default function Widget() {
         amount={staff}
       />
       <Items
-        title="Booking"
+        title="Appointment"
         link={
           <Link to="/store" className="link">
             <span> Go to Schedule</span>
