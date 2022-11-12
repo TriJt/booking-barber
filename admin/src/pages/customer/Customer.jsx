@@ -30,6 +30,7 @@ export default function Customer() {
   }, []);
 
   // effect count customer from data
+
   useEffect(() => {
     const countCustomer = async () => {
       try {
@@ -114,8 +115,7 @@ export default function Customer() {
   };
 
   const View = ({ params, setRowId }) => {
-    const submitHandle = (e) => {
-      e.preventDefault();
+    const submitHandle = () => {
       setOpen(true);
       setRowId(params.row._id);
     };
@@ -128,13 +128,14 @@ export default function Customer() {
       </div>
     );
   };
+
   const columns = useMemo(
     () => [
       {
         field: "Image",
         header: "Avatar",
         width: 60,
-        renderCell: (params) => <Avatar src={params.row.Image} />,
+        renderCell: (params) => <Avatar src={params.row.Image[0]} />,
         sortable: false,
         filterable: false,
       },

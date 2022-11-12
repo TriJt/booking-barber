@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/components/chart.css";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -15,9 +15,22 @@ import axios from "axios";
 export default function Charts() {
   const [data, setData] = useState([]);
 
+  const current = new Date();
+
+  const start_month = `${current.getFullYear()}-${current.getMonth() + 1}-01`;
+
+  const end_month = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
+
   useEffect(() => {
+    const dataMonth = {
+      Start: start_month,
+      End: end_month,
+    };
     const fetData = async () => {
-      const res = await axios.get("http://localhost:8800/api/receipt/date");
+      const res = await axios.post(
+        "http://localhost:8800/api/receipt/week",
+        dataMonth
+      );
       setData(res.data.value);
     };
     fetData();
@@ -25,24 +38,24 @@ export default function Charts() {
 
   return (
     <div className="Charts">
-      <ResponsiveContainer width="100%" height="100%" textSize={11}>
-        <LineChart
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
           width={300}
           height={100}
           data={data}
-          margin={{ top: 20, right: 5, left: 5, bottom: 5 }}
+          margin={{ top: 20, right: 10, left: 5, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="_id" />
           <YAxis />
-          <Line
+          <Tooltip fontSize={5} />
+          <Area
             type="monotone"
             dataKey="totalAmount"
-            stroke="#8884d8"
-            strokeWidth={2}
-            activeDot={{ r: 8 }}
+            stroke="#bf925b"
+            fill="#bf925b"
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );

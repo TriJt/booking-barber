@@ -2,6 +2,8 @@ import Receipt from "../models/Receipts/Receipts.model.js";
 import { Service } from "../models/Service/Service.model.js";
 import { Customer } from "../models/Customer/Customer.model.js";
 import bcryptjs from "bcryptjs";
+import moment from "moment";
+
 // create information of Receipt
 export const CreateReceipt = async (req, res) => {
   const responseType = {};
@@ -232,6 +234,41 @@ export const GetADate = async (req, res) => {
   const responseType = {};
   try {
     const getByDate = await Receipt.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          totalAmount: { $sum: "$Total" },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = getByDate;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "We have error ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+export const GetAWeek = async (req, res) => {
+  const input = req.body;
+  const responseType = {};
+  const start = moment(input.Start).format("YYYY-MM-DD");
+  const end = moment(input.End).add(1, "day").format("YYYY-MM-DD");
+  try {
+    const getByDate = await Receipt.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(start),
+            $lt: new Date(end),
+          },
+        },
+      },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },

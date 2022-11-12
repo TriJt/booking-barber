@@ -12,7 +12,8 @@ import moment from "moment";
 const localizer = momentLocalizer(moment);
 
 export default function Booking() {
-  const [Data, setData] = useState("");
+  const [data, setData] = useState([]);
+  const now = new Date();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +28,17 @@ export default function Booking() {
     };
     fetchData();
   }, []);
+
+  const events = data.map((appointment) => {
+    return {
+      id: appointment._id,
+      title: appointment.NameCustomer,
+      start: new Date(appointment.date),
+      desc: appointment.Services,
+      end: new Date(appointment.date),
+      allDay: false,
+    };
+  });
 
   return (
     <div className="container">
@@ -43,9 +55,11 @@ export default function Booking() {
           <div className="booking-container">
             <Calendar
               localizer={localizer}
-              events={Data}
+              events={events}
               startAccessor="start"
               endAccessor="end"
+              showMultiDayTimes
+              defaultDate={moment().toDate()}
               style={{ height: 500 }}
             />
           </div>

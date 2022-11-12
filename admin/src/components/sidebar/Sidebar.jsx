@@ -14,13 +14,6 @@ import { GiHamburgerMenu } from "react-icons/gi";
 export default function Sidebar() {
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(currentUser);
-  const [admin, setAdmin] = useState(false);
-
-  // useEffect(() => {
-  //   if () {
-  //     setAdmin(true);
-  //   }
-  // });
 
   return (
     <div className="Sidebar">
@@ -81,6 +74,12 @@ export default function Sidebar() {
             <div className="items-sidebar">
               <ContactsIcon className="icon" />
               <div className="item-sidebar">Receipts</div>
+            </div>
+          </NavLink>
+          <NavLink to="/revenue" className="Link">
+            <div className="items-sidebar">
+              <ContactsIcon className="icon" />
+              <div className="item-sidebar">Revenue</div>
             </div>
           </NavLink>
         </div>

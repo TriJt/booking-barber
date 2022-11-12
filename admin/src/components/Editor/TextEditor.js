@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import JoditEditor from "jodit-react";
 import "../../styles/post.css";
 
-function TextEditor({ setContent, intialValue }) {
+function TextEditor({ setContent, value }) {
   const editor = useRef(null);
 
   return (
@@ -10,7 +10,7 @@ function TextEditor({ setContent, intialValue }) {
       <JoditEditor
         ref={editor}
         onChange={(content) => setContent(content)}
-        value={intialValue}
+        value={value}
       />
     </div>
   );

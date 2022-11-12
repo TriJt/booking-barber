@@ -157,7 +157,7 @@ export default function Posts() {
         field: "Image",
         headerName: "Image",
         width: 100,
-        renderCell: (params) => <Avatar src={params.row.Image} />,
+        renderCell: (params) => <Avatar src={params.row.Image[0]} />,
         sortable: false,
         filterable: false,
       },
@@ -206,63 +206,6 @@ export default function Posts() {
     ],
     [rowId]
   );
-
-  const [errField, setErrField] = useState({
-    NameServiceErr: "",
-    PriceErr: "",
-    DescriptionErr: "",
-    CategoryErr: "",
-    ImageErr: "",
-  });
-
-  // validate form before handClick action
-  const validateForm = () => {
-    let formValid = true;
-    setInputField({
-      NameServiceErr: "",
-      PriceErr: "",
-      DescriptionErr: "",
-      CategoryErr: "",
-      ImageErr: "",
-    });
-    if (inputField.Name_Service === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        NameServiceErr: "Please Enter Services !!",
-      }));
-    }
-    if (inputField.Price === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        PriceErr: "Please Enter Price !!",
-      }));
-    }
-    if (inputField.Description === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        DescriptionErr: "Please Enter Description!!",
-      }));
-    }
-    if (inputField.Category === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        CategoryErr: "Please Choose Category !!",
-      }));
-    }
-    if (inputField.Image === "") {
-      formValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        ImageErr: "Please Choose Image !!",
-      }));
-    }
-
-    return formValid;
-  };
 
   // create new post
 
@@ -363,6 +306,7 @@ export default function Posts() {
                     type="text"
                     className="input-service"
                     name="Title"
+                    required
                     placeholder="Title"
                     value={inputField.Title}
                     onChange={InputHandler}
@@ -384,6 +328,7 @@ export default function Posts() {
                     type="text"
                     className="input-service"
                     name="Note"
+                    required
                     placeholder="Note"
                     value={inputField.Note}
                     onChange={InputHandler}
@@ -404,7 +349,7 @@ export default function Posts() {
                 </div>
               </div>
               <div className="bottom-post">
-                <TextEditor setContent={setContent} intialValue={content} />
+                <TextEditor setContent={setContent} initialValue={content} />
               </div>
               <div className="button-div">
                 <button className="button-profile" onClick={CreateNewPost}>

@@ -108,8 +108,8 @@ export default function Widget() {
       <Items
         title="Revenue Today"
         link={
-          <Link to="/store" className="link">
-            <span> Go to Store</span>
+          <Link to="/revenue" className="link">
+            <span> Go to Revenue</span>
           </Link>
         }
         icon={
@@ -128,7 +128,7 @@ export default function Widget() {
         title="Customer"
         link={
           <Link to="/customer" className="link">
-            <span> See info customer</span>
+            <span> See all Customer</span>
           </Link>
         }
         icon={
@@ -163,7 +163,7 @@ export default function Widget() {
       <Items
         title="Appointment"
         link={
-          <Link to="/store" className="link">
+          <Link to="/booking" className="link">
             <span> Go to Schedule</span>
           </Link>
         }

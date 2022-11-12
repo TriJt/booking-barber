@@ -9,7 +9,6 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import moment from "moment";
 import TableUser from "../../components/table/table-custom/TableUser";
-import { Avatar } from "@mui/material";
 
 export default function Receipt() {
   const [dataReceipt, setDataReceipt] = useState([]);
@@ -61,8 +60,6 @@ export default function Receipt() {
     };
     fetchReceiptForADay();
   }, []);
-
-  console.log(dataReceipt);
 
   useEffect(() => {
     const fetchStaff = async () => {
@@ -131,24 +128,14 @@ export default function Receipt() {
   const columns = useMemo(
     () => [
       {
-        field: "Image",
-        headerName: "Avatar",
-        width: 60,
-        renderCell: (params) => <Avatar src={params.row.Image} />,
-        sortable: false,
-        filterable: false,
-      },
-      {
-        field: "Name",
+        field: "Name_Customer",
         headerName: "Name",
         width: 120,
-        editable: true,
       },
       {
         field: "Telephone",
         headerName: "Telephone",
-        width: 90,
-        editable: true,
+        width: 100,
       },
       {
         field: "Email",
@@ -156,26 +143,30 @@ export default function Receipt() {
         width: 180,
       },
       {
-        field: "Gender",
-        headerName: "Gender",
-        width: 90,
-        type: "singleSelect",
-        valueOptions: ["Male", "Female", "Other"],
-        editable: true,
-      },
-      {
-        field: "Active",
-        headerName: "Active",
-        width: 90,
-        type: "boolean",
-        editable: true,
+        field: "Staff_Name",
+        headerName: "Staff",
+        width: 100,
       },
 
       {
-        field: "isAdmin",
-        headerName: "Admin",
+        field: "Services",
+        headerName: "Services",
+        width: 250,
+      },
+      {
+        field: "SumPrice",
+        headerName: "Sum Price",
         width: 90,
-        type: "boolean",
+      },
+      {
+        field: "Discount",
+        headerName: "Discount",
+        width: 70,
+      },
+      {
+        field: "Total",
+        headerName: "Total",
+        width: 90,
       },
     ],
     []
@@ -347,7 +338,7 @@ export default function Receipt() {
         </div>
         <div className="bottom-receipt">
           <TableUser
-            title={"list receipt"}
+            title={"receipt today"}
             column={columns}
             row={dataReceipt}
           />

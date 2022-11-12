@@ -11,6 +11,7 @@ import {
   GetByDateChoose,
   GetByYear,
   GetListReceiptByDate,
+  GetAWeek,
 } from "../app/controllers/Receipt.controller.js";
 
 // create Receipt
@@ -30,6 +31,9 @@ router.post("/list/date", GetListReceiptByDate);
 
 // sum total get by date i choose
 router.post("/Choose", GetByDateChoose);
+
+// chart week
+router.post("/week", GetAWeek);
 
 //sum total in a day
 router.get("/date", GetADate);

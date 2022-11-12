@@ -143,7 +143,7 @@ export default function Staff() {
         field: "Image",
         headerName: "Avatar",
         width: 60,
-        renderCell: (params) => <Avatar src={params.row.Image} />,
+        renderCell: (params) => <Avatar src={params.row.Image[0]} />,
         sortable: false,
         filterable: false,
       },
