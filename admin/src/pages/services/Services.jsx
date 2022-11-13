@@ -395,12 +395,12 @@ export default function Services() {
                   />
                 ) : (
                   <div className="no-image-service">
-                    <span className="header-service"> image</span>
+                    <span className="header-image"> image</span>
                   </div>
                 )}
               </div>
               <div className="right-create">
-                <h3 className="header-service"> Create new service</h3>
+                <h3 className="header-service"> Create new SERVICES</h3>
                 <div className="btn-service">
                   <label htmlFor="file" className="button-profile">
                     Choose Image

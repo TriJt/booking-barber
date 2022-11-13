@@ -21,16 +21,18 @@ const dateSchedule = new Schema({
 
 const SalarySchema = new Schema(
   {
+    StaffId: {
+      type: String,
+    },
+    Name: {
+      type: String,
+    },
     Status: {
       type: String,
       default: "Unpaid",
     },
-    Date: { type: Date },
-    Month: {
-      type: String,
-    },
-    Year: {
-      type: String,
+    Date: {
+      type: Date,
     },
     Salary: {
       type: Number,

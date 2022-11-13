@@ -9,6 +9,7 @@ import axios from "axios";
 import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
 import ModalStaff from "../../components/Modal/ModalStaff";
+import Salary from "../../components/Salary/Salary";
 
 export default function Staff() {
   const [dataStaff, setDataStaff] = useState([]);
@@ -288,8 +289,7 @@ export default function Staff() {
         </div>
         <div className="bottom-staff">
           <div className="left-staff">
-            {/* chart for salary staff */}
-            Salary chart
+            <Salary />
           </div>
           <div className="right-staff">
             <form>
@@ -302,12 +302,12 @@ export default function Staff() {
                   />
                 ) : (
                   <div className="no-image-service">
-                    <span className="header-service"> image</span>
+                    <span className="header-image"> image</span>
                   </div>
                 )}
               </div>
               <div className="right-create">
-                <h3 className="header-service"> Create new service</h3>
+                <div className="header-service"> Create new staff</div>
                 <div className="btn-service">
                   <label htmlFor="file" className="button-profile">
                     Choose Image

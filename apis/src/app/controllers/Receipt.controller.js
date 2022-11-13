@@ -33,7 +33,6 @@ export const CreateReceipt = async (req, res) => {
       { Email: input.Email },
       { $inc: { Collect: 1 } }
     );
-    console.log(update);
   }
   // if  check === null => create new customer
   if (check === null) {
@@ -49,7 +48,6 @@ export const CreateReceipt = async (req, res) => {
         Collect: 1,
       });
       const save = await newCus.save();
-      console.log(newCus);
     } catch (error) {
       console.log(error);
     }
@@ -147,7 +145,7 @@ export const UpdateReceipt = async (req, res) => {
     responseType.value = save;
   } catch (error) {
     responseType.status = 404;
-    responseType.message = "Create service failed";
+    responseType.message = "Update receipt failed";
   }
   res.json(responseType);
 };
@@ -292,7 +290,6 @@ export const GetAWeek = async (req, res) => {
 // group in month
 export const GetByMonth = async (req, res) => {
   const responseType = {};
-  // const date = req.body.Date;
   try {
     const getByMonth = await Receipt.aggregate([
       {

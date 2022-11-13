@@ -36,12 +36,21 @@
 
 .right-create {
   width: 50%;
-  margin: 40px;
+  margin: 20px 40px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 .header-service {
+  color: var(--color-header);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  font-size: 20px;
+  font-family: var(--family-header);
+  border-bottom: 4px solid var(--color-header);
+}
+.header-image {
   color: var(--color-header);
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -61,7 +70,8 @@
   background-color: transparent;
   border: 1px solid var(--color-header);
   border-radius: 4px;
-  padding: 5px;
+  padding: 10px;
+  font-size: 14px;
 }
 .btn-service {
   padding: 10px 0px;
@@ -83,7 +93,7 @@
 }
 
 .select-service {
-  padding: 5px;
+  padding: 10px;
   border: 1px solid var(--color-header);
   border-radius: 4px;
 }
