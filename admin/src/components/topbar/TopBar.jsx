@@ -34,9 +34,7 @@ export default function TopBar() {
         <Link to={`/`} className="Link">
           <div className="Item">Home</div>
         </Link>
-        <Link to={`/`} className="Link">
-          <div className="Item">Noti</div>
-        </Link>
+
         <div className="top-dropdown">
           <div className="top-dropdown-select">
             {/* create name of user in here */}

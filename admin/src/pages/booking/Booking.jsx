@@ -30,12 +30,16 @@ export default function Booking() {
   }, []);
 
   const events = data.map((appointment) => {
+    const date = appointment.date;
+    const slot = appointment.slotTime;
+    const datetime = date.concat("T", slot);
+    const mySlot = moment(datetime).format();
     return {
       id: appointment._id,
       title: appointment.NameCustomer,
-      start: new Date(appointment.date),
+      start: new Date(mySlot),
       desc: appointment.Services,
-      end: new Date(appointment.date),
+      end: new Date(mySlot),
       allDay: false,
     };
   });

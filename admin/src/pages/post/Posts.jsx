@@ -9,13 +9,13 @@ import axios from "axios";
 import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
 import TextEditor from "../../components/Editor/TextEditor";
+import { Link } from "react-router-dom";
 
 export default function Posts() {
   const [data, setData] = useState([]);
   const [services, SetServices] = useState([]);
   const [rowId, setRowId] = useState("");
   const [files, setFiles] = useState("");
-  const [update, setUpdate] = useState(false);
   const [content, setContent] = useState("");
 
   // create new post
@@ -136,16 +136,14 @@ export default function Posts() {
   // change page to post update
 
   const View = ({ params, setRowId }) => {
-    const submitHandle = () => {
-      setUpdate(true);
-      setRowId(params.row._id);
-    };
     // add link to page information customer
     return (
       <div className="view">
-        <button className="button-view" onClick={submitHandle}>
-          <MdViewHeadline className="icon-view" />
-        </button>
+        <Link to={`/post/${params.row._id}`}>
+          <button className="button-view">
+            <MdViewHeadline className="icon-view" />
+          </button>
+        </Link>
       </div>
     );
   };

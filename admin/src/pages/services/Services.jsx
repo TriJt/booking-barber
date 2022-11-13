@@ -243,7 +243,7 @@ export default function Services() {
         field: "Image",
         headerName: "Image",
         width: 60,
-        renderCell: (params) => <Avatar src={params.row.Image} />,
+        renderCell: (params) => <Avatar src={params.row.Image[0]} />,
         sortable: false,
         filterable: false,
       },

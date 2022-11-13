@@ -120,8 +120,10 @@ export default function Receipt() {
       setBill(res.data.value);
       setShowBill(true);
       resetForm();
+      setDataReceipt([dataReceipt, res.data.value]);
+      toast.success("Create receipt successfully");
     } catch (error) {
-      console.log(error);
+      toast.error("Create receipt failed");
     }
   };
 

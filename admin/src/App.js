@@ -20,6 +20,7 @@ import Profile from "./pages/profile/Profile";
 import Posts from "./pages/post/Posts";
 import { AuthContext } from "./context/AuthContext";
 import Revenue from "./pages/revenue/Revenue";
+import SinglePost from "./components/Post/SinglePost";
 
 export default function App() {
   const { user } = useContext(AuthContext);
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/service" element={user ? <Services /> : <Login />} />
         <Route path="/staff" element={user ? <Staff /> : <Login />} />
         <Route path="/post" element={user ? <Posts /> : <Login />} />
+        <Route path="/post/:id" element={user ? <SinglePost /> : <Login />} />
         <Route path="/receipt" element={user ? <Receipt /> : <Login />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/login" element={<Login />} />
@@ -73,6 +75,14 @@ export default function App() {
         />
         <Route
           path="/category/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
+        />
+        <Route
+          path="/receipt/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
+        />
+        <Route
+          path="/revenue/profile/:id"
           element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
       </Routes>
