@@ -25,10 +25,7 @@ export default function TopBar() {
     <div className="topBar">
       {/* search to find somethings from database */}
       <div className="search">
-        <span>
-          <SearchIcon />
-        </span>
-        <input type="text" className="input-search" placeholder="Search..." />
+        Welcome to the management system , {user.Name}
       </div>
       <div className="items-topBar">
         <Link to={`/`} className="Link">

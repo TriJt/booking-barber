@@ -278,12 +278,15 @@ export default function Posts() {
           <form className="form-post">
             <div className="top-post">
               <div className="header-post">
-                <h3 className="header-service"> Create new Post</h3>
+                <h3 className="header-receipt padding-none">
+                  {" "}
+                  Create new Post
+                </h3>
               </div>
               <div className="create-container">
                 <div className="left-create-post">
                   <div className="btn-service">
-                    <label htmlFor="file" className="button-profile">
+                    <label htmlFor="file" className="button-action">
                       Choose Image
                       <input
                         type="file"
@@ -294,7 +297,7 @@ export default function Posts() {
                       ></input>
                     </label>
                     <label
-                      className="button-profile"
+                      className="button-action"
                       onClick={() => setFiles(null)}
                     >
                       Close
@@ -350,7 +353,7 @@ export default function Posts() {
                 <TextEditor setContent={setContent} initialValue={content} />
               </div>
               <div className="button-div">
-                <button className="button-profile" onClick={CreateNewPost}>
+                <button className="button-action" onClick={CreateNewPost}>
                   Create
                 </button>
               </div>

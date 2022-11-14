@@ -149,7 +149,7 @@ export default function Profile() {
             <div className="items-profile">
               <div className="action-profile">
                 <form>
-                  <label htmlFor="file" className="button-profile">
+                  <label htmlFor="file" className="button-action">
                     Choose Image
                     <input
                       type="file"
@@ -160,7 +160,7 @@ export default function Profile() {
                     ></input>
                   </label>
                 </form>
-                <button className="button-profile" onClick={UpdateAvatar}>
+                <button className="button-action" onClick={UpdateAvatar}>
                   Save
                 </button>
               </div>
@@ -295,7 +295,7 @@ export default function Profile() {
                 </div>
 
                 <div className="action-profile">
-                  <button className="save-profile" onClick={submitHandler}>
+                  <button className="button-action" onClick={submitHandler}>
                     Save
                   </button>
                 </div>

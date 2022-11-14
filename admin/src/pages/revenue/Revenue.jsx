@@ -180,6 +180,7 @@ export default function Revenue() {
               {step1 ? (
                 <React.Fragment>
                   <button
+                    className="button-action"
                     onClick={handleStep1}
                     style={{ backgroundColor: "#bf925b", color: "white" }}
                   >
@@ -188,12 +189,15 @@ export default function Revenue() {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <button onClick={handleStep1}>day of the week</button>
+                  <button className="button-action" onClick={handleStep1}>
+                    day of the week
+                  </button>
                 </React.Fragment>
               )}
               {step2 ? (
                 <React.Fragment>
                   <button
+                    className="button-action"
                     onClick={handleStep2}
                     style={{ backgroundColor: "#bf925b", color: "white" }}
                   >
@@ -202,7 +206,9 @@ export default function Revenue() {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <button onClick={handleStep2}>Day in month</button>
+                  <button onClick={handleStep2} className="button-action">
+                    Day in month
+                  </button>
                 </React.Fragment>
               )}
               {step3 ? (
@@ -210,13 +216,16 @@ export default function Revenue() {
                   <button
                     onClick={handleStep3}
                     style={{ backgroundColor: "#bf925b", color: "white" }}
+                    className="button-action"
                   >
                     Year
                   </button>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <button onClick={handleStep3}>Year</button>
+                  <button className="button-action" onClick={handleStep3}>
+                    Year
+                  </button>
                 </React.Fragment>
               )}
               {step4 ? (
@@ -236,7 +245,10 @@ export default function Revenue() {
                     onChange={DateEndHandle}
                     style={{ backgroundColor: "#bf925b", color: "white" }}
                   ></input>
-                  <button onClick={submitHandle}> Submit</button>
+                  <button className="button-action" onClick={submitHandle}>
+                    {" "}
+                    Submit
+                  </button>
                 </React.Fragment>
               ) : (
                 <React.Fragment>

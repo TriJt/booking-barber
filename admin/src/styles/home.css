@@ -27,6 +27,8 @@
 .left-container {
   width: 15%;
   margin: 20px;
+  height: auto;
+  max-height: 600px;
 }
 .right-container {
   width: 84%;

@@ -44,9 +44,8 @@
   transition: all 0.4s ease-in-out;
   cursor: pointer;
 }
-.button-revenue button:hover {
-  color: var(--background);
-  background-color: var(--color-header);
+.input-date:focus {
+  outline: none;
 }
 
 .charts-container {

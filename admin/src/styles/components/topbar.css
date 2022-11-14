@@ -11,13 +11,13 @@
 }
 .search {
   display: flex;
-  justify-content: center;
-  text-align: center;
   background-color: transparent;
   padding: 8px;
   width: 30%;
-  border: 0.2px solid silver;
   border-radius: 10px;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 500;
 }
 .input-search {
   background-color: transparent;

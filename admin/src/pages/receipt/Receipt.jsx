@@ -331,9 +331,8 @@ export default function Receipt() {
               />
             </div>
             <div className="button-receipt">
-              <button className="button-action" onClick={submitReceipt}>
-                {" "}
-                Create{" "}
+              <button className="button-action padding" onClick={submitReceipt}>
+                Create
               </button>
             </div>
           </div>

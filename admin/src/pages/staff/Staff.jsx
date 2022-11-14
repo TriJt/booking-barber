@@ -309,7 +309,7 @@ export default function Staff() {
               <div className="right-create">
                 <div className="header-service"> Create new staff</div>
                 <div className="btn-service">
-                  <label htmlFor="file" className="button-profile">
+                  <label htmlFor="file" className="button-action">
                     Choose Image
                     <input
                       type="file"
@@ -319,7 +319,7 @@ export default function Staff() {
                       onChange={(e) => setFiles(e.target.files)}
                     ></input>
                   </label>
-                  <label className="button-profile" onClick={Clear}>
+                  <label className="button-action" onClick={Clear}>
                     Close
                   </label>
                 </div>
@@ -365,7 +365,7 @@ export default function Staff() {
                   ))}
                 </select>
 
-                <button className="button-profile" onClick={HandlerSubmit}>
+                <button className="button-action" onClick={HandlerSubmit}>
                   Create
                 </button>
               </div>

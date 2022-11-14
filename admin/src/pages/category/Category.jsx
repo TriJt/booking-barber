@@ -268,7 +268,10 @@ export default function Category() {
           <div className="right-service">
             <form>
               <div className="right-create">
-                <h3 className="header-service"> Create new category</h3>
+                <h3 className="header-receipt padding-none">
+                  {" "}
+                  Create new category
+                </h3>
                 <input
                   type="text"
                   className="input-service"
@@ -280,7 +283,7 @@ export default function Category() {
                 {errField.TitleErr.length > 0 && (
                   <span className="error">{errField.TitleErr} </span>
                 )}
-                <button className="button-profile" onClick={CreateCategory}>
+                <button className="button-action" onClick={CreateCategory}>
                   Create
                 </button>
               </div>

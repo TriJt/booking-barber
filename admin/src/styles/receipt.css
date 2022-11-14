@@ -98,20 +98,12 @@
   font-weight: 600;
 }
 
-.items-service-booking button {
+.padding {
   padding: 10px 20px;
-  background-color: transparent;
-  border: 1px solid var(--color-button);
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
 }
 
-.items-service-booking button:hover {
-  background-color: var(--color-button);
-  color: var(--background);
+.button-receipt {
+  padding: 10px 20px;
 }
 
 /* list-service */
@@ -125,28 +117,7 @@
   display: flex;
   justify-content: space-between;
 }
-.button-receipt {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-}
-.button-action {
-  background-color: transparent;
-  border: 1px solid var(--color-header);
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-family: var(--family-header);
-  transition: all 0.3s ease-in-out;
-}
-.button-action:hover {
-  color: var(--background);
-  background-color: var(--color-header);
-}
+
 .show-bill {
   display: flex;
   width: 50%;

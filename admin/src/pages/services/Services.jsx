@@ -400,9 +400,12 @@ export default function Services() {
                 )}
               </div>
               <div className="right-create">
-                <h3 className="header-service"> Create new SERVICES</h3>
+                <h3 className="header-receipt padding-none">
+                  {" "}
+                  Create new SERVICES
+                </h3>
                 <div className="btn-service">
-                  <label htmlFor="file" className="button-profile">
+                  <label htmlFor="file" className="button-action">
                     Choose Image
                     <input
                       type="file"
@@ -413,7 +416,7 @@ export default function Services() {
                       onChange={(e) => setFiles(e.target.files)}
                     ></input>
                   </label>
-                  <label className="button-profile" onClick={Clear}>
+                  <label className="button-action" onClick={Clear}>
                     Close
                   </label>
                 </div>
@@ -460,7 +463,7 @@ export default function Services() {
                   ))}
                 </select>
 
-                <button className="button-profile" onClick={CreateNewService}>
+                <button className="button-action" onClick={CreateNewService}>
                   Create
                 </button>
               </div>

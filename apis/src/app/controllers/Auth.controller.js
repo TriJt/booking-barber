@@ -60,7 +60,7 @@ export const LoginForCustomer = async (req, res) => {
   }
 
   try {
-    const match = await bcryptjs.compare(req.body.Password, user.Password);
+    const match = bcryptjs.compare(req.body.Password, user.Password);
     if (!match) {
       responseType.status = 301;
       responseType.message = "Password not match!";
