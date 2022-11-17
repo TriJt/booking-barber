@@ -5,6 +5,7 @@ import bcryptjs from "bcryptjs";
 import nodemailer from "nodemailer";
 import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
+import axios from "axios";
 
 // *Useful for getting environment vairables
 dotenv.config();
@@ -14,35 +15,51 @@ dotenv.config();
 export const RegisterForCustomer = async (req, res) => {
   const responseType = {};
   const input = req.body;
-  const user = await Customer.findOne({
-    Email: input.Email,
-  });
-  const salt = bcryptjs.genSaltSync(10);
-  const pass = await input.Password;
-  const hashPassword = bcryptjs.hashSync(pass, salt);
-  if (user) {
-    responseType.status = 300;
-    responseType.message = "Email is exist!";
-  } else {
-    //create new user
-    if (!user) {
-      const newCustomer = new Customer({
-        Name_Customer: input.Name_Customer,
-        Telephone: input.Telephone,
+  if (!req.body.token) {
+    responseType.message = "reCaptcha token is missing";
+    responseType.status = 400;
+  }
+  try {
+    const googleVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${req.body.token}`;
+    const response = await axios.post(googleVerifyUrl);
+    const { success } = response.data;
+    if (success) {
+      const user = await Customer.findOne({
         Email: input.Email,
-        Password: hashPassword,
       });
-      //save Customer in database and return response
-      const saveCustomer = await newCustomer.save();
-      responseType.statusText = "Success";
-      responseType.message = "Sign Up Successfully";
-      responseType.status = 200;
-      responseType.value = saveCustomer;
+      const salt = bcryptjs.genSaltSync(10);
+      const pass = await input.Password;
+      const hashPassword = bcryptjs.hashSync(pass, salt);
+      if (user) {
+        responseType.status = 300;
+        responseType.message = "Email is exist!";
+      } else {
+        //create new user
+        if (!user) {
+          const newCustomer = new Customer({
+            Name_Customer: input.Name_Customer,
+            Telephone: input.Telephone,
+            Email: input.Email,
+            Password: hashPassword,
+          });
+          //save Customer in database and return response
+          const saveCustomer = await newCustomer.save();
+          responseType.statusText = "Success";
+          responseType.message = "Register Successfully";
+          responseType.status = 200;
+          responseType.value = saveCustomer;
+        } else {
+          responseType.statusText = "Failed";
+          responseType.status = 500;
+          responseType.message = "Register Failed";
+        }
+      }
     } else {
-      responseType.statusText = "Failed";
-      responseType.status = 500;
-      responseType.message = "Sign Up Failed";
+      responseType.message = "reCaptcha is invalid";
     }
+  } catch (error) {
+    responseType.message = "reCaptcha is error";
+    responseType.status = 400;
   }
   res.json(responseType);
 };
@@ -51,26 +68,42 @@ export const RegisterForCustomer = async (req, res) => {
 
 export const LoginForCustomer = async (req, res) => {
   const responseType = {};
-  const user = await Customer.findOne({
-    Email: req.body.Email,
-  });
-  if (!user) {
-    responseType.status = 300;
-    responseType.message = "Email was wrong!";
+  if (!req.body.token) {
+    responseType.message = "reCaptcha token is missing";
+    responseType.status = 400;
   }
-
   try {
-    const match = bcryptjs.compare(req.body.Password, user.Password);
-    if (!match) {
-      responseType.status = 301;
-      responseType.message = "Password not match!";
+    const googleVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${req.body.token}`;
+    const response = await axios.post(googleVerifyUrl);
+    const { success } = response.data;
+    if (success) {
+      const user = await Customer.findOne({
+        Email: req.body.Email,
+      });
+      if (!user) {
+        responseType.status = 300;
+        responseType.message = "Email was wrong!";
+      }
+
+      try {
+        const match = bcryptjs.compare(req.body.Password, user.Password);
+        if (!match) {
+          responseType.status = 301;
+          responseType.message = "Password not match!";
+        } else {
+          responseType.status = 200;
+          responseType.message = "Login Successfully";
+          responseType.value = user;
+        }
+      } catch (err) {
+        console.log(err);
+      }
     } else {
-      responseType.status = 200;
-      responseType.message = "Login Successfully";
-      responseType.value = user;
+      responseType.message = "reCaptcha is invalid";
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    responseType.message = "reCaptcha is error";
+    responseType.status = 400;
   }
 
   res.json(responseType);
@@ -81,7 +114,7 @@ export const changePasswordWithOldPassword = async (req, res) => {
   const pass = req.body.Password;
   const id = req.params.id;
   const responseType = {};
-  // find customer with id
+
   try {
     const user = await Customer.findById({ _id: id });
     if (!user) {
@@ -211,26 +244,39 @@ export const SendEmail = async (req, res) => {
 // Login for staff
 export const LoginForStaff = async (req, res) => {
   const responseType = {};
-  const user = await Staff.findOne({
-    Email: req.body.Email,
-  });
-
-  if (!user) {
-    responseType.status = 300;
-    responseType.message = "Email is wrong!";
+  if (!req.body.token) {
+    responseType.message = "reCaptcha token is missing";
+    responseType.status = 400;
   }
   try {
-    const match = await bcryptjs.compare(req.body.Password, user.Password);
-    if (!match) {
-      responseType.status = 301;
-      responseType.message = "Password not match!";
+    const googleVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${req.body.token}`;
+    const response = await axios.post(googleVerifyUrl);
+    const { success } = response.data;
+    if (success) {
+      const user = await Staff.findOne({
+        Email: req.body.Email,
+      });
+
+      if (!user) {
+        responseType.status = 300;
+        responseType.message = "Email is wrong!";
+      }
+
+      const match = bcryptjs.compare(req.body.Password, user.Password);
+      if (!match) {
+        responseType.status = 301;
+        responseType.message = "Password not match!";
+      } else {
+        responseType.status = 200;
+        responseType.message = "Login Successfully";
+        responseType.value = user;
+      }
     } else {
-      responseType.status = 200;
-      responseType.message = "Login Successfully";
-      responseType.value = user;
+      responseType.message = "reCaptcha is invalid";
     }
   } catch (error) {
-    console.log(error);
+    responseType.message = "reCaptcha is error";
+    responseType.status = 400;
   }
 
   res.json(responseType);

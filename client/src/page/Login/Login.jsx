@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import "../../styles/login.css";
 import {
   AiOutlineArrowRight,
@@ -10,10 +10,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const SITE_KEY = "6Lc7fhAjAAAAAGx42AoXHeM-zx_wONWme7aRc0xn";
 
 export default function Login() {
   // check show password text
   const [pass, setPass] = useState(false);
+  // re captcha
+  const captchaRef = useRef();
+  const [recaptchaValue, setRecaptchaValue] = useState("");
+
+  const onChange = (value) => {
+    setRecaptchaValue(value);
+  };
 
   const toggleBtn = (e) => {
     e.preventDefault();
@@ -42,9 +52,11 @@ export default function Login() {
     dispatch({
       type: "LOGIN_START",
     });
+    captchaRef.current.reset();
     const data = {
       Email: inputField.Email,
       Password: inputField.Password,
+      token: recaptchaValue,
     };
     try {
       const response = await axios.post(
@@ -139,6 +151,14 @@ export default function Login() {
           {errField.PasswordErr.length > 0 && (
             <span className="error">{errField.PasswordErr} </span>
           )}
+
+          <div className="user-box">
+            <ReCAPTCHA
+              sitekey={SITE_KEY}
+              onChange={onChange}
+              ref={captchaRef}
+            />
+          </div>
           {/* link to forget page */}
           <div className="user-box">
             <Link to="/reset">

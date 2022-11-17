@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../../styles/login.css";
 import { HiOutlineMail } from "react-icons/hi";
 import {
@@ -11,6 +11,9 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const SITE_KEY = "6Lc7fhAjAAAAAGx42AoXHeM-zx_wONWme7aRc0xn";
 
 export default function Register() {
   // check show password text
@@ -47,6 +50,13 @@ export default function Register() {
     ConfirmErr: "",
   });
 
+  const captchaRef = useRef();
+  const [recaptchaValue, setRecaptchaValue] = useState("");
+
+  const onChange = (value) => {
+    setRecaptchaValue(value);
+  };
+
   // handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +66,7 @@ export default function Register() {
         Telephone: inputField.Telephone,
         Email: inputField.Email,
         Password: inputField.Password,
+        token: recaptchaValue,
       };
       try {
         const response = await axios.post(
@@ -174,6 +185,13 @@ export default function Register() {
           {errField.ConfirmErr.length > 0 && (
             <span className="error">{errField.ConfirmErr} </span>
           )}
+          <div className="user-box">
+            <ReCAPTCHA
+              sitekey={SITE_KEY}
+              onChange={onChange}
+              ref={captchaRef}
+            />
+          </div>
           <button
             className="button-submit"
             type="submit"

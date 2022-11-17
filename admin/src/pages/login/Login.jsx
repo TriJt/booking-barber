@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import "../../styles/login.css";
 import EmailIcon from "@mui/icons-material/Email";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -7,9 +7,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const SITE_KEY = "6Lc7fhAjAAAAAGx42AoXHeM-zx_wONWme7aRc0xn";
 
 export default function Login() {
-  //declaration fields in form
   const [inputField, setInputField] = useState({
     Email: "",
     Password: "",
@@ -27,15 +29,26 @@ export default function Login() {
 
   const { isFetching, dispatch } = useContext(AuthContext);
 
+  // re captcha
+  const captchaRef = useRef();
+  const [recaptchaValue, setRecaptchaValue] = useState("");
+
+  const onChange = (value) => {
+    setRecaptchaValue(value);
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
     dispatch({
       type: "LOGIN_START",
     });
 
+    captchaRef.current.reset();
+
     const data = {
       Email: inputField.Email,
       Password: inputField.Password,
+      token: recaptchaValue,
     };
     try {
       const response = await axios.post(
@@ -143,6 +156,14 @@ export default function Login() {
               <label className="span-login">Lost password ?</label>
             </Link>
           </div>
+          <div className="items">
+            <ReCAPTCHA
+              sitekey={SITE_KEY}
+              onChange={onChange}
+              ref={captchaRef}
+            />
+          </div>
+
           <div className="items">
             <button
               className="button-login"
