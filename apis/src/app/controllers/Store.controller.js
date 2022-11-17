@@ -89,12 +89,18 @@ export const CreateBanner = async (req, res) => {
     Description: input.Description,
   });
 
-  const storeName = "BarberJt";
+  const store = "6353b7be74491dc7f016e0d5";
   const saveBanner = await newBanner.save();
 
-  await Store.findOneAndUpdate(storeName, {
-    $push: { Banner: saveBanner._id },
-  });
+  await Store.findOneAndUpdate(
+    { _id: store },
+    {
+      $push: { Banner: saveBanner._id },
+    },
+    {
+      new: true,
+    }
+  );
   responseType.statusText = "Success";
   responseType.message = "Create successfully";
   responseType.status = 200;
@@ -104,37 +110,40 @@ export const CreateBanner = async (req, res) => {
 //update banner
 export const UpdateBanner = async (req, res) => {
   const responseType = {};
-  const input = req.body;
-  if (input._id === req.params.id) {
-    const banner = await Banner.findByIdAndUpdate(
-      input._id,
-      {
-        $set: input,
-      },
-      {
-        new: true,
-      }
-    );
 
-    const saveBanner = await banner.save();
-    responseType.statusText = "Success";
-    responseType.message = "Create successfully";
-    responseType.status = 200;
-    responseType.value = saveBanner;
-    res.json(responseType);
-  }
+  const id = req.params.id;
+  const banner = await Banner.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: req.body,
+    },
+    {
+      new: true,
+    }
+  );
+
+  const saveBanner = await banner.save();
+  responseType.statusText = "Success";
+  responseType.message = "Create successfully";
+  responseType.status = 200;
+  responseType.value = saveBanner;
+  res.json(responseType);
 };
 
 // delete banner
 export const DeleteBanner = async (req, res) => {
   const responseType = {};
-  const storeName = "BarberJt";
+  const store = "6353b7be74491dc7f016e0d5";
   try {
     await Banner.findByIdAndDelete(req.params.bannerId);
     try {
-      await Store.findOneAndUpdate(storeName, {
-        $pull: { Banner: req.params.bannerId },
-      });
+      await Store.findOneAndUpdate(
+        { _id: store },
+        {
+          $pull: { Banner: req.params.bannerId },
+        },
+        { new: true }
+      );
       responseType.statusText = "Success";
       responseType.message = "Delete successfully";
       responseType.status = 200;

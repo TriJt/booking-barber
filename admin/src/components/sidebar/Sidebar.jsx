@@ -1,15 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
 import "../../styles/components/Sidebar.css";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import GroupsIcon from "@mui/icons-material/Groups";
-import PeopleIcon from "@mui/icons-material/People";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import DiscountIcon from "@mui/icons-material/Discount";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import { AuthContext } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import {
+  BsImages,
+  BsPeopleFill,
+  BsJournalBookmarkFill,
+  BsReceipt,
+} from "react-icons/bs";
+import {
+  MdSpaceDashboard,
+  MdOutlinePostAdd,
+  MdAttachMoney,
+} from "react-icons/md";
+import { BiCategoryAlt } from "react-icons/bi";
 
 export default function Sidebar() {
   const { user: currentUser } = useContext(AuthContext);
@@ -30,56 +37,62 @@ export default function Sidebar() {
           {/* item with icon and name */}
           <NavLink to={`/home`} className="Link">
             <div className="items-sidebar">
-              <DashboardIcon className="icon" />
+              <MdSpaceDashboard className="icon" />
               <div className="item-sidebar">Dashboard</div>
             </div>
           </NavLink>
           <NavLink to={`/customer`} className="Link">
             <div className="items-sidebar">
-              <GroupsIcon className="icon" />
+              <BsPeopleFill className="icon" />
               <div className="item-sidebar">Customers</div>
             </div>
           </NavLink>
           <NavLink to={`/staff`} className="Link">
             <div className="items-sidebar">
-              <PeopleIcon className="icon" />
+              <BsPeopleFill className="icon" />
               <div className="item-sidebar">Staffs</div>
             </div>
           </NavLink>
           <NavLink to={`/booking`} className="Link">
             <div className="items-sidebar">
-              <BookmarkIcon className="icon" />
+              <BsJournalBookmarkFill className="icon" />
               <div className="item-sidebar">Booking</div>
             </div>
           </NavLink>
           <NavLink to={`/category`} className="Link">
             <div className="items-sidebar">
-              <DiscountIcon className="icon" />
+              <BiCategoryAlt className="icon" />
               <div className="item-sidebar">Category</div>
             </div>
           </NavLink>
           <NavLink to={`/service`} className="Link">
             <div className="items-sidebar">
-              <DiscountIcon className="icon" />
+              <BiCategoryAlt className="icon" />
               <div className="item-sidebar">Services</div>
             </div>
           </NavLink>
           <NavLink to={`/post`} className="Link">
             <div className="items-sidebar">
-              <PostAddIcon className="icon" />
+              <MdOutlinePostAdd className="icon" />
               <div className="item-sidebar">Posts</div>
             </div>
           </NavLink>
           <NavLink to="/receipt" className="Link">
             <div className="items-sidebar">
-              <ContactsIcon className="icon" />
+              <BsReceipt className="icon" />
               <div className="item-sidebar">Receipts</div>
             </div>
           </NavLink>
           <NavLink to="/revenue" className="Link">
             <div className="items-sidebar">
-              <ContactsIcon className="icon" />
+              <MdAttachMoney className="icon" />
               <div className="item-sidebar">Revenue</div>
+            </div>
+          </NavLink>
+          <NavLink to="/banner" className="Link">
+            <div className="items-sidebar">
+              <BsImages className="icon" />
+              <div className="item-sidebar">Banner</div>
             </div>
           </NavLink>
         </div>
@@ -88,44 +101,50 @@ export default function Sidebar() {
           {/* item with icon and name */}
           <NavLink to={`/home`} className="Link">
             <div className="items-sidebar">
-              <DashboardIcon className="icon" />
+              <MdSpaceDashboard className="icon" />
               <div className="item-sidebar">Dashboard</div>
             </div>
           </NavLink>
           <NavLink to={`/customer`} className="Link">
             <div className="items-sidebar">
-              <GroupsIcon className="icon" />
+              <BsPeopleFill className="icon" />
               <div className="item-sidebar">Customers</div>
             </div>
           </NavLink>
           <NavLink to={`/booking`} className="Link">
             <div className="items-sidebar">
-              <BookmarkIcon className="icon" />
+              <BsJournalBookmarkFill className="icon" />
               <div className="item-sidebar">Booking</div>
             </div>
           </NavLink>
           <NavLink to={`/category`} className="Link">
             <div className="items-sidebar">
-              <DiscountIcon className="icon" />
+              <BiCategoryAlt className="icon" />
               <div className="item-sidebar">Category</div>
             </div>
           </NavLink>
           <NavLink to={`/service`} className="Link">
             <div className="items-sidebar">
-              <DiscountIcon className="icon" />
+              <BiCategoryAlt className="icon" />
               <div className="item-sidebar">Services</div>
             </div>
           </NavLink>
           <NavLink to={`/post`} className="Link">
             <div className="items-sidebar">
-              <PostAddIcon className="icon" />
+              <MdOutlinePostAdd className="icon" />
               <div className="item-sidebar">Posts</div>
             </div>
           </NavLink>
           <NavLink to="/receipt" className="Link">
             <div className="items-sidebar">
-              <ContactsIcon className="icon" />
+              <BsReceipt className="icon" />
               <div className="item-sidebar">Receipts</div>
+            </div>
+          </NavLink>
+          <NavLink to="/banner" className="Link">
+            <div className="items-sidebar">
+              <BsImages className="icon" />
+              <div className="item-sidebar">Banner</div>
             </div>
           </NavLink>
         </div>

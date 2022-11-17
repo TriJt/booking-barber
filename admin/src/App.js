@@ -21,6 +21,7 @@ import Posts from "./pages/post/Posts";
 import { AuthContext } from "./context/AuthContext";
 import Revenue from "./pages/revenue/Revenue";
 import SinglePost from "./components/Post/SinglePost";
+import Banner from "./pages/banner/Banner";
 
 export default function App() {
   const { user } = useContext(AuthContext);
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/login" element={<Login />} />
         <Route path="/revenue" element={<Revenue />} />
+        <Route path="/banner" element={<Banner />} />
         <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
         <Route
           path="/contact/profile/:id"
@@ -51,6 +53,10 @@ export default function App() {
         />
         <Route
           path="/customer/profile/:id"
+          element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
+        />
+        <Route
+          path="/banner/profile/:id"
           element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}
         />
         <Route

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const BannerSchema = new mongoose.Schema(
+const BannerSchema = new Schema(
   {
     Image: {
-      type: String,
+      type: [String],
     },
     Description: {
       type: String,
@@ -25,7 +25,7 @@ const StoreSchema = new Schema(
       type: String,
       require: true,
     },
-    Banner: [BannerSchema],
+    Banner: [],
     Number: {
       type: String,
     },
