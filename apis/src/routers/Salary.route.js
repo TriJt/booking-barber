@@ -29,6 +29,6 @@ router.get("/:id", GetById);
 router.post("/date", GetByDate);
 
 // get group by month
-router.get("/month", GetByMonth);
+router.post("/month", GetByMonth);
 
 export default router;

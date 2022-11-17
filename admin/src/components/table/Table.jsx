@@ -20,7 +20,7 @@ export default function Table({ title }) {
   return (
     <div className="table">
       <div className="top-table">
-        <span className="label-table"> Customer </span>
+        <span className="label-table"> New Customer </span>
         <Link to={`/customer`} style={{ textDecoration: "none" }}>
           <button className="button-table">
             See all{" "}

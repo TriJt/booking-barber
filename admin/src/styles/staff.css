@@ -29,3 +29,10 @@
   width: 100%;
   display: flex;
 }
+.salary-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}

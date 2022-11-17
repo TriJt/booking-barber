@@ -26,7 +26,6 @@ export default function Appointment() {
   const [slotId, setSlotId] = useState("");
   const [slotTime, setSlotTime] = useState("");
   const [dateId, setDateId] = useState("");
-  const [dateCheck, setDateCheck] = useState("");
   const [isBook, setIsBook] = useState();
   const [step1, setStep1] = useState(false);
   const [step2, setStep2] = useState(false);

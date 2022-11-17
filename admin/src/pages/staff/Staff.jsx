@@ -10,6 +10,7 @@ import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
 import ModalStaff from "../../components/Modal/ModalStaff";
 import Salary from "../../components/Salary/Salary";
+import ChartSalary from "../../components/Charts/ChartSalary";
 
 export default function Staff() {
   const [dataStaff, setDataStaff] = useState([]);
@@ -289,7 +290,7 @@ export default function Staff() {
         </div>
         <div className="bottom-staff">
           <div className="left-staff">
-            <Salary />
+            <ChartSalary />
           </div>
           <div className="right-staff">
             <form>
@@ -307,7 +308,7 @@ export default function Staff() {
                 )}
               </div>
               <div className="right-create">
-                <div className="header-service"> Create new staff</div>
+                <div className="header-receipt">Create new staff</div>
                 <div className="btn-service">
                   <label htmlFor="file" className="button-action">
                     Choose Image
@@ -371,6 +372,9 @@ export default function Staff() {
               </div>
             </form>
           </div>
+        </div>
+        <div className="salary-container">
+          <Salary />
         </div>
       </div>
     </div>

@@ -1,30 +1,33 @@
-import { Salary } from "../models/Staff/Staff.model";
+import { Salary } from "../models/Staff/Staff.model.js";
 
 // create
 export const CreateNewSalary = async (req, res) => {
   const responseType = {};
-  const input = req.body;
-  const total = input.Allowance + input.Salary;
-  const status = "Paid";
-  try {
-    const New = new Salary({
-      StaffId: input.StaffId,
-      Name: input.Name,
-      Status: status,
-      Date: input.Date,
-      Salary: input.Salary,
-      Allowance: input.Allowance,
-      Total: total,
-    });
-    const save = await New.save();
-    responseType.message = "Create salary successfully";
+  const salary = parseInt(req.body.Salary);
+  const allow = parseInt(req.body.Allowance);
+  const total = parseInt(req.body.Total);
+  console.log(salary);
+  console.log(allow);
+  console.log(total);
+  const newData = new Salary({
+    Name: req.body.Name,
+    Status: req.body.Status,
+    Date: req.body.Date,
+    Salary: salary,
+    Allowance: allow,
+    Total: total,
+  });
+
+  const save = await newData.save();
+  if (save) {
+    responseType.message = "Add successfully";
     responseType.status = 200;
     responseType.value = save;
-  } catch (error) {
-    responseType.message = "Crete salary failed";
-    responseType.status = 400;
+  } else {
+    responseType.statusText = "Failed";
+    responseType.message = "Add Failed";
+    responseType.status = 500;
   }
-
   res.json(responseType);
 };
 
@@ -32,14 +35,19 @@ export const CreateNewSalary = async (req, res) => {
 export const UpdateSalary = async (req, res) => {
   const responseType = {};
   const input = req.body;
+  const salary = parseInt(req.body.Salary);
+  const allow = parseInt(req.body.Allowance);
+  const total = salary + allow;
+  console.log(salary);
+  console.log(allow);
+  console.log(total);
   try {
     const data = {
-      StaffId: input.StaffId,
       Name: input.Name,
       Status: input.Status,
       Date: input.Date,
-      Salary: input.Salary,
-      Allowance: input.Allowance,
+      Salary: salary,
+      Allowance: allow,
       Total: total,
     };
     const update = await Salary.findByIdAndUpdate(
@@ -120,20 +128,17 @@ export const GetByDate = async (req, res) => {
   res.json(responseType);
 };
 
-// get salary by month to insert to chart
+// get list salary by month to insert to chart
 
 export const GetByMonth = async (req, res) => {
   const responseType = {};
+  const input = req.body;
+  const start = input.Start;
+  const end = input.End;
   try {
-    const getByMonth = await Salary.aggregate([
-      {
-        $group: {
-          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
-          totalAmount: { $sum: "$Total" },
-          count: { $sum: 1 },
-        },
-      },
-    ]);
+    const getByMonth = await Salary.find({
+      Date: { $gte: new Date(start), $lt: new Date(end) },
+    }).sort({ Date: 1 });
     responseType.message = "Get receipt successfully";
     responseType.status = 200;
     responseType.value = getByMonth;
@@ -145,3 +150,7 @@ export const GetByMonth = async (req, res) => {
 
   res.json(responseType);
 };
+
+// Get salary with name staff with previous month
+
+export const GetSalaryPreviousMonth = async (req, res) => {};

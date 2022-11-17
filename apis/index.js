@@ -17,6 +17,7 @@ import ServiceRoute from "./src/routers/Service.route.js";
 import CategoryRoute from "./src/routers/Category.route.js";
 import PostRoute from "./src/routers/Post.route.js";
 import ContactRoute from "./src/routers/Contact.route.js";
+import SalaryRoute from "./src/routers/Salary.route.js";
 
 const app = express();
 dotenv.config();
@@ -58,7 +59,7 @@ app.use("/api/receipt", ReceiptsRoute);
 app.use("/api/post", PostRoute);
 // route for Appointment
 app.use("/api/appointment", AppointmentRoute);
-
+app.use("/api/salary", SalaryRoute);
 // route for Appointment
 app.use("/api/contact", ContactRoute);
 

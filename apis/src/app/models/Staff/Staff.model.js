@@ -21,9 +21,6 @@ const dateSchedule = new Schema({
 
 const SalarySchema = new Schema(
   {
-    StaffId: {
-      type: String,
-    },
     Name: {
       type: String,
     },

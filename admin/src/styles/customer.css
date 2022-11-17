@@ -55,6 +55,19 @@
 }
 
 /* modal */
+.salary-modal {
+  background-color: transparent;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 40px 0px;
+}
+.modal-container {
+  width: 40%;
+  height: auto;
+}
 .overlay {
   background-color: rgb(0, 0, 0, 0.4);
   width: 100%;
@@ -98,6 +111,7 @@
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
+  font-family: var(--family-header);
 }
 .title-value {
   color: var(--color-header);
