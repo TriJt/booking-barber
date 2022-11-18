@@ -305,7 +305,7 @@ export const GetByMonth = async (req, res) => {
     responseType.value = getByMonth;
   } catch (err) {
     responseType.statusText = "Error";
-    responseType.message = "We have error ";
+    responseType.message = "We have error";
     responseType.status = 404;
   }
   res.json(responseType);

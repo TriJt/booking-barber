@@ -1,4 +1,5 @@
 import { Salary } from "../models/Staff/Staff.model.js";
+import moment from "moment";
 
 // create
 export const CreateNewSalary = async (req, res) => {
@@ -133,8 +134,8 @@ export const GetByDate = async (req, res) => {
 export const GetByMonth = async (req, res) => {
   const responseType = {};
   const input = req.body;
-  const start = input.Start;
-  const end = input.End;
+  const start = moment(input.Start).format("YYYY-MM-DD");
+  const end = moment(input.End).add(1, "day").format("YYYY-MM-DD");
   try {
     const getByMonth = await Salary.find({
       Date: { $gte: new Date(start), $lt: new Date(end) },
@@ -153,4 +154,35 @@ export const GetByMonth = async (req, res) => {
 
 // Get salary with name staff with previous month
 
-export const GetSalaryPreviousMonth = async (req, res) => {};
+export const GetSalaryPayInMonth = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  const start = moment(input.Start).format("YYYY-MM-DD");
+  const end = moment(input.End).add(1, "day").format("YYYY-MM-DD");
+  try {
+    const getByDate = await Salary.aggregate([
+      {
+        $match: {
+          Date: {
+            $gte: new Date(start),
+            $lt: new Date(end),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$Name",
+          totalAmount: { $sum: "$Total" },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = getByDate;
+  } catch (err) {
+    responseType.message = "Error";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};

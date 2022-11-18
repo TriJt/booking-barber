@@ -7,8 +7,12 @@ import {
   GetByDate,
   GetById,
   GetByMonth,
+  GetSalaryPayInMonth,
   UpdateSalary,
 } from "../app/controllers/Salary.controller.js";
+
+// get salary pay in month
+router.post("/chart-month", GetSalaryPayInMonth);
 
 // create
 router.post("/add", CreateNewSalary);

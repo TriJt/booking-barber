@@ -61,12 +61,12 @@ export default function Salary() {
 
   const endMonthCurrent = `${current.getFullYear()}-${
     current.getMonth() + 1
-  }-31`;
+  }-30`;
 
   // date for previous month
   const startMonthPrevious = `${current.getFullYear()}-${current.getMonth()}-01`;
 
-  const endMonthPrevious = `${current.getFullYear()}-${current.getMonth()}-31`;
+  const endMonthPrevious = `${current.getFullYear()}-${current.getMonth()}-30`;
 
   useEffect(() => {
     const fetchMonthCurrent = async () => {
@@ -106,6 +106,28 @@ export default function Salary() {
     handleStep4();
   };
 
+  const loadData = async () => {
+    const dataCurrent = {
+      Start: startMonthCurrent,
+      End: endMonthCurrent,
+    };
+    const currents = await axios.post(
+      "http://localhost:8800/api/salary/month",
+      dataCurrent
+    );
+    setDataMonthCurrent(currents.data.value);
+
+    const dataPrevious = {
+      Start: startMonthPrevious,
+      End: endMonthPrevious,
+    };
+    const previous = await axios.post(
+      "http://localhost:8800/api/salary/month",
+      dataPrevious
+    );
+    setDataMonthPrevious(previous.data.value);
+  };
+
   const submitHandle = async () => {
     try {
       const data = {
@@ -129,25 +151,7 @@ export default function Salary() {
       const response = await axios.delete(
         "http://localhost:8800/api/salary/delete/" + data
       );
-      const dataCurrent = {
-        Start: startMonthCurrent,
-        End: endMonthCurrent,
-      };
-      const currents = await axios.post(
-        "http://localhost:8800/api/salary/month",
-        dataCurrent
-      );
-      setDataMonthCurrent(currents.data.value);
-
-      const dataPrevious = {
-        Start: startMonthPrevious,
-        End: endMonthPrevious,
-      };
-      const previous = await axios.post(
-        "http://localhost:8800/api/salary/month",
-        dataPrevious
-      );
-      setDataMonthPrevious(previous.data.value);
+      loadData();
 
       const record = response.data;
       if (record.status === 200) {
@@ -180,18 +184,16 @@ export default function Salary() {
         Salary: params.row.Salary,
         Allowance: params.row.Allowance,
       };
-      const response = await axios.put(
+      const res = await axios.put(
         "http://localhost:8800/api/salary/update/" + params.row._id,
         data
       );
-      const record = response.data;
 
-      if (record.status === 200) {
-        toast.success("Update information successfully");
-        setDataMonthCurrent([...dataMonthCurrent, record.value]);
-        setDataMonthPrevious([...dataPrevious, record.value]);
+      if (res.data.status === 200) {
+        toast.success(res.data.message);
+        loadData();
       } else {
-        toast.error("Update information failed");
+        toast.error(res.data.message);
       }
     };
 
@@ -277,9 +279,9 @@ export default function Salary() {
     const [nameStaff, setNameStaff] = useState("");
     const [status, setStatus] = useState("");
     const [date, setDate] = useState(moment().format("yyyy-MM-DD"));
-    const [salary, setSalary] = useState("");
-    const [allowance, setAllowance] = useState("");
-    const [total, setTotal] = useState("");
+    const [salary, setSalary] = useState(0);
+    const [allowance, setAllowance] = useState(0);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
       const fetchStaff = async () => {
@@ -342,8 +344,8 @@ export default function Salary() {
         resetForm();
         if (res.data.status === 200) {
           toast.success(res.data.message);
-          setDataMonthCurrent([...dataMonthCurrent, res.data.value]);
-          setDataMonthPrevious([...dataPrevious, res.data.value]);
+          // load data from back-end
+          loadData();
         } else {
           toast.error(res.data.message);
         }
@@ -360,6 +362,7 @@ export default function Salary() {
           <div className="modal-container">
             <div className="header-receipt"> Add salary</div>
             <div className="item-receipt">
+              <span className="title-salary"> Staff Name: </span>
               <select
                 type="text"
                 className="input-receipt"
@@ -374,10 +377,12 @@ export default function Salary() {
               </select>
             </div>
             <div className="item-receipt">
+              <span className="title-salary"> Status: </span>
               <select
                 type="text"
                 className="input-receipt"
                 placeholder="Status"
+                value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
                 <option value="Paid">Paid</option>
@@ -385,6 +390,7 @@ export default function Salary() {
               </select>
             </div>
             <div className="item-receipt">
+              <span className="title-salary"> Date: </span>
               <input
                 type="date"
                 className="input-receipt"
@@ -394,6 +400,7 @@ export default function Salary() {
               />
             </div>
             <div className="item-receipt">
+              <span className="title-salary"> Salary: </span>
               <input
                 type="number"
                 className="input-receipt"
@@ -403,21 +410,17 @@ export default function Salary() {
               />
             </div>
             <div className="item-receipt">
+              <span className="title-salary"> Allowance: </span>
               <input
                 type="number"
                 className="input-receipt"
-                placeholder="Allowance"
                 value={allowance}
                 onChange={onChangeAllow}
               />
             </div>
             <div className="item-receipt">
-              <input
-                type="number"
-                className="input-receipt"
-                placeholder="Total"
-                value={total}
-              />
+              <span className="title-salary"> Total: </span>
+              <input type="number" className="input-receipt" value={total} />
             </div>
             <div className="button-receipt">
               <button className="button-action padding" onClick={submitHandle}>

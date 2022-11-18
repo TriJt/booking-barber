@@ -35,3 +35,7 @@
 .input-salary:focus {
   outline: none;
 }
+.title-salary {
+  width: 30%;
+  font-weight: 500;
+}

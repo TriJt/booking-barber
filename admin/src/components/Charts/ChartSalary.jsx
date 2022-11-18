@@ -16,15 +16,13 @@ import axios from "axios";
 export default function TotalBooking() {
   // data for recharts
   const [data, setData] = useState([]);
-  const [count, setCount] = useState();
   const current = new Date();
-  const start = `${current.getFullYear()}-${current.getMonth() + 1}-${
-    current.getDate() - 7
-  }`;
+  const start = `${current.getFullYear()}-${current.getMonth() + 1}-01`;
 
-  const end = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
+  const end = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
+
+  console.log(start);
+  console.log(end);
 
   useEffect(() => {
     const data = {
@@ -33,7 +31,7 @@ export default function TotalBooking() {
     };
     const fetData = async () => {
       const res = await axios.post(
-        "http://localhost:8800/api/customer/week",
+        "http://localhost:8800/api/salary/chart-month",
         data
       );
       setData(res.data.value);
@@ -41,26 +39,10 @@ export default function TotalBooking() {
     fetData();
   }, []);
 
-  useEffect(() => {
-    const data = {
-      Start: start,
-      End: end,
-    };
-    const fetData = async () => {
-      const res = await axios.post(
-        "http://localhost:8800/api/customer/count-7day",
-        data
-      );
-      setCount(res.data);
-    };
-    fetData();
-  }, []);
-
   return (
     <div className="Total">
       <div className="top-total">
-        <h4 className="header-total"> Customer in a 7 day </h4>
-        <span className="span-total">{count}</span>
+        <h4 className="header-total"> Salary in 30days </h4>
       </div>
       <div className="bottom-total">
         <ResponsiveContainer
@@ -78,7 +60,7 @@ export default function TotalBooking() {
             <YAxis />
             <Tooltip />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5 " />
-            <Bar dataKey="count" fill="#bf925b" barSize={10} />
+            <Bar dataKey="totalAmount" fill="#bf925b" barSize={10} />
           </BarChart>
         </ResponsiveContainer>
       </div>
