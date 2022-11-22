@@ -7,12 +7,16 @@ export const CheckCustomer = async (req, res) => {
   const responseType = {};
   const input = req.body;
   try {
-    responseType.message = "Te";
-    responseType.status = 200;
-    responseType.value = save;
+    const check = await Customer.findOne({ Telephone: input.Telephone });
+    if (check !== null) {
+      responseType.message = "Telephone exist";
+      responseType.status = 200;
+    }
+    if (check === null) {
+      responseType.status = 400;
+      responseType.message = "Please enter the correct phone number!";
+    }
   } catch (err) {
-    responseType.status = 404;
-    responseType.message = "Create customer failed";
     responseType.value = err;
   }
   res.json(responseType);

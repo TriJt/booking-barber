@@ -20,6 +20,7 @@ export default function TopBar() {
     window.location.reload();
     history("/login");
   };
+  console.log(user._id);
 
   return (
     <div className="topBar">
@@ -40,7 +41,7 @@ export default function TopBar() {
           <ul className="top-dropdown-list">
             <li className="top-dropdown-item">
               <BsFilePerson className="icon" />
-              <Link to={`profile/${user._id}`} className="Link">
+              <Link to={`/profile/${user._id}`} className="Link">
                 <span className="dropdown-text">My profile</span>
               </Link>
             </li>

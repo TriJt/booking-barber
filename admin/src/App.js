@@ -48,7 +48,7 @@ export default function App() {
         <Route path="/revenue" element={<Revenue />} />
         <Route path="/banner" element={<Banner />} />
         <Route path="/store" element={<Store />} />
-        <Route path="/profile/:Name" element={user ? <Profile /> : <Login />} />
+        <Route path="/profile/:id" element={user ? <Profile /> : <Login />} />
         <Route
           path="/contact/profile/:id"
           element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}

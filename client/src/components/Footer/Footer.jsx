@@ -6,7 +6,20 @@ import { Link } from "react-router-dom";
 import { BsTelephoneForward } from "react-icons/bs";
 import { MdPlace } from "react-icons/md";
 import { AiFillHeart } from "react-icons/ai";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 export default function Footer() {
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get("http://localhost:8800/api/store/getById");
+      setData(res.data.value);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="footer-container">
       <div className="Footer">
@@ -58,7 +71,7 @@ export default function Footer() {
               <span>
                 <BsTelephoneForward />
               </span>
-              Hotline : 078.6963.378
+              Hotline : {data.Telephone}
             </button>
           </div>
         </div>
@@ -68,13 +81,13 @@ export default function Footer() {
             <span>
               <MdPlace />
             </span>
-            <span className="text-span"> Anh Khanh, Ninh Kieu, Can Tho</span>
+            <span className="text-span">{` ${data.Number} ${data.Street} ${data.District} ${data.City}`}</span>
           </div>
           <div className="question">
             <span>
               <BsTelephoneForward />
             </span>
-            <span className="text-span"> 0786963378</span>
+            <span className="text-span"> {data.Telephone}</span>
           </div>
 
           <div className="question">

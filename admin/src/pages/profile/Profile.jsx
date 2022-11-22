@@ -74,9 +74,8 @@ export default function Profile() {
         );
         const record = response.data;
         setUser(record.value);
-        console.log(record.value);
-        console.log(" user", user);
-        if (record.statusText === "Success") {
+
+        if (record.status === 200) {
           toast.success(record.message);
         } else {
           toast.error(record.message);
@@ -110,7 +109,7 @@ export default function Profile() {
       );
       const record = response.data;
       setUser(record.value);
-      if (record.statusText === "Success") {
+      if (record.status === 200) {
         toast.success(record.message);
       } else {
         toast.error(record.message);

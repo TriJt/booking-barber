@@ -10,7 +10,11 @@ import {
   GetAWeek,
   CountCustomerInASevenDay,
   GetLastCustomerLimit3,
+  CheckCustomer,
 } from "../app/controllers/Customer.controller.js";
+
+// check telephone
+router.post("/check", CheckCustomer);
 
 // count customer
 router.get("/count", CountCustomer);
