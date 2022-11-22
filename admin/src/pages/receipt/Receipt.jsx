@@ -20,6 +20,7 @@ export default function Receipt() {
   const [telephone, setTelephone] = useState("");
   const [bill, setBill] = useState("");
   const [showBill, setShowBill] = useState(false);
+  const [rowId, setRowId] = useState("");
 
   // get date now
   const current = new Date();
@@ -60,6 +61,18 @@ export default function Receipt() {
     };
     fetchReceiptForADay();
   }, []);
+
+  const updateData = async () => {
+    const data = {
+      Start: start,
+      End: end,
+    };
+    const res = await axios.post(
+      "http://localhost:8800/api/receipt/list/date",
+      data
+    );
+    setDataReceipt(res.data.value);
+  };
 
   useEffect(() => {
     const fetchStaff = async () => {
@@ -120,7 +133,7 @@ export default function Receipt() {
       setBill(res.data.value);
       setShowBill(true);
       resetForm();
-      setDataReceipt([dataReceipt, res.data.value]);
+      updateData();
       toast.success("Create receipt successfully");
     } catch (error) {
       toast.error("Create receipt failed");
@@ -171,7 +184,7 @@ export default function Receipt() {
         width: 90,
       },
     ],
-    []
+    [rowId]
   );
 
   return (

@@ -34,9 +34,10 @@ export const CreateStore = async (req, res) => {
 // COMPLETE
 export const UpdateStore = async (req, res) => {
   const responseType = {};
-  if (req.body.Name_Store === req.params.Name_Store) {
-    const store = await Store.findOneAndUpdate(
-      req.body.Name_Store,
+  const id = "6353b7be74491dc7f016e0d5";
+  try {
+    const store = await Store.findByIdAndUpdate(
+      { _id: id },
       {
         $set: req.body,
       },
@@ -49,7 +50,7 @@ export const UpdateStore = async (req, res) => {
     responseType.message = "Update successfully";
     responseType.status = 200;
     responseType.value = saveStore;
-  } else {
+  } catch (err) {
     responseType.statusText = "Error";
     responseType.message = "Update Failed ";
     responseType.status = 404;
@@ -63,6 +64,23 @@ export const GetStores = async (req, res) => {
   const responseType = {};
   if (Store) {
     const store = await Store.find();
+    responseType.statusText = "Success";
+    responseType.message = "Update successfully";
+    responseType.status = 200;
+    responseType.value = store;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "Update Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+export const GetById = async (req, res) => {
+  const responseType = {};
+  const id = "6353b7be74491dc7f016e0d5";
+  if (Store) {
+    const store = await Store.findById(id);
     responseType.statusText = "Success";
     responseType.message = "Update successfully";
     responseType.status = 200;

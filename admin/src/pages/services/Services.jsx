@@ -225,7 +225,7 @@ export default function Services() {
                     ></input>
                   </label>
                 </form>
-                <button className="button-profile" onClick={UpdateAvatar}>
+                <button className="button-action" onClick={UpdateAvatar}>
                   Change
                 </button>
               </div>

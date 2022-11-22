@@ -8,16 +8,20 @@ import {
   getBanner,
   DeleteBanner,
   UpdateBanner,
+  GetById,
 } from "../app/controllers/Store.controller.js";
 
 // create store
 router.post("/add", CreateStore);
 
 // update information of store
-router.put("/update/:id", UpdateStore);
+router.put("/update", UpdateStore);
 
 // get store
 router.get("/get", GetStores);
+
+// get by id
+router.get("/getById", GetById);
 
 // create new banner
 router.post("/banner", CreateBanner);

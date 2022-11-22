@@ -6,7 +6,6 @@ const ReceiptsSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    // get when check again name of customer
     Name_Customer: {
       type: String,
       require: true,

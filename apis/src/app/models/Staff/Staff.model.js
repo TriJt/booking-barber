@@ -2,22 +2,28 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const slotSchema = new Schema({
-  Time: {
-    type: String,
+const slotSchema = new Schema(
+  {
+    Time: {
+      type: String,
+    },
+    isBooked: {
+      type: Boolean,
+      default: false,
+    },
   },
-  isBooked: {
-    type: Boolean,
-    default: false,
-  },
-});
+  { timestamps: true }
+);
 
-const dateSchedule = new Schema({
-  date: {
-    type: String,
+const dateSchedule = new Schema(
+  {
+    date: {
+      type: String,
+    },
+    slots: [slotSchema],
   },
-  slots: [slotSchema],
-});
+  { timestamps: true }
+);
 
 const SalarySchema = new Schema(
   {
@@ -87,9 +93,6 @@ const StaffSchema = new Schema(
     Salary: [],
     Gender: {
       type: String,
-    },
-    Birthday: {
-      type: Date,
     },
     isAdmin: {
       type: Boolean,

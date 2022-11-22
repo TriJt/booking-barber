@@ -77,8 +77,8 @@ export default function Reset() {
       });
 
       if (
-        inputField.repass !== "" &&
-        inputField.repass !== inputField.password
+        inputField.Confirm !== "" &&
+        inputField.Confirm !== inputField.Password
       ) {
         formValid = false;
         setErrField((prevState) => ({

@@ -1,5 +1,23 @@
 import { Customer } from "../models/Customer/Customer.model.js";
 import bcryptjs from "bcryptjs";
+
+// check customer exist with telephone
+
+export const CheckCustomer = async (req, res) => {
+  const responseType = {};
+  const input = req.body;
+  try {
+    responseType.message = "Te";
+    responseType.status = 200;
+    responseType.value = save;
+  } catch (err) {
+    responseType.status = 404;
+    responseType.message = "Create customer failed";
+    responseType.value = err;
+  }
+  res.json(responseType);
+};
+
 // create information of Staff
 // COMPLETE in back-end
 export const CreateCustomer = async (req, res) => {
@@ -157,7 +175,7 @@ export const GetAWeek = async (req, res) => {
       },
       { $sort: { _id: 1 } },
     ]);
-    responseType.message = "Get receipt successfully";
+    responseType.message = "Get customer successfully";
     responseType.status = 200;
     responseType.value = getByDate;
   } catch (err) {

@@ -34,11 +34,16 @@ export default function Sidebar() {
       </div>
       {user.isAdmin === true ? (
         <div className="bottom-sidebar">
-          {/* item with icon and name */}
           <NavLink to={`/home`} className="Link">
             <div className="items-sidebar">
               <MdSpaceDashboard className="icon" />
               <div className="item-sidebar">Dashboard</div>
+            </div>
+          </NavLink>
+          <NavLink to={`/store`} className="Link">
+            <div className="items-sidebar">
+              <MdSpaceDashboard className="icon" />
+              <div className="item-sidebar">Store</div>
             </div>
           </NavLink>
           <NavLink to={`/customer`} className="Link">
@@ -103,6 +108,12 @@ export default function Sidebar() {
             <div className="items-sidebar">
               <MdSpaceDashboard className="icon" />
               <div className="item-sidebar">Dashboard</div>
+            </div>
+          </NavLink>
+          <NavLink to={`/store`} className="Link">
+            <div className="items-sidebar">
+              <MdSpaceDashboard className="icon" />
+              <div className="item-sidebar">Store</div>
             </div>
           </NavLink>
           <NavLink to={`/customer`} className="Link">

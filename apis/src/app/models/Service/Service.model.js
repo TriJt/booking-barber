@@ -52,13 +52,18 @@ const ServiceSchema = new Schema(
   }
 );
 
-const CategorySchema = new Schema({
-  Title: {
-    type: String,
-    required: true,
+const CategorySchema = new Schema(
+  {
+    Title: {
+      type: String,
+      required: true,
+    },
+    Services: { type: [String] },
   },
-  Services: { type: [String] },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Evaluate = mongoose.model("Evaluate", EvaluateSchema);
 const Category = mongoose.model("Category", CategorySchema);

@@ -23,7 +23,6 @@ const StoreSchema = new Schema(
     },
     Telephone: {
       type: String,
-      require: true,
     },
     Banner: [],
     Number: {

@@ -1,0 +1,64 @@
+.container-store {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+.info-store {
+  width: 50%;
+  height: auto;
+  padding: 20px;
+}
+
+.location-store {
+  width: 45%;
+  padding: 20px;
+}
+.header-store {
+  font-weight: 500;
+  font-size: 20px;
+  text-transform: uppercase;
+  display: flex;
+  margin-block-start: 0px;
+  color: var(--color-header);
+}
+.item-store {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: 10px 0px;
+}
+.title-store {
+  width: 20%;
+  height: auto;
+  font-weight: 500;
+  font-size: 20px;
+  padding: 0px 20px 0px 0px;
+  text-transform: uppercase;
+}
+.name-store {
+  width: 80%;
+  height: auto;
+}
+.input-store {
+  width: 80%;
+  height: auto;
+  border: 1px solid var(--color-header);
+  padding: 8px 5px;
+  border-radius: 4px;
+  font-family: var(--family-header);
+  font-size: 16px;
+}
+.textarea-store {
+  width: 80%;
+  height: 100px;
+  border: 1px solid var(--color-header);
+  padding: 8px 5px;
+  border-radius: 4px;
+  font-family: var(--family-header);
+  font-size: 16px;
+}
+.textarea-store:focus,
+.input-store:focus {
+  outline: none;
+}
