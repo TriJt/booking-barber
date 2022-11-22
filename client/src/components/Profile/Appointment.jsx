@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "./../../context/AuthContext";
 import "../../styles/components/profile/appointment.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Appointment() {
   const { user: currentUser } = useContext(AuthContext);
@@ -21,24 +23,31 @@ export default function Appointment() {
 
   const DeleteHandle = async (idAppointment, idStaff, idDate, idSlot) => {
     const status = "cancel";
-
     const data = {
       DateId: idDate,
       StaffId: idStaff,
       SlotId: idSlot,
       Status: status,
     };
-
-    const res = await axios.put(
-      "http://localhost:8800/api/appointment/update-cancel/" + idAppointment,
-      data
-    );
-    console.log(res);
+    try {
+      const res = await axios.put(
+        "http://localhost:8800/api/appointment/update-cancel/" + idAppointment,
+        data
+      );
+      toast.success("Successful cancellation of appointment");
+      const reson = await axios.get(
+        "http://localhost:8800/api/appointment/pending?UserId=" + user._id
+      );
+      setData(reson.data.value);
+    } catch (error) {
+      toast.error("Cancellation of appointment failed");
+    }
   };
 
   return (
     <div className="appointment">
-      {data ? (
+      <ToastContainer />
+      {data === null ? (
         <div className="list-appointment">
           <span className="title-appointment"> List Appointment</span>
           <div className="header-appointment">

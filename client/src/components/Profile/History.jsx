@@ -12,7 +12,7 @@ export default function History() {
   useEffect(() => {
     const fetchAppointment = async () => {
       const res = await axios.get(
-        "http://localhost:8800/api/appointment/pending?UserId=" + user._id
+        "http://localhost:8800/api/appointment/cancel?UserId=" + user._id
       );
       setData(res.data.value);
     };

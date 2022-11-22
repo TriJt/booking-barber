@@ -6,6 +6,11 @@ import {
   DateSchedule,
 } from "../models/Staff/Staff.model.js";
 import { Service } from "../models/Service/Service.model.js";
+import nodemailer from "nodemailer";
+import { OAuth2Client } from "google-auth-library";
+import dotenv from "dotenv";
+// *Useful for getting environment vairables
+dotenv.config();
 
 // function create new slot for get slots from staff
 function createDate(date) {
@@ -178,14 +183,7 @@ export const AddAppointment = async (req, res) => {
 
   Staff.findOne({ _id: staffId }).then((staff) => {
     const date = staff.Dates.id(dateId);
-    console.log("date", date);
     const slot = date.slots.id(slotId);
-    console.log("slot", slot);
-    // const slotTime = slot.Time;
-    // console.log(slotTime);
-    // slot.findByIdAndUpdate({ _id: slotId }, { isBooked: true }, { new: true });
-    slot.isBooked = true;
-
     staff.save().then(() => {
       // create an entry in the appointment database
       const newAppointment = new Appointment({
@@ -202,18 +200,56 @@ export const AddAppointment = async (req, res) => {
         Services: manyService,
         Status: status,
       });
-      console.log(newAppointment);
       newAppointment
         .save()
         .then((appointment) => {
           return res.status(200).json(appointment);
         })
+
         .catch((err) => {
           console.log(err);
           res.status(400).json(err);
         });
     });
   });
+  const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID_CONTACT;
+  const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET_CONTACT;
+  const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_RESET;
+  const ADMIN_EMAIL_ADDRESS = process.env.EMAIL_ADMIN;
+
+  const myOAuth2Client = new OAuth2Client(
+    GOOGLE_MAILER_CLIENT_ID,
+    GOOGLE_MAILER_CLIENT_SECRET
+  );
+  // Set Refresh Token vào OAuth2Client Credentials
+  myOAuth2Client.setCredentials({
+    refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
+  });
+
+  const myAccessTokenObject = await myOAuth2Client.getAccessToken();
+  const myAccessToken = myAccessTokenObject?.token;
+
+  // Tạo một biến Transport từ Nodemailer với đầy đủ cấu hình, dùng để gọi hành động gửi mail
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: ADMIN_EMAIL_ADDRESS,
+      clientId: GOOGLE_MAILER_CLIENT_ID,
+      clientSecret: GOOGLE_MAILER_CLIENT_SECRET,
+      refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
+      accessToken: myAccessToken,
+    },
+  });
+  const mailOptions = {
+    to: email, // Gửi đến ai?
+    subject: "BARBERJT HAIRCUT APPOINTMENTS", // Tiêu đề email
+    html: `<h3> You have successfully booked an appointment at BarberJT </h3> <br>
+     <p> Please arrive at the store on time.
+      Please check your appointment information at your personal account information </p>  <br>
+     <b> Thank you for trusting our services</b>`, // Nội dung email
+  };
+  await transport.sendMail(mailOptions);
 };
 
 // update information of Appointment

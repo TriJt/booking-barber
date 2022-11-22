@@ -10,7 +10,11 @@ import {
   GetAppointmentByUserId,
   GetAppointmentMatchPending,
   GetByDateChoose,
+  GetAppointmentMatchCancel,
 } from "../app/controllers/Appointment.controller.js";
+
+// get appointment with status cancel
+router.get("/cancel", GetAppointmentMatchCancel);
 
 // get appointment with status pending
 router.get("/pending", GetAppointmentMatchPending);

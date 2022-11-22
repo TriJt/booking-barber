@@ -5,11 +5,12 @@ import "../../styles/appointment.css";
 import { BsPersonFill } from "react-icons/bs";
 import { IoMdArrowDropright } from "react-icons/io";
 import { AuthContext } from "../../context/AuthContext";
-import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router";
 import ModalLogin from "../../components/Modal/ModalLogin";
 import { MdContentCut } from "react-icons/md";
 import moment from "moment";
-import { toast } from "react-toastify";
 import Scroll from "../../components/ScrollToTop/Scroll";
 
 export default function Appointment() {
@@ -24,9 +25,8 @@ export default function Appointment() {
   const [nameService, setNameService] = useState("");
   const [staffId, setStaffId] = useState("");
   const [slotId, setSlotId] = useState("");
-  const [slotTime, setSlotTime] = useState("");
+  const [check, setCheck] = useState(-1);
   const [dateId, setDateId] = useState("");
-  const [isBook, setIsBook] = useState();
   const [step1, setStep1] = useState(false);
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
@@ -57,12 +57,12 @@ export default function Appointment() {
     setStep2(true);
     setStaffId(e.target.value);
   };
-  const handleSlot = async (slotid, isBooked, slotTime) => {
+  const handleSlot = async (slotid, index) => {
     setSlotId(slotid);
-    setIsBook(isBooked);
     setStep4(true);
-    setSlotTime(slotTime);
+    setCheck(index);
   };
+  console.log(check);
 
   const DateHandle = async (e) => {
     const newDate = moment(new Date(e.target.value)).format("YYYY-MM-DD");
@@ -83,6 +83,7 @@ export default function Appointment() {
       setDateId(res.data._id);
     } catch (error) {}
   };
+  const history = useNavigate();
 
   const submitBooking = async () => {
     const data = {
@@ -100,7 +101,11 @@ export default function Appointment() {
         "http://localhost:8800/api/appointment/add",
         data
       );
+
       toast.success("Appointment successfully!!");
+      setTimeout(() => {
+        history("/home");
+      }, 3000);
     } catch (error) {
       toast.error("Appointment failed");
     }
@@ -120,6 +125,7 @@ export default function Appointment() {
         onClose={() => setOpen(false)}
         setUser={setUser}
       />
+      <ToastContainer />
       {user ? (
         <div className="appointment-container">
           <div className="booking-container">
@@ -217,22 +223,27 @@ export default function Appointment() {
                 <React.Fragment>
                   <span className="title-booking"> 4.Choose Slot </span>
                   <div className="grid-slot">
-                    {slotArray?.map((slot, i) => {
-                      if (slot.isBooked !== true) {
+                    {slotArray?.map((slot, index) => {
+                      if (slot.isBooked === true) {
                         return (
-                          <button
-                            key={i}
-                            className="slot-item"
-                            onClick={() => {
-                              handleSlot(slot._id, slot.isBooked);
-                            }}
-                          >
+                          <button key={index} className="item-false">
                             {slot.Time}
                           </button>
                         );
                       } else {
                         return (
-                          <button key={i} className="item-false">
+                          <button
+                            key={index}
+                            className="slot-item"
+                            onClick={() => {
+                              handleSlot(slot._id, index);
+                            }}
+                            style={{
+                              backgroundColor:
+                                check === index ? "#bf925b" : "white",
+                              color: check === index ? "white" : "black",
+                            }}
+                          >
                             {slot.Time}
                           </button>
                         );
