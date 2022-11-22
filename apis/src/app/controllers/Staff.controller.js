@@ -35,14 +35,13 @@ export const CreateStaff = async (req, res) => {
 // update information of Staff
 // COMPLETE in back-end
 export const UpdateStaff = async (req, res) => {
-  const input = req.body;
   const responseType = {};
   // check input
   if (req.body.StaffId === req.params.id) {
     const staff = await Staff.findByIdAndUpdate(
       req.params.id,
       {
-        $set: input,
+        $set: req.body,
       },
       {
         new: true,

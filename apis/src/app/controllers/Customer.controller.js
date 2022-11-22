@@ -198,7 +198,6 @@ export const CountCustomerInASevenDay = async (req, res) => {
       },
     ]);
     const length = getByDate.length;
-
     res.status(200).json(length);
   } catch (err) {
     res.status(400).json(err);

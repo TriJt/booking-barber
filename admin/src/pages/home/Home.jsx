@@ -46,11 +46,16 @@ export default function Home() {
           <Widget />
           <div className="chart-container">
             <div className="top-chart">
-              <span className="span-chart"> Revenue</span>
+              <span className="header-receipt"> Revenue</span>
               <div className="value-chart">
                 <div className="left-value">{revenue}$</div>
                 <div className="right-value">
-                  <button className="button-month">Month</button>
+                  <button
+                    className="button-action"
+                    style={{ backgroundColor: "#bf925b", color: "white" }}
+                  >
+                    Month
+                  </button>
                 </div>
               </div>
             </div>

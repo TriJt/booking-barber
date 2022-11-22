@@ -13,8 +13,20 @@ import ModalCustomer from "../../components/Modal/ModalCustomer";
 export default function Customer() {
   const [dataCustomer, setDataCustomer] = useState([]);
   const [rowId, setRowId] = useState("");
-  const [count, setCount] = useState("");
+  const [week, setWeek] = useState();
+  const [month, setMonth] = useState();
   const [open, setOpen] = useState(false);
+  const [step1, setStep1] = useState(true);
+  const [step2, setStep2] = useState(false);
+
+  const handleStep1 = () => {
+    setStep1(true);
+    setStep2(false);
+  };
+  const handleStep2 = () => {
+    setStep2(true);
+    setStep1(false);
+  };
 
   //effect data of customer from data
   useEffect(() => {
@@ -31,17 +43,58 @@ export default function Customer() {
 
   // effect count customer from data
 
+  const current = new Date();
+  // date in week
+  const start_week = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() - 6
+  }`;
+
+  const end_week = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() + 1
+  }`;
+
+  // date month
+  const start_month = `${current.getFullYear()}-${current.getMonth() + 1}-01`;
+
+  const end_month = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
+
   useEffect(() => {
     const countCustomer = async () => {
+      const data = {
+        Start: start_week,
+        End: end_week,
+      };
       try {
-        const res = await axios.get("http://localhost:8800/api/customer/count");
-        setCount(res.data.value);
+        const res = await axios.post(
+          "http://localhost:8800/api/customer/count-7day",
+          data
+        );
+        setWeek(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     countCustomer();
+
+    const countCustomerMonth = async () => {
+      const data = {
+        Start: start_month,
+        End: end_month,
+      };
+      try {
+        const res = await axios.post(
+          "http://localhost:8800/api/customer/count-7day",
+          data
+        );
+        setMonth(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    countCustomerMonth();
   }, []);
+  console.log(week);
+  console.log(month);
 
   const Delete = ({ params }) => {
     const handleDelete = async (e) => {
@@ -216,14 +269,50 @@ export default function Customer() {
           {/* <Widget /> */}
           <div className="chart-container">
             <div className="top-chart">
-              <span className="span-chart"> Customer</span>
+              <span className="header-receipt"> Customer</span>
               <div className="value-chart">
                 {/* count customer from database */}
-                <div className="left-value">{count}</div>
+                <div className="left-value">
+                  {" "}
+                  {step1 ? <> {week}</> : null}
+                  {step2 ? <> {month}</> : null}
+                </div>
                 {/* change count customer with week and month */}
                 <div className="right-value">
-                  <button className="button-week">Week</button>
-                  <button className="button-month">Month</button>
+                  {step1 ? (
+                    <React.Fragment>
+                      <button
+                        className="button-action"
+                        onClick={handleStep1}
+                        style={{ backgroundColor: "#bf925b", color: "white" }}
+                      >
+                        WEEK
+                      </button>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <button className="button-action" onClick={handleStep1}>
+                        WEEK
+                      </button>
+                    </React.Fragment>
+                  )}
+                  {step2 ? (
+                    <React.Fragment>
+                      <button
+                        className="button-action"
+                        onClick={handleStep2}
+                        style={{ backgroundColor: "#bf925b", color: "white" }}
+                      >
+                        MONTH
+                      </button>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <button onClick={handleStep2} className="button-action">
+                        MONTH
+                      </button>
+                    </React.Fragment>
+                  )}
                 </div>
               </div>
             </div>
