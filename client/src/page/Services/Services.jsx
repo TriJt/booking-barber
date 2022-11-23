@@ -8,6 +8,7 @@ import Category from "../../components/Category/Category";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Scroll from "../../components/ScrollToTop/Scroll";
+import FindService from "../../components/Find/FindService";
 
 export default function Services() {
   const [hairCut, setHairCut] = useState([]);
@@ -106,6 +107,10 @@ export default function Services() {
             <SliderServices title="Service" />
           </div>
         </div>
+        <div className="telephone">
+          <Telephone />
+        </div>
+        <FindService />
       </section>
       <div className="services-container">
         <div className="category">
