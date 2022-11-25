@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/components/chart.css";
 import {
-  AreaChart,
-  Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -39,7 +39,7 @@ export default function Charts() {
   return (
     <div className="Charts">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart
+        <BarChart
           width={300}
           height={100}
           data={data}
@@ -49,13 +49,14 @@ export default function Charts() {
           <XAxis dataKey="_id" />
           <YAxis />
           <Tooltip fontSize={5} />
-          <Area
+          <Bar
             type="monotone"
             dataKey="totalAmount"
             stroke="#bf925b"
             fill="#bf925b"
+            barSize={20}
           />
-        </AreaChart>
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );

@@ -45,6 +45,24 @@ export function SliderServices({ title }) {
     </div>
   );
 }
+export function SliderSingleServices({ title, name }) {
+  return (
+    <div className="slider-container fadeInUp animation">
+      <div className="about-slider">
+        <div className="title-about">
+          <Link to="/home" className="link">
+            <h5>Home</h5>
+          </Link>
+          <FiChevronsRight className="icon-link" />
+          <h5>{title}</h5>
+          <FiChevronsRight className="icon-link" />
+          <h5>{name}</h5>
+        </div>
+        <h1 className="slider-text"> {name}</h1>
+      </div>
+    </div>
+  );
+}
 
 export function SliderProfile() {
   // const { user: currentUser } = useContext(AuthContext);

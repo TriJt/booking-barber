@@ -1,5 +1,5 @@
 import "../../styles/home.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Widget from "../../components/Widget/Widget";
@@ -7,8 +7,11 @@ import Charts from "../../components/Charts/Charts";
 import Table from "../../components/table/Table";
 import TotalBooking from "../../components/total/TotalBooking";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Home() {
+  const { user: currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState(currentUser);
   const [revenue, setRevenue] = useState();
   const current = new Date();
   const start = `${current.getFullYear()}-${current.getMonth() + 1}-01`;

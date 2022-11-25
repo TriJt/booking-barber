@@ -20,7 +20,6 @@ export default function TopBar() {
     window.location.reload();
     history("/login");
   };
-  console.log(user._id);
 
   return (
     <div className="topBar">

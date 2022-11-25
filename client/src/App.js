@@ -18,7 +18,7 @@ import Blog from "./page/Blog/Blog";
 import About from "./page/About/About.jsx";
 import Appointment from "./page/Appointment/Appointment";
 import SingleBlog from "./components/Blog/SingleBlog.jsx";
-
+import SingleService from "./page/Services/SingleService";
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
@@ -31,6 +31,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/services/:Name_Service" element={<SingleService />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/blog" element={<Blog />} />

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import {
-  AreaChart,
-  Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -88,7 +88,7 @@ export default function Revenue() {
     return (
       <div className="chart">
         <ResponsiveContainer width="100%" height="100%" textSize={11}>
-          <AreaChart
+          <BarChart
             width={300}
             height={100}
             data={data}
@@ -98,13 +98,14 @@ export default function Revenue() {
             <XAxis dataKey="_id" />
             <YAxis />
             <Tooltip />
-            <Area
+            <Bar
               type="monotone"
               dataKey="totalAmount"
               stroke="#bf925b"
               fill="#bf925b"
+              barSize={20}
             />
-          </AreaChart>
+          </BarChart>
         </ResponsiveContainer>
       </div>
     );

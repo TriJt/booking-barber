@@ -3,7 +3,6 @@ import "../../styles/components/totalBooking.css";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -20,9 +19,6 @@ export default function TotalBooking() {
   const start = `${current.getFullYear()}-${current.getMonth() + 1}-01`;
 
   const end = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
-
-  console.log(start);
-  console.log(end);
 
   useEffect(() => {
     const data = {

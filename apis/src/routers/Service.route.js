@@ -8,6 +8,8 @@ import {
   GetServices,
   GetServicesByCategoryName,
   GetServicesLimit,
+  GetServicesByName,
+  GetRandomServices,
 } from "../app/controllers/Service.controller.js";
 
 // create Service
@@ -30,5 +32,11 @@ router.get("/", GetServiceById);
 
 //get by name
 router.get("/limit", GetServicesLimit);
+
+// get service by name
+router.post("/name", GetServicesByName);
+
+// get random 5 services
+router.get("/random", GetRandomServices);
 
 export default router;

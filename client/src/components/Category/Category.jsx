@@ -11,7 +11,7 @@ export default function Category({ image, name, description, price }) {
           <p>{description}</p>
           <div className="price-link">
             <span className="price"> {price}$</span>
-            <Link to={``} className="link">
+            <Link to={`/services/${name}`} className="link">
               <span>See Detail</span>
             </Link>
           </div>

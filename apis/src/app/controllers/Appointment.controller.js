@@ -447,3 +447,48 @@ export const GetAppointmentMatchCancel = async (req, res) => {
   }
   res.json(responseType);
 };
+
+// get all appointment with status pending
+
+export const GetAllAppointmentMatchPending = async (req, res) => {
+  const currentDate = req.body.date;
+  const responseType = {};
+  try {
+    const appointment = await Appointment.aggregate([
+      {
+        $match: { $and: [{ date: currentDate }, { Status: "pending" }] },
+      },
+    ]);
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};
+
+// get all appointment with status pending
+
+export const GetAllAppointmentMatchPendingWithRangeTime = async (req, res) => {
+  const responseType = {};
+  const start = req.body.Start;
+  const end = req.body.End;
+  try {
+    const appointment = await Appointment.aggregate([
+      {
+        $match: {
+          $and: [{ date: { $gte: start, $lt: end } }, { Status: "pending" }],
+        },
+      },
+    ]);
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};

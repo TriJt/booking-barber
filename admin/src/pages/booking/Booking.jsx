@@ -9,21 +9,31 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 
 export default function Booking() {
-  const [data, setData] = useState([]);
   const [rowId, setRowId] = useState("");
-  const [dataRange, setDataRange] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [dataMonthCurrent, setDataMonthCurrent] = useState([]);
-  const [dataPrevious, setDataMonthPrevious] = useState([]);
-
-  const [dateStart, setDateStart] = useState(moment().format("yyyy-MM-DD"));
-  const [dateEnd, setDateEnd] = useState(
-    moment(new Date()).format("yyyy-MM-DD")
-  );
   // current date
-  const [step1, setStep1] = useState(false);
+  const current = new Date();
+  const currentDate = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+
+  // data current day
+  const [dataDayCurrent, setDataDayCurrent] = useState([]);
+  //data previous day
+  const previousDate = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() - 1
+  }`;
+  const [dataDayPrevious, setDataDayPrevious] = useState([]);
+  // data current month
+  const [dataCurrentMonth, setDataCurrentMonth] = useState([]);
+  // data list range date
+  const [dataDayRange, setDataDayRange] = useState([]);
+  // date start and date end of range date
+  const [dateStart, setDateStart] = useState(moment().format("yyyy-MM-DD"));
+  const [dateEnd, setDateEnd] = useState(moment().format("yyyy-MM-DD"));
+  // current date
+  const [step1, setStep1] = useState(true);
   // current week
-  const [step2, setStep2] = useState(true);
+  const [step2, setStep2] = useState(false);
   // current month
   const [step3, setStep3] = useState(false);
 
@@ -46,7 +56,6 @@ export default function Booking() {
     setStep1(false);
     setStep3(true);
     setStep4(false);
-    setOpen(true);
   };
 
   const handleStep4 = () => {
@@ -56,51 +65,66 @@ export default function Booking() {
     setStep3(false);
   };
 
-  // current date
-  const current = new Date();
-
-  // date for current month
-  const startDateCurrent = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
-
-  const endDateCurrent = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
-
   // date for previous month
-  const startMonth = `${current.getFullYear()}-${current.getMonth()}-01`;
 
-  const endMonth = `${current.getFullYear()}-${current.getMonth()}-30`;
+  const start = `${current.getFullYear()}-${current.getMonth() + 1}-01`;
+
+  const end = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
 
   useEffect(() => {
-    const fetchMonthCurrent = async () => {
+    //fetch data of current date
+    const fetchDayCurrent = async () => {
       const data = {
-        Start: startDateCurrent,
-        End: endDateCurrent,
+        date: currentDate,
       };
-      const res = await axios.post(
-        "http://localhost:8800/api/salary/month",
-        data
-      );
-      setDataMonthCurrent(res.data.value);
-    };
-    fetchMonthCurrent();
 
-    // fetch data for previous month
-    const fetchMonthPrevious = async () => {
-      const data = {
-        Start: startMonth,
-        End: endMonth,
-      };
       const res = await axios.post(
-        "http://localhost:8800/api/salary/month",
+        "http://localhost:8800/api/appointment/all-pending",
         data
       );
-      setDataMonthPrevious(res.data.value);
+      setDataDayCurrent(res.data.value);
     };
-    fetchMonthPrevious();
+    fetchDayCurrent();
   }, []);
+
+  useEffect(() => {
+    // fetch data for previous date
+    const fetchDatePrevious = async () => {
+      const data = {
+        date: previousDate,
+      };
+
+      const res = await axios.post(
+        "http://localhost:8800/api/appointment/all-pending",
+        data
+      );
+      setDataDayPrevious(res.data.value);
+    };
+    fetchDatePrevious();
+  }, []);
+
+  useEffect(() => {
+    // fetch current month
+    const fetchCurrentMonth = async () => {
+      const data = {
+        Start: start,
+        End: end,
+      };
+
+      const res = await axios.post(
+        "http://localhost:8800/api/appointment/time-range",
+        data
+      );
+
+      setDataCurrentMonth(res.data.value);
+    };
+    fetchCurrentMonth();
+  }, []);
+
+  console.log(currentDate);
+  console.log(typeof dataCurrentMonth);
+  console.log(typeof dataCurrentDay);
+  console.log(typeof dataDayPrevious);
 
   const DateStartHandle = async (e) => {
     setDateStart(moment(new Date(e.target.value)).format("YYYY-MM-DD"));
@@ -111,20 +135,6 @@ export default function Booking() {
     handleStep4();
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:8800/api/appointment/all"
-        );
-        setData(res.data.value);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
   const submitHandle = async () => {
     try {
       const data = {
@@ -133,10 +143,10 @@ export default function Booking() {
       };
 
       const res = await axios.post(
-        "http://localhost:8800/api/salary/month",
+        "http://localhost:8800/api/appointment/time-range",
         data
       );
-      setDataRange(res.data.value);
+      setDataDayRange(res.data.value);
     } catch (error) {
       console.log(error);
     }
@@ -145,44 +155,52 @@ export default function Booking() {
   const columns = useMemo(
     () => [
       {
-        field: "Name",
+        field: "NameCustomer",
         headerName: "Name",
-        width: 200,
+        width: 120,
+        editable: true,
+      },
+      {
+        field: "TelephoneCustomer",
+        headerName: "Telephone",
+        width: 90,
+        editable: true,
+      },
+      {
+        field: "Email",
+        headerName: "Email",
+        width: 160,
         editable: true,
       },
       {
         field: "Status",
         headerName: "Status",
         width: 90,
-        editable: true,
         type: "singleSelect",
         valueOptions: ["Paid", "Unpaid"],
       },
       {
-        field: "Date",
+        field: "date",
         headerName: "Date",
-        width: 150,
+        width: 100,
       },
       {
-        field: "Salary",
-        headerName: "Salary",
-        width: 130,
+        field: "slotTime",
+        headerName: "Time",
+        width: 80,
         editable: true,
-        type: Number,
       },
       {
-        field: "Allowance",
-        headerName: "Allowance",
+        field: "Services",
+        headerName: "Services",
         width: 130,
         editable: true,
-        type: Number,
       },
 
       {
-        field: "Total",
-        headerName: "Total",
-        width: 130,
-        type: Number,
+        field: "Staff",
+        headerName: "Staff",
+        width: 100,
       },
     ],
     [rowId]
@@ -208,23 +226,6 @@ export default function Booking() {
                 <span> Table of booking</span>
               </div>
               <div className="button-revenue">
-                {step1 ? (
-                  <React.Fragment>
-                    <button
-                      className="button-action"
-                      onClick={handleStep1}
-                      style={{ backgroundColor: "#bf925b", color: "white" }}
-                    >
-                      add salary
-                    </button>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <button onClick={handleStep1} className="button-action">
-                      add salary
-                    </button>
-                  </React.Fragment>
-                )}
                 {step2 ? (
                   <React.Fragment>
                     <button
@@ -232,12 +233,29 @@ export default function Booking() {
                       onClick={handleStep2}
                       style={{ backgroundColor: "#bf925b", color: "white" }}
                     >
+                      previous date
+                    </button>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <button onClick={handleStep2} className="button-action">
+                      previous date
+                    </button>
+                  </React.Fragment>
+                )}
+                {step1 ? (
+                  <React.Fragment>
+                    <button
+                      className="button-action"
+                      onClick={handleStep1}
+                      style={{ backgroundColor: "#bf925b", color: "white" }}
+                    >
                       current date
                     </button>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <button className="button-action" onClick={handleStep2}>
+                    <button className="button-action" onClick={handleStep1}>
                       current date
                     </button>
                   </React.Fragment>
@@ -249,7 +267,7 @@ export default function Booking() {
                       onClick={handleStep3}
                       style={{ backgroundColor: "#bf925b", color: "white" }}
                     >
-                      current week
+                      current month
                     </button>
                   </React.Fragment>
                 ) : (
@@ -303,31 +321,39 @@ export default function Booking() {
               </div>
             </div>
             <div className="charts-container">
-              {/* {step3 ? <ModalSalary open={open} /> : null} */}
-              {step2 ? (
+              {step1 ? (
                 <TableUser
                   title={"Manager Appointment"}
                   column={columns}
-                  row={dataPrevious}
+                  row={dataDayCurrent}
                   rowId={rowId}
                   setRowId={setRowId}
                 />
               ) : null}
-              {step3 ? (
+              {step2 ? (
                 <TableUser
                   title={"Manager Appointment"}
                   column={columns}
-                  row={dataMonthCurrent}
+                  row={dataDayPrevious}
                   rowId={rowId}
                   setRowId={setRowId}
                 />
               ) : null}
 
+              {step3 ? (
+                <TableUser
+                  title={"Manager Appointment"}
+                  column={columns}
+                  row={dataCurrentMonth}
+                  rowId={rowId}
+                  setRowId={setRowId}
+                />
+              ) : null}
               {step4 ? (
                 <TableUser
                   title={"Manager Appointment"}
                   column={columns}
-                  row={dataRange}
+                  row={dataDayRange}
                   rowId={rowId}
                   setRowId={setRowId}
                 />

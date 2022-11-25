@@ -11,6 +11,8 @@ import {
   GetAppointmentMatchPending,
   GetByDateChoose,
   GetAppointmentMatchCancel,
+  GetAllAppointmentMatchPending,
+  GetAllAppointmentMatchPendingWithRangeTime,
 } from "../app/controllers/Appointment.controller.js";
 
 // get appointment with status cancel
@@ -18,6 +20,12 @@ router.get("/cancel", GetAppointmentMatchCancel);
 
 // get appointment with status pending
 router.get("/pending", GetAppointmentMatchPending);
+
+// get appointment with status pending
+router.post("/all-pending", GetAllAppointmentMatchPending);
+
+//  get appointment with status pending with time range
+router.post("/time-range", GetAllAppointmentMatchPendingWithRangeTime);
 
 router.post("/choose", GetByDateChoose);
 

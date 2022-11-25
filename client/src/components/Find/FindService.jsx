@@ -66,7 +66,7 @@ export default function FindService() {
           {filteredData.map((value, key) => {
             return (
               <Link
-                to={`/service/${value.Name_Service}`}
+                to={`/services/${value.Name_Service}`}
                 className="search-link"
                 key={key}
               >
