@@ -492,3 +492,31 @@ export const GetAllAppointmentMatchPendingWithRangeTime = async (req, res) => {
   }
   res.json(responseType);
 };
+
+export const AppointmentPieChart = async (req, res) => {
+  const responseType = {};
+  const start = req.body.Start;
+  const end = req.body.End;
+  try {
+    const appointment = await Appointment.aggregate([
+      {
+        $match: {
+          date: { $gte: start, $lt: end },
+        },
+      },
+      {
+        $group: {
+          _id: "$Status",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};

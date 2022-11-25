@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
+import ChartPie from "../../components/Charts/ChartPie";
 
 export default function Booking() {
   const [rowId, setRowId] = useState("");
@@ -120,11 +121,6 @@ export default function Booking() {
     };
     fetchCurrentMonth();
   }, []);
-
-  console.log(currentDate);
-  console.log(typeof dataCurrentMonth);
-  console.log(typeof dataCurrentDay);
-  console.log(typeof dataDayPrevious);
 
   const DateStartHandle = async (e) => {
     setDateStart(moment(new Date(e.target.value)).format("YYYY-MM-DD"));
@@ -359,6 +355,12 @@ export default function Booking() {
                 />
               ) : null}
             </div>
+          </div>
+          <div className="chart-booking">
+            <div className="chart-booking-left">
+              <ChartPie />
+            </div>
+            <div className="chart-booking-right"></div>
           </div>
         </div>
       </div>

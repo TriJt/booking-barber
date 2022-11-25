@@ -13,6 +13,7 @@ import {
   GetAppointmentMatchCancel,
   GetAllAppointmentMatchPending,
   GetAllAppointmentMatchPendingWithRangeTime,
+  AppointmentPieChart,
 } from "../app/controllers/Appointment.controller.js";
 
 // get appointment with status cancel
@@ -26,6 +27,9 @@ router.post("/all-pending", GetAllAppointmentMatchPending);
 
 //  get appointment with status pending with time range
 router.post("/time-range", GetAllAppointmentMatchPendingWithRangeTime);
+
+// pie chart appointment
+router.post("/pie-chart", AppointmentPieChart);
 
 router.post("/choose", GetByDateChoose);
 
