@@ -57,15 +57,14 @@ export const CreateCustomer = async (req, res) => {
 // Complete in back-end
 // Need connection to front-end
 export const UpdateCustomer = async (req, res) => {
-  const input = req.body;
   const responseType = {};
   // check input
 
-  if (req.body.CustomerId === req.params.id) {
+  try {
     const customer = await Customer.findByIdAndUpdate(
       req.params.id,
       {
-        $set: input,
+        $set: req.body,
       },
       {
         new: true,
@@ -73,11 +72,10 @@ export const UpdateCustomer = async (req, res) => {
     );
 
     const saveCustomer = await customer.save();
-    responseType.message = "Update successfully";
     responseType.status = 200;
     responseType.value = saveCustomer;
-  } else {
-    responseType.statusText = "Error";
+    console.log(saveCustomer);
+  } catch (err) {
     responseType.message = "Update Failed ";
     responseType.status = 404;
   }

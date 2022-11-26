@@ -9,6 +9,7 @@ import {
   DeleteBanner,
   UpdateBanner,
   GetById,
+  GetBannerWithId,
 } from "../app/controllers/Store.controller.js";
 
 // create store
@@ -26,12 +27,15 @@ router.get("/getById", GetById);
 // create new banner
 router.post("/banner", CreateBanner);
 
-router.put("/banner/:id", UpdateBanner);
+router.put("/update-banner/:id", UpdateBanner);
 
 // delete banner
 router.delete("/delete-banner/:bannerId", DeleteBanner);
 
-// create new banner
+// get all banner
 router.get("/get-banner", getBanner);
+
+// get banner with id
+router.get("/banner/:id", GetBannerWithId);
 
 export default router;

@@ -81,11 +81,15 @@
   width: auto;
   height: auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   font-family: var(--family-header);
   align-items: center;
   border: 1px solid var(--color-header);
   cursor: pointer;
+  padding: 10px;
+}
+.items-service-booking span {
+  text-transform: uppercase;
 }
 .img-booking {
   width: 100%;

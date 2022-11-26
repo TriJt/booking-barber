@@ -119,19 +119,21 @@ export const CreateBanner = async (req, res) => {
       new: true,
     }
   );
-  responseType.statusText = "Success";
-  responseType.message = "Create successfully";
-  responseType.status = 200;
-  responseType.value = saveBanner;
+  try {
+    responseType.message = "Create successfully";
+    responseType.status = 200;
+    responseType.value = saveBanner;
+  } catch (error) {
+    responseType.message = "Create failed";
+    responseType.status = 400;
+  }
   res.json(responseType);
 };
 //update banner
 export const UpdateBanner = async (req, res) => {
   const responseType = {};
-
-  const id = req.params.id;
   const banner = await Banner.findByIdAndUpdate(
-    { _id: id },
+    { _id: req.params.id },
     {
       $set: req.body,
     },
@@ -140,11 +142,16 @@ export const UpdateBanner = async (req, res) => {
     }
   );
 
-  const saveBanner = await banner.save();
-  responseType.statusText = "Success";
-  responseType.message = "Create successfully";
-  responseType.status = 200;
-  responseType.value = saveBanner;
+  try {
+    const saveBanner = await banner.save();
+    responseType.message = "Update successfully";
+    responseType.status = 200;
+    responseType.value = saveBanner;
+  } catch (error) {
+    responseType.message = "Update failed";
+    responseType.status = 400;
+  }
+
   res.json(responseType);
 };
 
@@ -186,6 +193,21 @@ export const getBanner = async (req, res) => {
     responseType.value = banner;
   } else {
     responseType.statusText = "Error";
+    responseType.message = "Update Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+export const GetBannerWithId = async (req, res) => {
+  const responseType = {};
+  if (Banner) {
+    const banner = await Banner.findById(req.params.id);
+
+    responseType.message = "Update successfully";
+    responseType.status = 200;
+    responseType.value = banner;
+  } else {
     responseType.message = "Update Failed ";
     responseType.status = 404;
   }

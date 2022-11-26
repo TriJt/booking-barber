@@ -260,7 +260,10 @@ export default function Receipt() {
                         handleServices(services.Name_Service);
                       }}
                     >
-                      <span> {services.Name_Service}</span>
+                      <span className="name-services-span">
+                        {" "}
+                        {services.Name_Service}
+                      </span>
                       <span> {services.Price}</span>
                     </div>
                   ))}

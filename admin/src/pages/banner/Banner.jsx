@@ -8,13 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { Avatar } from "@mui/material";
 import TableUser from "../../components/table/table-custom/TableUser";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
-import { Link } from "react-router-dom";
 
 export default function Banner() {
   const [data, setData] = useState([]);
   const [files, setFiles] = useState("");
   const [desc, setDesc] = useState("");
   const [rowId, setRowId] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +23,11 @@ export default function Banner() {
     };
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const res = await axios.get("http://localhost:8800/api/store/get-banner");
+    setData(res.data.value);
+  };
 
   const Clear = () => {
     setDesc("");
@@ -55,11 +60,10 @@ export default function Banner() {
           banner
         );
         const record = response.data;
-        // const newData = record.value;
-        // setData([...data, newData]);
         Clear();
         if (record.status === 200) {
           toast.success(record.message);
+          fetchData();
         } else {
           toast.error(record.message);
         }
@@ -110,14 +114,15 @@ export default function Banner() {
         Description: params.row.Description,
       };
       const response = await axios.put(
-        "http://localhost:8800/api/store/banner/" + params.row._id,
+        "http://localhost:8800/api/store/update-banner/" + params.row._id,
         data
       );
+      console.log(params.row._id);
       const record = response.data;
       if (record.status === 200) {
-        toast.success("Update information successfully");
+        toast.success(record.message);
       } else {
-        toast.error("Update information failed");
+        toast.error(record.message);
       }
     };
 
@@ -139,14 +144,17 @@ export default function Banner() {
   // change page to post update
 
   const View = ({ params, setRowId }) => {
+    const submitHandle = async (e) => {
+      e.preventDefault();
+      setOpen(true);
+      setRowId(params.row._id);
+    };
     // add link to page information customer
     return (
       <div className="view">
-        <Link to={`/post/${params.row._id}`}>
-          <button className="button-view">
-            <MdViewHeadline className="icon-view" />
-          </button>
-        </Link>
+        <button className="button-view" onClick={submitHandle}>
+          <MdViewHeadline className="icon-view" />
+        </button>
       </div>
     );
   };
@@ -195,8 +203,124 @@ export default function Banner() {
     [rowId]
   );
 
+  const ModalBanner = ({ open, onClose, rowId }) => {
+    const [dataBanner, setDataBanner] = useState("");
+    const [files, setFiles] = useState("");
+    const [err, setErr] = useState("");
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const res = await axios.get(
+          "http://localhost:8800/api/store/banner/" + rowId
+        );
+        setDataBanner(res.data.value);
+      };
+      fetchData();
+    }, [rowId]);
+    console.log(dataBanner);
+    const UpdateAvatar = async (e) => {
+      e.preventDefault();
+      if (ValidForm()) {
+        try {
+          const list = await Promise.all(
+            Object.values(files).map(async (file) => {
+              const data = new FormData();
+              data.append("file", file);
+              data.append("upload_preset", "social0722");
+              const uploadRes = await axios.post(
+                "https://api.cloudinary.com/v1_1/johnle/image/upload",
+                data
+              );
+              const { url } = uploadRes.data;
+              return url;
+            })
+          );
+
+          const dataImage = {
+            Image: list,
+          };
+          try {
+            const response = await axios.put(
+              "http://localhost:8800/api/store/update-banner/" + rowId,
+              dataImage
+            );
+            const record = response.data;
+            setDataBanner(record.value);
+            if (record.status === 200) {
+              toast.success(record.message);
+              fetchData();
+            } else {
+              toast.error(record.message);
+            }
+          } catch (err) {
+            toast.error("Update in SessionStorage Failed");
+          }
+        } catch (err) {
+          toast.error("Can get picture from Cloud");
+        }
+      }
+    };
+
+    const ValidForm = () => {
+      let formValid = true;
+      setErr("");
+      if (files === "") {
+        formValid = false;
+        setErr("Please choose image before update");
+      }
+      return formValid;
+    };
+
+    if (!open) return null;
+
+    return (
+      <div className="overlay">
+        <div className="modalContainer">
+          <p className="closeBtn" onClick={onClose}>
+            X
+          </p>
+          <div className="modal-service">
+            <div className="left-modal">
+              {dataBanner.Image && (
+                <img
+                  src={files ? URL.createObjectURL(files[0]) : dataBanner.Image}
+                  alt=""
+                  className="service-image"
+                />
+              )}
+            </div>
+            <div className="right-modal">
+              <div className="item-right-modal">
+                <h3 className="title-value"> Image Banner</h3>
+                <form>
+                  <label htmlFor="file" className="button-profile">
+                    Choose Image
+                    <input
+                      type="file"
+                      id="file"
+                      required
+                      multiple
+                      style={{ display: "none" }}
+                      onChange={(e) => setFiles(e.target.files)}
+                    ></input>
+                  </label>
+                </form>
+                {err.length > 0 && <span className="error">{err} </span>}
+                <button className="button-action" onClick={UpdateAvatar}>
+                  Change
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="container">
+      <ModalBanner open={open} onClose={() => setOpen(false)} rowId={rowId} />
+
       {/* container for sidebar */}
       <div className="left-container">
         <Sidebar />

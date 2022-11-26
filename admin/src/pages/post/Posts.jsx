@@ -34,7 +34,7 @@ export default function Posts() {
       Note: "",
       Image: "",
     });
-    setContent("");
+    setContent(null);
   };
 
   const InputHandler = (e) => {

@@ -12,7 +12,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 export default function ModalCustomer({ open, onClose, rowId }) {
   const [data, setData] = useState([]);
 
-  if (open) {
+  if (open === true) {
     const fetchData = async () => {
       const res = await axios.get(
         "http://localhost:8800/api/customer/" + rowId

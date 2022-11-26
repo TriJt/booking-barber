@@ -93,8 +93,6 @@ export default function Customer() {
     };
     countCustomerMonth();
   }, []);
-  console.log(week);
-  console.log(month);
 
   const Delete = ({ params }) => {
     const handleDelete = async (e) => {
@@ -133,8 +131,7 @@ export default function Customer() {
     const handleSubmit = async () => {
       setTimeout(async () => {
         const data = {
-          CustomerId: params.row._id,
-          Name: params.row.Name,
+          Name_Customer: params.row.Name_Customer,
           Telephone: params.row.Telephone,
           Gender: params.row.Gender,
         };
