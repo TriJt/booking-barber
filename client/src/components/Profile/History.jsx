@@ -1,13 +1,14 @@
-import React from "react";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import { AuthContext } from "./../../context/AuthContext";
 import "../../styles/components/profile/appointment.css";
+import Table from "../Table/Table";
 
 export default function History() {
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(currentUser);
   const [data, setData] = useState([]);
+  const [rowId, setRowId] = useState("");
 
   useEffect(() => {
     const fetchAppointment = async () => {
@@ -18,30 +19,57 @@ export default function History() {
     };
     fetchAppointment();
   }, [user._id]);
+
+  const columns = useMemo(
+    () => [
+      {
+        field: "date",
+        headerName: "Date",
+        width: 120,
+      },
+      {
+        field: "slotTime",
+        headerName: "Slot",
+        width: 100,
+      },
+      {
+        field: "Services",
+        headerName: "Services",
+        width: 120,
+      },
+      {
+        field: "Staff",
+        headerName: "Staff",
+        width: 150,
+      },
+
+      {
+        field: "Status",
+        headerName: "Status",
+        width: 90,
+      },
+    ],
+    [rowId]
+  );
+
   return (
     <div className="appointment">
       {data ? (
         <div className="list-appointment">
           <span className="title-appointment"> List Appointment</span>
-          <div className="header-appointment">
-            <span>Date</span>
-            <span>Time </span>
-            <span>Service</span>
-            <span>Staff</span>
-            <span> Status </span>
-          </div>
-          {data.map((value, i) => (
-            <div className="items-appointment" key={i}>
-              <span>{value.date}</span>
-              <span>{value.slotTime} </span>
-              <span>{value.Services} </span>
-              <span>{value.Staff} </span>
-              <span> {value.Status} </span>
-            </div>
-          ))}
+          <Table
+            title={"Manager Service"}
+            column={columns}
+            row={data}
+            rowId={rowId}
+            setRowId={setRowId}
+          />
         </div>
       ) : (
-        <div className="no-appointment"> You don't have appointment</div>
+        <div className="list-appointment">
+          <span className="title-appointment">List Appointment</span>
+          <div className="no-appointment">You don't have appointment</div>
+        </div>
       )}
     </div>
   );

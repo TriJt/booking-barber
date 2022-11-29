@@ -56,3 +56,63 @@
 .setting-right {
   width: 70%;
 }
+
+.div-evaluate {
+  background-color: white;
+  width: 30%;
+  height: 90%;
+  border-radius: 10px;
+  padding: 20px;
+}
+.item-evaluate {
+  width: 100%;
+  height: auto;
+  margin: 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--family-header);
+}
+.header-evaluate {
+  font-weight: 500;
+  font-size: 20px;
+  width: 20%;
+  height: auto;
+}
+.value-evaluate {
+  width: 70%;
+}
+.text-area {
+  height: 100px;
+  border: 2px solid var(--color-button);
+  font-family: var(--family-header);
+  border-radius: 4px;
+  padding: 5px;
+}
+.text-area:focus {
+  outline: none;
+}
+.div-button {
+  width: 100%;
+  height: auto;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.button-action {
+  align-items: center;
+  padding: 10px;
+  font-family: var(--family-header);
+  font-size: 20px;
+  font-weight: 500;
+  background-color: var(--color-button);
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+}
+.icon-star {
+  font-size: 30px;
+  color: var(--color-button);
+}

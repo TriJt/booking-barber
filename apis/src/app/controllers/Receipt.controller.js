@@ -205,6 +205,22 @@ export const GetReceipts = async (req, res) => {
   res.json(responseType);
 };
 
+// get by id information of Receipt
+export const GetReceiptsById = async (req, res) => {
+  const responseType = {};
+  if (Receipt) {
+    const receipt = await Receipt.findById({ _id: req.body.id });
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = receipt;
+  } else {
+    responseType.statusText = "Error";
+    responseType.message = "We have error in somewhere";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
 //get with a date in when staff input
 export const GetListReceiptByDate = async (req, res) => {
   const responseType = {};
@@ -332,6 +348,23 @@ export const GetByYear = async (req, res) => {
     responseType.statusText = "Error";
     responseType.message = "We have error ";
     responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// get reciept with userId
+export const GetReceiptByUserId = async (req, res) => {
+  const responseType = {};
+  try {
+    const receipt = await Receipt.find({
+      Name_Customer: req.body.Name_Customer,
+    });
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = receipt;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
   }
   res.json(responseType);
 };

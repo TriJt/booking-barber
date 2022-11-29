@@ -123,7 +123,7 @@ export default function SinglePost() {
                 <div className="create-container">
                   <div className="left-create-post">
                     <div className="btn-service">
-                      <label htmlFor="file" className="button-profile">
+                      <label htmlFor="file" className="button-action">
                         Choose Image
                         <input
                           type="file"
@@ -134,7 +134,7 @@ export default function SinglePost() {
                         ></input>
                       </label>
                       <label
-                        className="button-profile"
+                        className="button-action"
                         onClick={() => setFiles(null)}
                       >
                         Close
@@ -187,7 +187,7 @@ export default function SinglePost() {
                   <TextEditor setContent={setContent} value={data.Content} />
                 </div>
                 <div className="button-div">
-                  <button className="button-profile" onClick={submitHandle}>
+                  <button className="button-action" onClick={submitHandle}>
                     Update
                   </button>
                 </div>

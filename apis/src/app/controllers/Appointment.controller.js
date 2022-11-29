@@ -437,7 +437,7 @@ export const GetAppointmentMatchCancel = async (req, res) => {
   try {
     const appointment = await Appointment.find({
       $and: [{ CustomerId: userId }, { Status: "cancel" }],
-    });
+    }).sort({ date: -1 });
     responseType.message = "Get appointment successfully";
     responseType.status = 200;
     responseType.value = appointment;

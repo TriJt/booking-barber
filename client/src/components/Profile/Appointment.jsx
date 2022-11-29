@@ -1,15 +1,17 @@
-import React from "react";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import { AuthContext } from "./../../context/AuthContext";
 import "../../styles/components/profile/appointment.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Table from "../Table/Table";
+import { MdViewHeadline } from "react-icons/md";
 
 export default function Appointment() {
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(currentUser);
   const [data, setData] = useState([]);
+  const [rowId, setRowId] = useState("");
 
   useEffect(() => {
     const fetchAppointment = async () => {
@@ -21,68 +23,144 @@ export default function Appointment() {
     fetchAppointment();
   }, [user._id]);
 
-  const DeleteHandle = async (idAppointment, idStaff, idDate, idSlot) => {
-    const status = "cancel";
-    const data = {
-      DateId: idDate,
-      StaffId: idStaff,
-      SlotId: idSlot,
-      Status: status,
+  const Cancel = ({ params, setRowId }) => {
+    const DeleteHandle = async (idAppointment, idStaff, idDate, idSlot) => {
+      const status = "cancel";
+      const data = {
+        DateId: idDate,
+        StaffId: idStaff,
+        SlotId: idSlot,
+        Status: status,
+      };
+      try {
+        const res = await axios.put(
+          "http://localhost:8800/api/appointment/update-cancel/" +
+            idAppointment,
+          data
+        );
+        toast.success("Successful cancellation of appointment");
+        const reson = await axios.get(
+          "http://localhost:8800/api/appointment/pending?UserId=" + user._id
+        );
+        setData(reson.data.value);
+      } catch (error) {
+        toast.error("Cancellation of appointment failed");
+      }
     };
-    try {
-      const res = await axios.put(
-        "http://localhost:8800/api/appointment/update-cancel/" + idAppointment,
-        data
-      );
-      toast.success("Successful cancellation of appointment");
-      const reson = await axios.get(
-        "http://localhost:8800/api/appointment/pending?UserId=" + user._id
-      );
-      setData(reson.data.value);
-    } catch (error) {
-      toast.error("Cancellation of appointment failed");
-    }
+
+    console.log(data);
+    return (
+      <div className="view">
+        <button
+          className="button-view"
+          onClick={() => {
+            if (window.confirm("Are you sure to cancel this appointment?"))
+              DeleteHandle(
+                params.row._id,
+                params.row.StaffId,
+                params.row.DateId,
+                params.row.SlotId
+              );
+          }}
+        >
+          <MdViewHeadline className="icon-view" />
+        </button>
+      </div>
+    );
   };
+
+  // state columns of table
+  const columns = useMemo(
+    () => [
+      {
+        field: "date",
+        headerName: "Date",
+        width: 120,
+      },
+      {
+        field: "slotTime",
+        headerName: "Slot",
+        width: 100,
+      },
+      {
+        field: "Services",
+        headerName: "Services",
+        width: 120,
+      },
+      {
+        field: "Staff",
+        headerName: "Staff",
+        width: 150,
+      },
+
+      {
+        field: "Status",
+        headerName: "Status",
+        width: 90,
+      },
+      {
+        field: "Action",
+        width: 70,
+        headerName: "Cancel",
+        type: "actions",
+        renderCell: (params) => <Cancel {...{ params, rowId, setRowId }} />,
+      },
+    ],
+    [rowId]
+  );
 
   return (
     <div className="appointment">
       <ToastContainer />
-      {data === null ? (
+      {data !== null ? (
         <div className="list-appointment">
           <span className="title-appointment"> List Appointment</span>
-          <div className="header-appointment">
-            <span>Date</span>
-            <span>Time </span>
-            <span>Service</span>
-            <span>Staff</span>
-            <span> Status </span>
-            <span> Action</span>
-          </div>
-          {data.map((value, i) => (
-            <div className="items-appointment" key={i}>
-              <span>{value.date}</span>
-              <span>{value.slotTime} </span>
-              <span>{value.Services} </span>
-              <span>{value.Staff} </span>
-              <span> {value.Status} </span>
-              <span
-                className="button-appointment"
-                onClick={() =>
-                  DeleteHandle(
-                    value._id,
-                    value.StaffId,
-                    value.DateId,
-                    value.SlotId
-                  )
-                }
-              >
-                Cancel
-              </span>
-            </div>
-          ))}
+          <Table
+            title={"Manager Service"}
+            column={columns}
+            row={data}
+            rowId={rowId}
+            setRowId={setRowId}
+          />
         </div>
       ) : (
-        <div className="no-appointment"> You don't have appointment</div>
+        // <div className="list-appointment">
+        //   <span className="title-appointment"> List Appointment</span>
+        //   <div className="header-appointment">
+        //     <span>Date</span>
+        //     <span>Time </span>
+        //     <span>Service</span>
+        //     <span>Staff</span>
+        //     <span> Status </span>
+        //     <span> Action</span>
+        //   </div>
+        //   {data.map((value, i) => (
+        //     <div className="items-appointment" key={i}>
+        //       <span>{value.date}</span>
+        //       <span>{value.slotTime} </span>
+        //       <span>{value.Services} </span>
+        //       <span>{value.Staff} </span>
+        //       <span> {value.Status} </span>
+        //       <span
+        //         className="button-appointment"
+        //         onClick={() =>
+        //           DeleteHandle(
+        //             value._id,
+        //             value.StaffId,
+        //             value.DateId,
+        //             value.SlotId
+        //           )
+        //         }
+        //       >
+        //         Cancel
+        //       </span>
+        //     </div>
+        //   ))}
+        // </div>
+        <div className="list-appointment">
+          <span className="title-appointment">List Appointment</span>
+          <div className="no-appointment">You don't have appointment</div>
+        </div>
       )}
     </div>
   );

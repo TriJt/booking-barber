@@ -18,6 +18,7 @@ import CategoryRoute from "./src/routers/Category.route.js";
 import PostRoute from "./src/routers/Post.route.js";
 import ContactRoute from "./src/routers/Contact.route.js";
 import SalaryRoute from "./src/routers/Salary.route.js";
+import EvaluateRoute from "./src/routers/Evaluate.route.js";
 
 const app = express();
 dotenv.config();
@@ -62,6 +63,9 @@ app.use("/api/appointment", AppointmentRoute);
 app.use("/api/salary", SalaryRoute);
 // route for Appointment
 app.use("/api/contact", ContactRoute);
+
+// route for evaluate
+app.use("/api/evaluate", EvaluateRoute);
 
 function getCurrentTime() {
   const date = new Date();

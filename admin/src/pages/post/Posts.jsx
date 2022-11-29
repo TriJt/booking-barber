@@ -135,7 +135,7 @@ export default function Posts() {
 
   // change page to post update
 
-  const View = ({ params, setRowId }) => {
+  const View = ({ params }) => {
     // add link to page information customer
     return (
       <div className="view">

@@ -1,4 +1,5 @@
 import express from "express";
+import { GetAppointmentByUserId } from "../app/controllers/Appointment.controller.js";
 const router = express.Router();
 import {
   CreateReceipt,
@@ -12,6 +13,8 @@ import {
   GetByYear,
   GetListReceiptByDate,
   GetAWeek,
+  GetReceiptByUserId,
+  GetReceiptsById,
 } from "../app/controllers/Receipt.controller.js";
 
 // create Receipt
@@ -23,8 +26,11 @@ router.put("/update/:id", UpdateReceipt);
 // delete Receipt
 router.delete("/delete/:id", DeleteReceipt);
 
-// get all Receipt by id
+// get all Receipt
 router.get("/all", GetReceipts);
+
+// get Receipt by id
+router.post("/get-by-id", GetReceiptsById);
 
 //get list receipt by date
 router.post("/list/date", GetListReceiptByDate);
@@ -46,5 +52,8 @@ router.get("/year", GetByYear);
 
 // get Receipt by id
 router.get("/", GetReceiptByName);
+
+// get receipt with user Id
+router.post("/customer-evaluate", GetReceiptByUserId);
 
 export default router;

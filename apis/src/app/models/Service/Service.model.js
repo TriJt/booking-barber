@@ -5,6 +5,9 @@ const Schema = mongoose.Schema;
 const EvaluateSchema = new Schema(
   {
     Service: {
+      type: [String],
+    },
+    Receipt_id: {
       type: String,
     },
     Staff: {
@@ -45,7 +48,7 @@ const ServiceSchema = new Schema(
     Category: {
       type: String,
     },
-    Evaluate: [EvaluateSchema],
+    Evaluate: [],
   },
   {
     timestamps: true,

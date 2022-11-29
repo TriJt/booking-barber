@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../../styles/components/gallery.css";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 export default function Gallery() {
   const [data, setData] = useState([]);
@@ -14,13 +15,34 @@ export default function Gallery() {
     loadData();
   }, []);
 
+  const [model, setModel] = useState(false);
+  const [tempImage, setTempImage] = useState("");
+
+  const getImg = (Image) => {
+    setTempImage(Image);
+    setModel(true);
+  };
+
   return (
-    <div className="gallery-container">
-      {data.map((value, i) => (
-        <div className="image-gallery">
-          <img src={value.Image} alt="" />
-        </div>
-      ))}
-    </div>
+    <>
+      <div className={model ? "model open" : "model"}>
+        <img src={tempImage} alt="" className="image-model" />
+        <AiOutlineCloseCircle
+          onClick={() => setModel(false)}
+          className="close-model-gal"
+        />
+      </div>
+      <div className="gallery-container">
+        {data.map((value, i) => (
+          <div
+            className="image-gallery"
+            key={i}
+            onClick={() => getImg(value.Image)}
+          >
+            <img src={value.Image} alt="" style={{ width: "100%" }} />
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

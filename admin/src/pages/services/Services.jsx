@@ -9,6 +9,7 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { MdDeleteOutline, MdSaveAlt, MdViewHeadline } from "react-icons/md";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export default function Services() {
   const [dataService, setDataService] = useState([]);
@@ -198,7 +199,7 @@ export default function Services() {
       <div className="overlay">
         <div className="modalContainer">
           <p className="closeBtn" onClick={onClose}>
-            X
+            <IoIosCloseCircleOutline />
           </p>
           <div className="modal-service">
             <div className="left-modal">
@@ -277,7 +278,6 @@ export default function Services() {
         headerName: "Save",
         type: "actions",
         renderCell: (params) => <Save {...{ params, rowId, setRowId }} />,
-        editable: true,
       },
       {
         field: "delete",
@@ -285,7 +285,6 @@ export default function Services() {
         headerName: "Delete",
         type: "actions",
         renderCell: (params) => <Delete {...{ params, rowId, setRowId }} />,
-        editable: true,
       },
       {
         field: "view",
@@ -293,7 +292,6 @@ export default function Services() {
         headerName: "View",
         type: "actions",
         renderCell: (params) => <View {...{ params, rowId, setRowId }} />,
-        editable: true,
       },
     ],
     [rowId]
