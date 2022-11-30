@@ -184,6 +184,7 @@ export const AddAppointment = async (req, res) => {
   Staff.findOne({ _id: staffId }).then((staff) => {
     const date = staff.Dates.id(dateId);
     const slot = date.slots.id(slotId);
+    slot.isBooked = true;
     staff.save().then(() => {
       // create an entry in the appointment database
       const newAppointment = new Appointment({
@@ -214,7 +215,7 @@ export const AddAppointment = async (req, res) => {
   });
   const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID_CONTACT;
   const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET_CONTACT;
-  const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_RESET;
+  const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_ADMIN;
   const ADMIN_EMAIL_ADDRESS = process.env.EMAIL_ADMIN;
 
   const myOAuth2Client = new OAuth2Client(

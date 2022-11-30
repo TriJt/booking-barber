@@ -32,6 +32,8 @@ export default function Appointment() {
   const [step3, setStep3] = useState(false);
   const [step4, setStep4] = useState(false);
 
+  const currentTime = moment(new Date()).format("HH:mm");
+
   useEffect(() => {
     const fetchStaff = async () => {
       const res = await axios.get("http://localhost:8800/api/staff/all");
@@ -62,7 +64,6 @@ export default function Appointment() {
     setStep4(true);
     setCheck(index);
   };
-  console.log(check);
 
   const DateHandle = async (e) => {
     const newDate = moment(new Date(e.target.value)).format("YYYY-MM-DD");
@@ -221,9 +222,29 @@ export default function Appointment() {
 
               {step3 ? (
                 <React.Fragment>
-                  <span className="title-booking"> 4.Choose Slot </span>
+                  <span className="title-booking">
+                    {" "}
+                    4.Choose Slot{" "}
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        paddingLeft: "10px",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {" "}
+                      (Please select the available time periods)
+                    </span>{" "}
+                  </span>
                   <div className="grid-slot">
                     {slotArray?.map((slot, index) => {
+                      if (slot.Time < currentTime) {
+                        return (
+                          <button key={index} className="item-false">
+                            {slot.Time}
+                          </button>
+                        );
+                      }
                       if (slot.isBooked === true) {
                         return (
                           <button key={index} className="item-false">

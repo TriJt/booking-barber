@@ -1,22 +1,30 @@
 import React from "react";
-import { AiFillStar } from "react-icons/ai";
 import "../../styles/components/evaluate.css";
-import { RiDoubleQuotesR } from "react-icons/ri";
-export default function Evaluate() {
+import Rating from "react-rating";
+import {
+  AiOutlineCloseCircle,
+  AiOutlineStar,
+  AiFillStar,
+} from "react-icons/ai";
+
+export default function Evaluate({ star, service, text, staff }) {
   return (
     <div className="container-eval">
       <div className="evaluate">
         <div className="text-eval">
-          <p>ahsdgjahsgdja</p>
+          <p>{text}</p>
         </div>
+        <Rating
+          emptySymbol={<AiOutlineStar className="icon-star" />}
+          fullSymbol={<AiFillStar className="icon-star" />}
+          initialRating={star}
+          placeholderRating={star}
+          readonly
+        />
         <div className="image-eval">
-          <img
-            src="https://res.cloudinary.com/johnle/image/upload/v1667399800/upload/xut5fujbfidhfg8zyd7d.jpg"
-            alt=""
-          />
           <div className="name-eval">
-            <h5> name</h5>
-            <span> Customer</span>
+            <span> {staff}</span>
+            <h5> {service}</h5>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/home.css";
 import TopBar from "../../components/Topbar/TopBar";
 import { SliderServices } from "../../components/Home/Slider/Slider";
@@ -6,8 +6,27 @@ import Footer from "../../components/Footer/Footer";
 import Evaluate from "../../components/Evaluate/Evaluate";
 import Telephone from "../../components/Appointment/Telephone";
 import Scroll from "../../components/ScrollToTop/Scroll";
+import axios from "axios";
 
 export default function About() {
+  const [store, setStore] = useState("");
+  const [review, setReview] = useState([]);
+  const [customer, setCustomer] = useState([]);
+
+  useEffect(() => {
+    const fetchStore = async () => {
+      const res = await axios.get("http://localhost:8800/api/store/getById");
+      setStore(res.data.value);
+    };
+    fetchStore();
+
+    const fetchReview = async () => {
+      const res = await axios.get("http://localhost:8800/api/evaluate/limit");
+      setReview(res.data.value);
+    };
+    fetchReview();
+  }, []);
+
   return (
     <div className="container">
       <section className="section1">
@@ -29,17 +48,11 @@ export default function About() {
         </div>
         <div className="text-about">
           <div className="text-about-mb">
-            <span className="subheading"> About barber</span>
+            <span className="subheading"> About {store.Name_Store}</span>
             <h2 className="h2-about">
               A SMOOTH BARBER EXPERIENCE IN YOUR TOWN
             </h2>
-            <p>
-              Far far away, behind the word mountains, far from the countries
-              Vokalia and Consonantia, there live the blind texts. Separated
-              they live in Bookmarksgrove right at the coast of the Semantics, a
-              large language ocean. A small river named Duden flows by their
-              place and supplies it with the necessary regelialia.
-            </p>
+            <p>{store.Description}</p>
           </div>
         </div>
       </div>
@@ -47,7 +60,14 @@ export default function About() {
         <span className="subheading"> TESTIMONIAL</span>
         <h2 className="h2-about">PEOPLE SAY ABOUT US </h2>
         <div className="pricing-item">
-          <Evaluate />
+          {review.map((value, index) => (
+            <Evaluate
+              star={value.Star}
+              service={value.Service}
+              text={value.Review}
+              staff={value.Staff}
+            />
+          ))}
         </div>
       </div>
       <div className="telephone">

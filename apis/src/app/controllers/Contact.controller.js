@@ -22,7 +22,7 @@ export const SendEmailContact = async (req, res) => {
 
     const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID_CONTACT;
     const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET_CONTACT;
-    const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_CONTACT;
+    const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_RESET;
     const ADMIN_EMAIL_ADDRESS = input.Email;
 
     const myOAuth2Client = new OAuth2Client(

@@ -122,7 +122,6 @@ export default function Profile() {
     return (
       <>
         <div className="appointment">
-          <ToastContainer />
           {data !== null ? (
             <div className="list-appointment">
               <span className="title-appointment"> List of services used </span>
@@ -174,8 +173,10 @@ export default function Profile() {
         value
       );
       if (res.data.status === 200) {
-        console.log(res.data.value);
         toast.success(res.data.message);
+        setTimeout(() => {
+          setOpen(false);
+        }, 2000);
       } else {
         toast.error(res.data.message);
       }
@@ -189,6 +190,7 @@ export default function Profile() {
           onClick={() => setOpen(false)}
           className="close-model-gal"
         />
+        <ToastContainer />
         <div className="div-evaluate">
           <span className="title-appointment">Evaluate Staff </span>
           <div className="item-evaluate">

@@ -6,12 +6,10 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { MdDriveFileRenameOutline, MdOutlineEmail } from "react-icons/md";
 import { BsTelephoneOutbound, BsGenderAmbiguous } from "react-icons/bs";
-import { FaAddressCard, FaBirthdayCake } from "react-icons/fa";
+import { FaAddressCard } from "react-icons/fa";
 
 export default function Profile() {
   const { user: currentUser } = useContext(AuthContext);
@@ -135,13 +133,16 @@ export default function Profile() {
           <ToastContainer />
           {/* phần hình ảnh khi chỉnh sửa */}
           <div className="left-profile">
-            {user.Image && (
-              <img
-                src={files ? URL.createObjectURL(files[0]) : user.Image}
-                alt=""
-                className="avatar"
-              />
-            )}
+            <div className="header-change">your Information</div>
+            <div className="image-avatar">
+              {user.Image && (
+                <img
+                  src={files ? URL.createObjectURL(files[0]) : user.Image}
+                  alt=""
+                  className="avatar"
+                />
+              )}
+            </div>
           </div>
           {/* phần thông tin liên hệ  */}
           <div className="right-profile">

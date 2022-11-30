@@ -10,6 +10,7 @@ import {
   GetServicesLimit,
   GetServicesByName,
   GetRandomServices,
+  GetServicesLimit4,
 } from "../app/controllers/Service.controller.js";
 
 // create Service
@@ -30,8 +31,11 @@ router.get("/category/", GetServicesByCategoryName);
 // get Service by id
 router.get("/", GetServiceById);
 
-//get by name
+//get limit 3
 router.get("/limit", GetServicesLimit);
+
+//get limit 4
+router.get("/limit4", GetServicesLimit4);
 
 // get service by name
 router.post("/name", GetServicesByName);

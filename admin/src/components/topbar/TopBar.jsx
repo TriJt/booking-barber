@@ -49,6 +49,12 @@ export default function TopBar() {
               <CiMoneyCheck1 className="icon" />
               <span className="dropdown-text">Salary</span>
             </li>
+            <li className="top-dropdown-item">
+              <CiMoneyCheck1 className="icon" />
+              <Link to={`/reset/${user._id}`} className="Link">
+                <span className="dropdown-text">Change Password</span>
+              </Link>
+            </li>
             <li className="top-dropdown-item" onClick={LogoutHandle}>
               <MdOutlineLogout className="icon" />
               <span className="dropdown-text">Log out</span>

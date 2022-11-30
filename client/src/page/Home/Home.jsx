@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/home.css";
 import TopBar from "../../components/Topbar/TopBar";
 import { SliderHome } from "../../components/Home/Slider/Slider";
@@ -8,8 +8,19 @@ import Footer from "../../components/Footer/Footer";
 import Telephone from "../../components/Appointment/Telephone";
 import ReactPlayer from "react-player";
 import Scroll from "../../components/ScrollToTop/Scroll";
+import axios from "axios";
 
 export default function Home() {
+  const [service, setService] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get("http://localhost:8800/api/service/limit4");
+      setService(res.data.value);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="container">
       <section className="section1">
@@ -24,42 +35,15 @@ export default function Home() {
       </section>
       <section className="section-2">
         <div className="service-container ">
-          <Service
-            title={"HairCut"}
-            p={
-              "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts"
-            }
-            image={
-              "https://i.pinimg.com/564x/d1/44/c3/d144c3c6a69690892d878f46bc6e565a.jpg"
-            }
-          />
-          <Service
-            title={"beard trim"}
-            p={
-              "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts"
-            }
-            image={
-              "https://i.pinimg.com/564x/97/e2/49/97e249362d4e10ae57bfdd41af663d18.jpg"
-            }
-          />
-          <Service
-            title={"HOT SHAVE"}
-            p={
-              "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts"
-            }
-            image={
-              "https://i.pinimg.com/474x/cf/e5/e1/cfe5e15532f7dd2f1932bb7561d3ba0e.jpg"
-            }
-          />
-          <Service
-            title={"SHAMPOO"}
-            p={
-              "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts"
-            }
-            image={
-              "https://i.pinimg.com/564x/8e/96/87/8e9687907d7c48ef29338fa1d211fbc0.jpg"
-            }
-          />
+          {service.map((value, index) => (
+            <>
+              <Service
+                title={value.Name_Service}
+                p={value.Description}
+                image={value.Image}
+              />
+            </>
+          ))}
         </div>
       </section>
       <div className="about-container">

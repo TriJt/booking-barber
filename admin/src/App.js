@@ -17,6 +17,7 @@ import Receipt from "./pages/receipt/Receipt";
 import Forgot from "./pages/forgot/Forget";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
+import Reset from "./pages/resetPass/Reset";
 import Posts from "./pages/post/Posts";
 import { AuthContext } from "./context/AuthContext";
 import Revenue from "./pages/revenue/Revenue";
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/banner" element={<Banner />} />
         <Route path="/store" element={<Store />} />
         <Route path="/profile/:id" element={user ? <Profile /> : <Login />} />
+        <Route path="/reset/:id" element={user ? <Reset /> : <Login />} />
         <Route
           path="/contact/profile/:id"
           element={user ? <Navigate replace to="/profile/:id" /> : <Profile />}

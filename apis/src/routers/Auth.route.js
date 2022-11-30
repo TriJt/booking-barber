@@ -9,6 +9,7 @@ import {
   SendEmailStaff,
   ChangePasswordStaff,
   changePasswordWithOldPassword,
+  ChangePasswordWithOldPasswordForStaff,
 } from "../app/controllers/Auth.controller.js";
 
 // Sign up for customer don't have account
@@ -32,5 +33,8 @@ router.post("/login_staff", LoginForStaff);
 router.post("/staff-send-email", SendEmailStaff);
 //Change password for staff
 router.post("/staff-change-password", ChangePasswordStaff);
+
+// change password with old password
+router.post("/reset-staff/:id", ChangePasswordWithOldPasswordForStaff);
 
 export default router;

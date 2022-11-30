@@ -26,13 +26,63 @@ export const CreateEvaluate = async (req, res) => {
 
 export const UpdateEvaluate = async (req, res) => {};
 
-export const DeleteEvaluate = async (req, res) => {};
+export const DeleteEvaluate = async (req, res) => {
+  const responseType = {};
+  // check input
+  try {
+    const data = await Evaluate.findByIdAndDelete({ _id: req.params.id });
+    responseType.message = "Delete successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "Delete Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
 
 export const GetEvaluateByIdReceipt = async (req, res) => {
   const responseType = {};
   // check input
   try {
     const data = await Evaluate.find({ Receipt_id: req.body.id });
+    responseType.message = "Get successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "Get Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+//get all evaluate
+
+export const GetAllEvaluate = async (req, res) => {
+  const responseType = {};
+  // check input
+  try {
+    const data = await Evaluate.find();
+    responseType.message = "Get successfully";
+    responseType.status = 200;
+    responseType.value = data;
+  } catch (err) {
+    responseType.statusText = "Error";
+    responseType.message = "Get Failed ";
+    responseType.status = 404;
+  }
+  res.json(responseType);
+};
+
+// get limit 3
+export const GetEvaluateLimit3 = async (req, res) => {
+  const responseType = {};
+  // check input
+  try {
+    const data = await Evaluate.find().limit(3);
+
     responseType.message = "Get successfully";
     responseType.status = 200;
     responseType.value = data;

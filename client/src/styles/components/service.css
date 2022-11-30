@@ -1,11 +1,12 @@
 .Service {
   display: flex;
   flex-direction: column;
-  text-align: center;
+  align-items: center;
   justify-content: center;
   text-align: center;
   height: auto;
   background-color: var(--color-button);
+  width: 100%;
 }
 .image-service {
   display: flex;
@@ -20,6 +21,7 @@
   border-radius: 50%;
   z-index: 1;
   object-fit: cover;
+  cursor: pointer;
 }
 .text-service {
   padding-top: 80px;
@@ -45,6 +47,10 @@
   padding-right: 20px;
   font-size: 13px;
   color: var(--background);
+  height: 70px;
+  text-align: justify;
+  display: flex;
+  margin-top: 20px;
 }
 
 @media screen and (max-width: 768px) {

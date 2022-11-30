@@ -179,7 +179,7 @@ export const ChangePassword = async (req, res) => {
 //Initialize(Khởi tạo) OAuth2Client with Client ID and Client Secret
 const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID_CONTACT;
 const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET_CONTACT;
-const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_RESET;
+const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_ADMIN;
 const ADMIN_EMAIL_ADDRESS = process.env.EMAIL_ADMIN;
 
 const myOAuth2Client = new OAuth2Client(
@@ -358,5 +358,39 @@ export const SendEmailStaff = async (req, res) => {
     responseType.message = "Email id not exist";
   }
   // return responseType to front-end check error
+  res.json(responseType);
+};
+
+export const ChangePasswordWithOldPasswordForStaff = async (req, res) => {
+  const newPassword = req.body.newPassword;
+  const pass = req.body.Password;
+  const id = req.params.id;
+  const responseType = {};
+
+  try {
+    const user = await Staff.findById({ _id: id });
+    if (!user) {
+      responseType.message = "Customer not found";
+    }
+    // valid old Password
+    const check = await bcryptjs.compare(pass, user.Password);
+    if (!check) {
+      responseType.message = "Old password is wrong";
+      responseType.status = 500;
+    } else {
+      const salt = bcryptjs.genSaltSync(10);
+      const newPass = await newPassword;
+      const hashPassword = bcryptjs.hashSync(newPass, salt);
+      // update password with new pass word
+      user.Password = hashPassword;
+      const updated = await user.save();
+      responseType.message = "Password change successfully";
+      responseType.status = 200;
+      responseType.value = updated;
+    }
+  } catch (err) {
+    responseType.message = "Update password was failed";
+  }
+
   res.json(responseType);
 };

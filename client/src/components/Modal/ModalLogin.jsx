@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,12 +9,22 @@ import {
 } from "react-icons/ai";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const SITE_KEY = "6Lc7fhAjAAAAAGx42AoXHeM-zx_wONWme7aRc0xn";
 
 export default function ModalLogin({ open, onClose }) {
   const [pass, setPass] = useState(false);
   const toggleBtn = (e) => {
     e.preventDefault();
     setPass((prevState) => !prevState);
+  };
+
+  const captchaRef = useRef();
+  const [recaptchaValue, setRecaptchaValue] = useState("");
+
+  const onChange = (value) => {
+    setRecaptchaValue(value);
   };
 
   // declare properties of client
@@ -42,6 +52,7 @@ export default function ModalLogin({ open, onClose }) {
     const data = {
       Email: inputField.Email,
       Password: inputField.Password,
+      token: recaptchaValue,
     };
     try {
       const response = await axios.post(
@@ -142,6 +153,13 @@ export default function ModalLogin({ open, onClose }) {
               {errField.PasswordErr.length > 0 && (
                 <span className="error">{errField.PasswordErr} </span>
               )}
+              <div className="user-box">
+                <ReCAPTCHA
+                  sitekey={SITE_KEY}
+                  onChange={onChange}
+                  ref={captchaRef}
+                />
+              </div>
               {/* link to forget page */}
               <div className="user-box">
                 <Link to="/reset">

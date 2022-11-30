@@ -14,10 +14,15 @@
 .left-profile {
   display: flex;
   width: 45%;
-  height: 200px;
-  align-items: center;
-  justify-content: center;
+  height: auto;
   border-radius: 10px;
+  flex-direction: column;
+}
+.image-avatar {
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 .child-right {
   width: auto;
