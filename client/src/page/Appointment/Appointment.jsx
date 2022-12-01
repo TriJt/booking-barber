@@ -32,7 +32,7 @@ export default function Appointment() {
   const [step3, setStep3] = useState(false);
   const [step4, setStep4] = useState(false);
 
-  const currentTime = moment(new Date()).format("HH:mm");
+  const currentTime = new Date();
 
   useEffect(() => {
     const fetchStaff = async () => {
@@ -238,7 +238,8 @@ export default function Appointment() {
                   </span>
                   <div className="grid-slot">
                     {slotArray?.map((slot, index) => {
-                      if (slot.Time < currentTime) {
+                      const Time = new Date(date + "T" + slot.Time);
+                      if (Time < currentTime) {
                         return (
                           <button key={index} className="item-false">
                             {slot.Time}

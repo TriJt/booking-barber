@@ -169,14 +169,6 @@ export default function Category() {
         renderCell: (params) => <Delete {...{ params, rowId, setRowId }} />,
         editable: true,
       },
-      {
-        field: "view",
-        width: 150,
-        headerName: "View",
-        type: "actions",
-        renderCell: (params) => <View {...{ params, rowId, setRowId }} />,
-        editable: true,
-      },
     ],
     [rowId]
   );
@@ -255,7 +247,7 @@ export default function Category() {
         <div className="bottom-profile">
           <div className="staff">
             <TableUser
-              title={"Manager Service"}
+              title={"Manager Category"}
               column={columns}
               row={dataCategory}
               rowId={rowId}

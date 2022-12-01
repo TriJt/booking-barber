@@ -118,7 +118,7 @@ export default function SinglePost() {
             <form className="form-post">
               <div className="top-post">
                 <div className="header-post">
-                  <h3 className="header-service"> Create new Post</h3>
+                  <h3 className="header-receipt"> Update Post</h3>
                 </div>
                 <div className="create-container">
                   <div className="left-create-post">

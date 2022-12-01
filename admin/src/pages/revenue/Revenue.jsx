@@ -92,7 +92,7 @@ export default function Revenue() {
             width={300}
             height={100}
             data={data}
-            margin={{ top: 20, right: 20, left: 5, bottom: 5 }}
+            margin={{ top: 20, right: 5, left: 5, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="_id" />

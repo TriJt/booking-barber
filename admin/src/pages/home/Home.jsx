@@ -47,25 +47,28 @@ export default function Home() {
         </div>
         <div className="bottom-container">
           <Widget />
-          <div className="chart-container">
-            <div className="top-chart">
-              <span className="header-receipt"> Revenue</span>
-              <div className="value-chart">
-                <div className="left-value">{revenue}$</div>
-                <div className="right-value">
-                  <button
-                    className="button-action"
-                    style={{ backgroundColor: "#bf925b", color: "white" }}
-                  >
-                    Month
-                  </button>
+          {user.isAdmin === true ? (
+            <div className="chart-container">
+              <div className="top-chart">
+                <span className="header-receipt"> Revenue</span>
+                <div className="value-chart">
+                  <div className="left-value">{revenue}$</div>
+                  <div className="right-value">
+                    <button
+                      className="button-action"
+                      style={{ backgroundColor: "#bf925b", color: "white" }}
+                    >
+                      Month
+                    </button>
+                  </div>
                 </div>
               </div>
+              <div className="bottom-chart">
+                <Charts />
+              </div>
             </div>
-            <div className="bottom-chart">
-              <Charts />
-            </div>
-          </div>
+          ) : null}
+
           <div className="under-bottom">
             <div className="table-container">
               <Table />

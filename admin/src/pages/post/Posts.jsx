@@ -266,7 +266,7 @@ export default function Posts() {
         <div className="bottom-profile">
           <div className="staff">
             <TableUser
-              title={"Manager Service"}
+              title={"Manager Posts"}
               column={columns}
               row={data}
               rowId={rowId}

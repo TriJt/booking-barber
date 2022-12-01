@@ -103,7 +103,6 @@ export default function Sidebar() {
         </div>
       ) : (
         <div className="bottom-sidebar">
-          {/* item with icon and name */}
           <NavLink to={`/home`} className="Link">
             <div className="items-sidebar">
               <MdSpaceDashboard className="icon" />

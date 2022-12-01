@@ -24,13 +24,20 @@ export default function Appointment() {
   }, [user._id]);
 
   const Cancel = ({ params, setRowId }) => {
-    const DeleteHandle = async (idAppointment, idStaff, idDate, idSlot) => {
+    const DeleteHandle = async (
+      idAppointment,
+      idStaff,
+      idDate,
+      idSlot,
+      email
+    ) => {
       const status = "cancel";
       const data = {
         DateId: idDate,
         StaffId: idStaff,
         SlotId: idSlot,
         Status: status,
+        Email: email,
       };
       try {
         const res = await axios.put(
@@ -48,7 +55,6 @@ export default function Appointment() {
       }
     };
 
-    console.log(data);
     return (
       <div className="view">
         <button
@@ -59,7 +65,8 @@ export default function Appointment() {
                 params.row._id,
                 params.row.StaffId,
                 params.row.DateId,
-                params.row.SlotId
+                params.row.SlotId,
+                params.row.Email
               );
           }}
         >

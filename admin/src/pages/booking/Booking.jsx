@@ -8,21 +8,18 @@ import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
 import ChartPie from "../../components/Charts/ChartPie";
+import { MdDeleteOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function Booking() {
   const [rowId, setRowId] = useState("");
-  // current date
   const current = new Date();
-  const currentDate = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
-
+  // current date
+  const currentDate = moment(new Date()).format("yyyy-MM-DD");
+  const nextDate = moment(currentDate).add(1, "days").format("yyyy-MM-DD");
   // data current day
   const [dataDayCurrent, setDataDayCurrent] = useState([]);
   //data previous day
-  const previousDate = `${current.getFullYear()}-${current.getMonth() + 1}-${
-    current.getDate() - 1
-  }`;
   const [dataDayPrevious, setDataDayPrevious] = useState([]);
   // data current month
   const [dataCurrentMonth, setDataCurrentMonth] = useState([]);
@@ -76,7 +73,7 @@ export default function Booking() {
     //fetch data of current date
     const fetchDayCurrent = async () => {
       const data = {
-        date: currentDate,
+        Date: currentDate,
       };
 
       const res = await axios.post(
@@ -92,7 +89,7 @@ export default function Booking() {
     // fetch data for previous date
     const fetchDatePrevious = async () => {
       const data = {
-        date: previousDate,
+        Date: nextDate,
       };
 
       const res = await axios.post(
@@ -148,6 +145,54 @@ export default function Booking() {
     }
   };
 
+  const Delete = ({ params }) => {
+    const DeleteHandle = async (
+      idAppointment,
+      idStaff,
+      idDate,
+      idSlot,
+      email
+    ) => {
+      const status = "cancel";
+      const data = {
+        DateId: idDate,
+        StaffId: idStaff,
+        SlotId: idSlot,
+        Status: status,
+        Email: email,
+      };
+      try {
+        const res = await axios.put(
+          "http://localhost:8800/api/appointment/update-cancel/" +
+            idAppointment,
+          data
+        );
+        toast.success("Successful cancellation of appointment");
+      } catch (error) {
+        toast.error("Cancellation of appointment failed");
+      }
+    };
+    return (
+      <div className="delete">
+        <button
+          className="button-delete"
+          onClick={() => {
+            if (window.confirm("Are you sure to cancel this appointment?"))
+              DeleteHandle(
+                params.row._id,
+                params.row.StaffId,
+                params.row.DateId,
+                params.row.SlotId,
+                params.row.Email
+              );
+          }}
+        >
+          <MdDeleteOutline className="icon-delete" />
+        </button>
+      </div>
+    );
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -192,11 +237,19 @@ export default function Booking() {
         width: 130,
         editable: true,
       },
-
       {
         field: "Staff",
         headerName: "Staff",
         width: 100,
+      },
+
+      {
+        field: "Cancel",
+        width: 80,
+        headerName: "Delete",
+        type: "actions",
+        renderCell: (params) => <Delete {...{ params, rowId, setRowId }} />,
+        editable: true,
       },
     ],
     [rowId]
@@ -204,11 +257,9 @@ export default function Booking() {
 
   return (
     <div className="container">
-      {/* container for sidebar */}
       <div className="left-container">
         <Sidebar />
       </div>
-      {/* container for topBar and mainBar */}
       <div className="right-container">
         <div className="top-container">
           <TopBar />
@@ -222,23 +273,11 @@ export default function Booking() {
                 <span> Table of booking</span>
               </div>
               <div className="button-revenue">
-                {step2 ? (
-                  <React.Fragment>
-                    <button
-                      className="button-action"
-                      onClick={handleStep2}
-                      style={{ backgroundColor: "#bf925b", color: "white" }}
-                    >
-                      previous date
-                    </button>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <button onClick={handleStep2} className="button-action">
-                      previous date
-                    </button>
-                  </React.Fragment>
-                )}
+                <React.Fragment>
+                  <Link to={`/appointment`} style={{ textDecoration: "none" }}>
+                    <button className="button-action">add appointment</button>
+                  </Link>
+                </React.Fragment>
                 {step1 ? (
                   <React.Fragment>
                     <button
@@ -253,6 +292,23 @@ export default function Booking() {
                   <React.Fragment>
                     <button className="button-action" onClick={handleStep1}>
                       current date
+                    </button>
+                  </React.Fragment>
+                )}
+                {step2 ? (
+                  <React.Fragment>
+                    <button
+                      className="button-action"
+                      onClick={handleStep2}
+                      style={{ backgroundColor: "#bf925b", color: "white" }}
+                    >
+                      next date
+                    </button>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <button onClick={handleStep2} className="button-action">
+                      next date
                     </button>
                   </React.Fragment>
                 )}

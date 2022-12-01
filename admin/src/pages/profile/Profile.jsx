@@ -161,7 +161,7 @@ export default function Profile() {
                   </label>
                 </form>
                 <button className="button-action" onClick={UpdateAvatar}>
-                  Save
+                  Save Image
                 </button>
               </div>
             </div>

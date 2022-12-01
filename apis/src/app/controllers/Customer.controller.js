@@ -127,7 +127,7 @@ export const GetCustomerById = async (req, res) => {
 export const GetCustomers = async (req, res) => {
   const responseType = {};
   if (Customer) {
-    const customer = await Customer.find();
+    const customer = await Customer.find().sort({ createdAt: -1 });
     responseType.statusText = "Success";
     responseType.message = "Get customer successfully";
     responseType.status = 200;

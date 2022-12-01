@@ -152,7 +152,7 @@ export default function Store() {
           </div>
           <div className="button-receipt">
             <button className="button-action padding" onClick={submitHandle}>
-              update
+              save
             </button>
           </div>
         </div>

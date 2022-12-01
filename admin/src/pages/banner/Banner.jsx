@@ -336,7 +336,7 @@ export default function Banner() {
           <div className="banner-left">
             {" "}
             <TableUser
-              title={"Manager Service"}
+              title={"Manager Banners"}
               column={columns}
               row={data}
               rowId={rowId}

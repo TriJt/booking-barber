@@ -26,6 +26,9 @@ export default function TotalBooking() {
     current.getMonth() + 1
   }-${current.getDate()}`;
 
+  console.log(start);
+  console.log(end);
+
   useEffect(() => {
     const data = {
       Start: start,

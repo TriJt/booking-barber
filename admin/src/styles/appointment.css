@@ -1,0 +1,225 @@
+.appointment-container {
+  width: 100%;
+  height: auto;
+  justify-content: space-around;
+  display: flex;
+}
+.booking-container {
+  width: 40%;
+  height: auto;
+  background-color: var(--background);
+  -webkit-box-shadow: var(--webkit);
+  box-shadow: var(--box-shadow);
+}
+.header-booking {
+  font-weight: 600;
+  font-size: 28px;
+  text-transform: uppercase;
+  font-family: var(--family-header);
+  display: flex;
+  width: auto;
+  border-radius: 10px;
+  height: 40px;
+  padding: 10px 0px;
+  margin: 0px 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(25, 25, 25, 0.05);
+}
+
+.form-booking {
+  padding: 10px;
+  margin-bottom: 30px;
+}
+.form-booking .title-booking {
+  font-weight: 500;
+  font-size: 22px;
+  font-family: var(--family-header);
+  padding-left: 30px;
+}
+
+.item-booking {
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  background-color: rgb(25, 25, 25, 0.05);
+  border-radius: 10px;
+  margin: 10px 0px;
+}
+.item-booking .input-booking {
+  padding: 10px;
+  border: none;
+
+  font-family: var(--family-header);
+  font-size: 18px;
+  background-color: transparent;
+  width: 80%;
+  margin: 10px;
+}
+.item-booking .input-booking:focus {
+  outline: none;
+}
+.item-booking .icon-booking {
+  font-size: 24px;
+  padding: 0px 10px;
+  opacity: 0.8;
+}
+
+/* check login */
+
+.booking-check {
+  width: 100%;
+  height: 300px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.booking-check span {
+  font-weight: 600;
+  font-size: 24px;
+  text-transform: uppercase;
+  font-family: var(--family-header);
+}
+.booking-check .check-button {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid var(--color-header);
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: var(--family-header);
+}
+
+.booking-check .check-button:hover {
+  background-color: var(--color-header);
+}
+
+/* show service in booking  */
+.show-service-booking {
+  height: 400px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-y: scroll;
+  justify-content: center;
+}
+.grid-service {
+  width: 100%;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+.items-service-bookings {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: var(--family-header);
+  align-items: center;
+}
+.img-booking {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.items-service-bookings span {
+  font-size: 18px;
+
+  font-weight: 600;
+}
+
+.items-service-bookings .button-choose {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid var(--color-header);
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  font-family: var(--family-header);
+}
+
+.items-service-bookings .button-choose:hover {
+  background-color: var(--color-header);
+  color: var(--background);
+}
+
+.desc-booking {
+  font-size: 14px !important;
+
+  text-align: center;
+  font-weight: 300 !important;
+  overflow: hidden;
+  max-width: 200px;
+  height: 60px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+/* grid for slot */
+.grid-slot {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto auto auto;
+  gap: 5px;
+  margin-top: 10px;
+}
+.slot-item {
+  background-color: transparent;
+  border: 1px solid var(--color-header);
+  padding: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.slot-item:hover {
+  background-color: var(--color-header);
+  color: var(--background);
+}
+
+.submit-booking {
+  margin-top: 40px;
+  padding: 13px;
+  width: 100%;
+  border-radius: 4px;
+  border: none;
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-family: var(--family-header);
+}
+.true {
+  background-color: var(--color-header) !important;
+  color: var(--background);
+  cursor: pointer;
+}
+.item-false {
+  background-color: gray;
+  border: 1px solid var(--color-header);
+  padding: 10px;
+  color: wheat;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+}
+.search-customer {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--background);
+  -webkit-box-shadow: var(--webkit);
+  box-shadow: var(--box-shadow);
+}

@@ -24,6 +24,7 @@ import Revenue from "./pages/revenue/Revenue";
 import SinglePost from "./components/Post/SinglePost";
 import Banner from "./pages/banner/Banner";
 import Store from "./pages/store/Store";
+import Appointment from "./components/Appointment/Appointment.jsx";
 
 export default function App() {
   const { user } = useContext(AuthContext);
@@ -37,6 +38,10 @@ export default function App() {
           element={user ? <Navigate replace to="/home" /> : <Home />}
         />
         <Route path="/booking" element={user ? <Booking /> : <Login />} />
+        <Route
+          path="/appointment"
+          element={user ? <Appointment /> : <Login />}
+        />
         <Route path="/customer" element={user ? <Customer /> : <Login />} />
         <Route path="/category" element={user ? <Category /> : <Login />} />
         <Route path="/service" element={user ? <Services /> : <Login />} />

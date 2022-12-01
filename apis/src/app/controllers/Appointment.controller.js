@@ -315,7 +315,7 @@ export const UpdateCancelStatusAppointment = async (req, res) => {
   const slotId = req.body.SlotId;
   const dateId = req.body.DateId;
   const status = req.body.Status;
-
+  const email = req.body.Email;
   Staff.findOne({ _id: staffId }).then((staff) => {
     const date = staff.Dates.id(dateId);
     const slot = date.slots.id(slotId);
@@ -334,6 +334,43 @@ export const UpdateCancelStatusAppointment = async (req, res) => {
         });
     });
   });
+  const GOOGLE_MAILER_CLIENT_ID = process.env.CLIENT_ID_CONTACT;
+  const GOOGLE_MAILER_CLIENT_SECRET = process.env.CLIENT_SECRET_CONTACT;
+  const GOOGLE_MAILER_REFRESH_TOKEN = process.env.REFRESH_TOKEN_ADMIN;
+  const ADMIN_EMAIL_ADDRESS = process.env.EMAIL_ADMIN;
+  const myOAuth2Client = new OAuth2Client(
+    GOOGLE_MAILER_CLIENT_ID,
+    GOOGLE_MAILER_CLIENT_SECRET
+  );
+  // Set Refresh Token vào OAuth2Client Credentials
+  myOAuth2Client.setCredentials({
+    refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
+  });
+
+  const myAccessTokenObject = await myOAuth2Client.getAccessToken();
+  const myAccessToken = myAccessTokenObject?.token;
+
+  // Tạo một biến Transport từ Nodemailer với đầy đủ cấu hình, dùng để gọi hành động gửi mail
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: ADMIN_EMAIL_ADDRESS,
+      clientId: GOOGLE_MAILER_CLIENT_ID,
+      clientSecret: GOOGLE_MAILER_CLIENT_SECRET,
+      refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
+      accessToken: myAccessToken,
+    },
+  });
+  const mailOptions = {
+    to: email, // Gửi đến ai?
+    subject: "BARBERJT HAIRCUT APPOINTMENTS CANCEL", // Tiêu đề email
+    html: `<h3> You have successfully cancel an appointment at BarberJT </h3> <br>
+     <p> 
+      Please check your appointment information at your personal account information </p>  <br>
+     <b> Thank you for trusting our services</b>`, // Nội dung email
+  };
+  await transport.sendMail(mailOptions);
 };
 
 // get information of Appointment by id
@@ -452,14 +489,12 @@ export const GetAppointmentMatchCancel = async (req, res) => {
 // get all appointment with status pending
 
 export const GetAllAppointmentMatchPending = async (req, res) => {
-  const currentDate = req.body.date;
+  const currentDate = req.body.Date;
   const responseType = {};
   try {
-    const appointment = await Appointment.aggregate([
-      {
-        $match: { $and: [{ date: currentDate }, { Status: "pending" }] },
-      },
-    ]);
+    const appointment = await Appointment.find({
+      $and: [{ date: currentDate }, { Status: "pending" }],
+    });
     responseType.message = "Get appointment successfully";
     responseType.status = 200;
     responseType.value = appointment;
