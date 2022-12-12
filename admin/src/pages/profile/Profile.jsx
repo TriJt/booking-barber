@@ -72,7 +72,6 @@ export default function Profile() {
         );
         const record = response.data;
         setUser(record.value);
-
         if (record.status === 200) {
           toast.success(record.message);
         } else {

@@ -67,8 +67,9 @@
   justify-content: center;
   flex-direction: column;
   position: relative;
+  margin: 10px;
 }
-.grid-service {
+.show-service-booking .grid-service {
   width: 94%;
   height: 90%;
   display: grid;
@@ -121,10 +122,16 @@
   display: flex;
   justify-content: space-between;
 }
+.container-bill {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 
 .show-bill {
   display: flex;
-  width: 50%;
+  width: 100%;
   height: 100%;
   margin-top: 40px;
   align-items: center;

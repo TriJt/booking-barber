@@ -19,8 +19,6 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 
 export default function Appointment() {
   const { user: currentUser } = useContext(AuthContext);
-  const [user, setUser] = useState(currentUser);
-  const [open, setOpen] = useState(false);
   const [staff, setStaff] = useState([]);
   const [service, setService] = useState([]);
   const [slotArray, setSlotArray] = useState([]);
@@ -39,6 +37,7 @@ export default function Appointment() {
   const [name, setName] = useState("");
   const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
+  const [checkData, setCheckData] = useState(false);
 
   const currentTime = new Date();
   useEffect(() => {
@@ -107,6 +106,7 @@ export default function Appointment() {
       setEmail(email);
       setWordEntered("");
       setFilteredData([]);
+      setCheckData(true);
     };
 
     return (
@@ -252,168 +252,177 @@ export default function Appointment() {
                 <FindCustomer />
               </div>
             </div>
-            <div className="booking-container">
-              <div className="header-booking">Make a reservation</div>
-              <div className="form-booking">
-                <span className="title-booking"> 1.Choose Service </span>
-                <div className="item-booking">
-                  <span className="icon-booking">
-                    <MdContentCut />
-                  </span>
-                  <div
-                    className="input-booking choose"
-                    onClick={() => {
-                      setOpenService(true);
-                    }}
-                  >
-                    {step1 ? <span>{nameService} </span> : "View all services"}
-                  </div>
-                  <span className="icon-booking">
-                    <IoMdArrowDropright />
-                  </span>
-                </div>
-                {openService ? (
-                  <div className="show-service-booking">
-                    <div className="grid-service">
-                      {service.map((services, i) => (
-                        <div key={i} className="items-service-bookings">
-                          <img
-                            src={services.Image}
-                            alt=""
-                            className="img-booking"
-                          />
-                          <span> {services.Name_Service}</span>
-                          <span> {services.Price}</span>
-                          <span className="desc-booking">
-                            {services.Description}
-                          </span>
-                          <button
-                            className="button-choose"
-                            onClick={() => {
-                              handleServices(services.Name_Service);
-                            }}
-                          >
-                            Choose
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-
-                {/*  choose staff */}
-
-                <span className="title-booking"> 2.Choose Staff </span>
-                <div className="item-booking">
-                  <span className="icon-booking">
-                    <BsPersonFill />
-                  </span>
-                  <select
-                    type="text"
-                    className="input-booking"
-                    placeholder="Staff"
-                    name="StaffId"
-                    onChange={handleStaff}
-                  >
-                    {staff.map((value, i) => (
-                      <option value={value._id} key={i}>
-                        {value.Name}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="icon-booking">
-                    <IoMdArrowDropright />
-                  </span>
-                </div>
-                <span className="title-booking"> 3.Choose Date </span>
-                <div className="item-booking">
-                  <span className="icon-booking">
-                    <BsPersonFill />
-                  </span>
-                  <input
-                    type="date"
-                    name="Date"
-                    className="input-booking"
-                    value={moment(date).format("yyyy-MM-DD")}
-                    onChange={DateHandle}
-                  ></input>
-
-                  <span className="icon-booking">
-                    <IoMdArrowDropright />
-                  </span>
-                </div>
-
-                {step3 ? (
-                  <React.Fragment>
-                    <span className="title-booking">
-                      {" "}
-                      4.Choose Slot{" "}
-                      <span
-                        style={{
-                          fontSize: "16px",
-                          paddingLeft: "10px",
-                          fontWeight: "400",
-                        }}
-                      >
-                        {" "}
-                        (Please select the available time periods)
-                      </span>{" "}
+            {checkData ? (
+              <div className="booking-container">
+                <div className="header-booking">Make a reservation</div>
+                <div className="form-booking">
+                  <span className="title-booking"> 1.Choose Service </span>
+                  <div className="item-booking">
+                    <span className="icon-booking">
+                      <MdContentCut />
                     </span>
-                    <div className="grid-slot">
-                      {slotArray?.map((slot, index) => {
-                        const Time = new Date(date + "T" + slot.Time);
-                        if (Time < currentTime) {
-                          return (
-                            <button key={index} className="item-false">
-                              {slot.Time}
-                            </button>
-                          );
-                        }
-                        if (slot.isBooked === true) {
-                          return (
-                            <button key={index} className="item-false">
-                              {slot.Time}
-                            </button>
-                          );
-                        } else {
-                          return (
+                    <div
+                      className="input-booking choose"
+                      onClick={() => {
+                        setOpenService(true);
+                      }}
+                    >
+                      {step1 ? (
+                        <span>{nameService} </span>
+                      ) : (
+                        "View all services"
+                      )}
+                    </div>
+                    <span className="icon-booking">
+                      <IoMdArrowDropright />
+                    </span>
+                  </div>
+                  {openService ? (
+                    <div className="show-service-bookings">
+                      <div className="grid-service">
+                        {service.map((services, i) => (
+                          <div key={i} className="items-service-bookings">
+                            <img
+                              src={services.Image}
+                              alt=""
+                              className="img-booking"
+                            />
+                            <span> {services.Name_Service}</span>
+                            <span> {services.Price}</span>
+                            <span className="desc-booking">
+                              {services.Description}
+                            </span>
                             <button
-                              key={index}
-                              className="slot-item"
+                              className="button-choose"
                               onClick={() => {
-                                handleSlot(slot._id, index);
-                              }}
-                              style={{
-                                backgroundColor:
-                                  check === index ? "#bf925b" : "white",
-                                color: check === index ? "white" : "black",
+                                handleServices(services.Name_Service);
                               }}
                             >
-                              {slot.Time}
+                              Choose
                             </button>
-                          );
-                        }
-                      })}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </React.Fragment>
-                ) : null}
-                {step4 ? (
-                  <React.Fragment>
-                    <button
-                      className="submit-booking true"
-                      onClick={submitBooking}
+                  ) : null}
+
+                  {/*  choose staff */}
+
+                  <span className="title-booking"> 2.Choose Staff </span>
+                  <div className="item-booking">
+                    <span className="icon-booking">
+                      <BsPersonFill />
+                    </span>
+                    <select
+                      type="text"
+                      className="input-booking"
+                      placeholder="Staff"
+                      name="StaffId"
+                      onChange={handleStaff}
                     >
-                      {" "}
-                      Complete
-                    </button>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <button className="submit-booking false"> Complete</button>
-                  </React.Fragment>
-                )}
+                      {staff.map((value, i) => (
+                        <option value={value._id} key={i}>
+                          {value.Name}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="icon-booking">
+                      <IoMdArrowDropright />
+                    </span>
+                  </div>
+                  <span className="title-booking"> 3.Choose Date </span>
+                  <div className="item-booking">
+                    <span className="icon-booking">
+                      <BsPersonFill />
+                    </span>
+                    <input
+                      type="date"
+                      name="Date"
+                      className="input-booking"
+                      value={moment(date).format("yyyy-MM-DD")}
+                      onChange={DateHandle}
+                    ></input>
+
+                    <span className="icon-booking">
+                      <IoMdArrowDropright />
+                    </span>
+                  </div>
+
+                  {step3 ? (
+                    <React.Fragment>
+                      <span className="title-booking">
+                        {" "}
+                        4.Choose Slot{" "}
+                        <span
+                          style={{
+                            fontSize: "16px",
+                            paddingLeft: "10px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          {" "}
+                          (Please select the available time periods)
+                        </span>{" "}
+                      </span>
+                      <div className="grid-slot">
+                        {slotArray?.map((slot, index) => {
+                          const Time = new Date(date + "T" + slot.Time);
+                          if (Time < currentTime) {
+                            return (
+                              <button key={index} className="item-false">
+                                {slot.Time}
+                              </button>
+                            );
+                          }
+                          if (slot.isBooked === true) {
+                            return (
+                              <button key={index} className="item-false">
+                                {slot.Time}
+                              </button>
+                            );
+                          } else {
+                            return (
+                              <button
+                                key={index}
+                                className="slot-item"
+                                onClick={() => {
+                                  handleSlot(slot._id, index);
+                                }}
+                                style={{
+                                  backgroundColor:
+                                    check === index ? "#bf925b" : "white",
+                                  color: check === index ? "white" : "black",
+                                }}
+                              >
+                                {slot.Time}
+                              </button>
+                            );
+                          }
+                        })}
+                      </div>
+                    </React.Fragment>
+                  ) : null}
+                  {step4 ? (
+                    <React.Fragment>
+                      <button
+                        className="submit-booking true"
+                        onClick={submitBooking}
+                      >
+                        {" "}
+                        Complete
+                      </button>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <button className="submit-booking false">
+                        {" "}
+                        Complete
+                      </button>
+                    </React.Fragment>
+                  )}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       </div>

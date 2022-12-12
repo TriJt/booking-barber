@@ -5,7 +5,7 @@ import "../../styles/components/profile/appointment.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Table from "../Table/Table";
-import { MdViewHeadline } from "react-icons/md";
+import { MdFreeCancellation } from "react-icons/md";
 
 export default function Appointment() {
   const { user: currentUser } = useContext(AuthContext);
@@ -70,7 +70,7 @@ export default function Appointment() {
               );
           }}
         >
-          <MdViewHeadline className="icon-view" />
+          <MdFreeCancellation className="icon-view" style={{ color: "red" }} />
         </button>
       </div>
     );
@@ -119,7 +119,7 @@ export default function Appointment() {
   return (
     <div className="appointment">
       <ToastContainer />
-      {data !== null ? (
+      {data.length > 0 ? (
         <div className="list-appointment">
           <span className="title-appointment"> List Appointment</span>
           <Table
@@ -131,39 +131,6 @@ export default function Appointment() {
           />
         </div>
       ) : (
-        // <div className="list-appointment">
-        //   <span className="title-appointment"> List Appointment</span>
-        //   <div className="header-appointment">
-        //     <span>Date</span>
-        //     <span>Time </span>
-        //     <span>Service</span>
-        //     <span>Staff</span>
-        //     <span> Status </span>
-        //     <span> Action</span>
-        //   </div>
-        //   {data.map((value, i) => (
-        //     <div className="items-appointment" key={i}>
-        //       <span>{value.date}</span>
-        //       <span>{value.slotTime} </span>
-        //       <span>{value.Services} </span>
-        //       <span>{value.Staff} </span>
-        //       <span> {value.Status} </span>
-        //       <span
-        //         className="button-appointment"
-        //         onClick={() =>
-        //           DeleteHandle(
-        //             value._id,
-        //             value.StaffId,
-        //             value.DateId,
-        //             value.SlotId
-        //           )
-        //         }
-        //       >
-        //         Cancel
-        //       </span>
-        //     </div>
-        //   ))}
-        // </div>
         <div className="list-appointment">
           <span className="title-appointment">List Appointment</span>
           <div className="no-appointment">You don't have appointment</div>

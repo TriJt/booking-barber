@@ -358,7 +358,7 @@ export const GetReceiptByUserId = async (req, res) => {
   try {
     const receipt = await Receipt.find({
       Name_Customer: req.body.Name_Customer,
-    });
+    }).sort({ createdAt: -1 });
     responseType.message = "Get appointment successfully";
     responseType.status = 200;
     responseType.value = receipt;

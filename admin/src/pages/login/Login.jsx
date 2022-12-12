@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const SITE_KEY = "6Lc7fhAjAAAAAGx42AoXHeM-zx_wONWme7aRc0xn";
 
@@ -21,10 +22,19 @@ export default function Login() {
     setInputField({ ...inputField, [e.target.name]: e.target.value });
   };
 
+  // show pass
+  const [pass, setPass] = useState(false);
+
+  const toggleBtn = (e) => {
+    e.preventDefault();
+    setPass((prevState) => !prevState);
+  };
+
   //declaration field error of form
   const [errField, setErrField] = useState({
     EmailErr: "",
     PasswordErr: "",
+    CaptchaErr: "",
   });
 
   const { isFetching, dispatch } = useContext(AuthContext);
@@ -33,76 +43,125 @@ export default function Login() {
   const captchaRef = useRef();
   const [recaptchaValue, setRecaptchaValue] = useState("");
 
+  // change captcha
   const onChange = (value) => {
     setRecaptchaValue(value);
   };
 
+  const clearInput = () => {
+    setTimeout(() => {
+      setErrField({
+        EmailErr: "",
+        PasswordErr: "",
+      });
+      setInputField({
+        Email: "",
+        Password: "",
+      });
+    }, 3000);
+  };
+
+  const validateForm = () => {
+    let formValid = true;
+    setInputField({
+      Email: "",
+      Password: "",
+    });
+
+    const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (inputField.Email === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        EmailErr: "Please enter email",
+      }));
+    } else {
+      if (!inputField.Email.match(validEmail)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          EmailErr: "You have entered an invalid email address! ",
+        }));
+      }
+    }
+    if (inputField.Password === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        PasswordErr: "Please enter password",
+      }));
+    }
+    clearInput();
+    return formValid;
+  };
+
+  // handle login
   const handleClick = async (e) => {
     e.preventDefault();
     dispatch({
       type: "LOGIN_START",
     });
-
     captchaRef.current.reset();
 
-    const data = {
-      Email: inputField.Email,
-      Password: inputField.Password,
-      token: recaptchaValue,
-    };
-    try {
-      const response = await axios.post(
-        "http://localhost:8800/api/auth/login_staff",
-        data
-      );
-      if (response.data.status === 300) {
-        // check email
+    if (validateForm()) {
+      const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+      if (inputField.Email.match(validEmail)) {
+        const data = {
+          Email: inputField.Email,
+          Password: inputField.Password,
+          token: recaptchaValue,
+        };
+        try {
+          const response = await axios.post(
+            "http://localhost:8800/api/auth/login_staff",
+            data
+          );
+          if (response.data.status === 300) {
+            // check email
+            setErrField((prevState) => ({
+              ...prevState,
+              EmailErr: response.data.message,
+            }));
+            clearInput();
+          } else {
+            if (response.data.status === 301) {
+              // check password
+              setErrField((prevState) => ({
+                ...prevState,
+                PasswordErr: response.data.message,
+              }));
+              clearInput();
+            } else {
+              if (response.data.status === 400) {
+                toast.error(response.data.message);
+                clearInput();
+              } else {
+                if (response.data.status === 200) {
+                  toast.success(response.data.message);
+                  dispatch({
+                    type: "LOGIN_SUCCESS",
+                    payload: response.data.value,
+                  });
+                }
+              }
+            }
+          }
+        } catch (err) {
+          dispatch({
+            type: "LOGIN_FAILURE",
+            payload: err,
+          });
+          throw err;
+        }
+      } else {
         setErrField((prevState) => ({
           ...prevState,
-          EmailErr: response.data.message,
+          EmailErr: "You have entered an invalid email address!",
         }));
-        setTimeout(() => {
-          setErrField({
-            EmailErr: "",
-            PasswordErr: "",
-          });
-          setInputField({
-            Email: "",
-            Password: "",
-          });
-        }, 3000);
-      } else {
-        if (response.data.status === 301) {
-          // check password
-          setErrField((prevState) => ({
-            ...prevState,
-            PasswordErr: response.data.message,
-          }));
-          setTimeout(() => {
-            setErrField({
-              EmailErr: "",
-              PasswordErr: "",
-            });
-            setInputField({
-              Email: "",
-              Password: "",
-            });
-          }, 3000);
-        } else {
-          // login success
-          toast.success(response.data.message);
-          dispatch({
-            type: "LOGIN_SUCCESS",
-            payload: response.data.value,
-          });
-        }
+        clearInput();
       }
-    } catch (err) {
-      dispatch({
-        type: "LOGIN_FAILURE",
-        payload: err,
-      });
-      throw err;
     }
   };
 
@@ -122,7 +181,6 @@ export default function Login() {
                 name="Email"
                 autoComplete="off"
                 onChange={InputHandler}
-                required
                 value={inputField.Email}
                 type="email"
                 placeholder={"Email"}
@@ -140,12 +198,14 @@ export default function Login() {
               <input
                 className="input-value"
                 name="Password"
-                required
                 onChange={InputHandler}
                 value={inputField.Password}
-                type="password"
+                type={pass ? "text" : "password"}
                 placeholder="Password"
               />
+              <button className="eye-button" onClick={toggleBtn}>
+                {pass ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </button>
             </div>
           </div>
           {errField.PasswordErr.length > 0 && (

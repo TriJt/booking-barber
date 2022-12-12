@@ -36,3 +36,11 @@
   height: auto;
   margin-top: 20px;
 }
+.no-padding {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.padding-salary {
+  margin: 5px 20px !important;
+  padding: 0px !important;
+}

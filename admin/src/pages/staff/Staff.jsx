@@ -40,6 +40,13 @@ export default function Staff() {
       Gender: "",
       Image: "",
     });
+    setTimeout(() => {
+      setErrField({
+        NameErr: "",
+        TelephoneErr: "",
+        EmailErr: "",
+      });
+    }, 3000);
   };
 
   //effect data staff
@@ -215,11 +222,73 @@ export default function Staff() {
     ],
     [rowId]
   );
+  // check error
+
+  const [errField, setErrField] = useState({
+    NameErr: "",
+    TelephoneErr: "",
+    EmailErr: "",
+  });
+
+  const validateForm = () => {
+    let formValid = true;
+    setInputField({
+      Name: "",
+      Telephone: "",
+      Email: "",
+    });
+
+    const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const checkTelephone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+    if (inputField.Email === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        EmailErr: "Please enter email",
+      }));
+    } else {
+      if (!inputField.Email.match(validEmail)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          EmailErr: "You have entered an invalid email address! ",
+        }));
+      }
+    }
+
+    if (inputField.Name === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        NameErr: "Please enter name",
+      }));
+    }
+
+    if (inputField.Telephone === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        TelephoneErr: "Please enter telephone",
+      }));
+    } else {
+      if (!inputField.Telephone.match(checkTelephone)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          TelephoneErr: "You have entered an invalid telephone !",
+        }));
+      }
+    }
+
+    Clear();
+    return formValid;
+  };
 
   // create new staff
   const HandlerSubmit = async (e) => {
     e.preventDefault();
-    try {
+
+    if (validateForm()) {
       const list = await Promise.all(
         Object.values(files).map(async (file) => {
           const data = new FormData();
@@ -233,6 +302,7 @@ export default function Staff() {
           return url;
         })
       );
+
       const staff = {
         Name: inputField.Name,
         Telephone: inputField.Telephone,
@@ -240,25 +310,19 @@ export default function Staff() {
         Gender: inputField.Gender,
         Email: inputField.Email,
       };
-      try {
-        const response = await axios.post(
-          "http://localhost:8800/api/staff/add",
-          staff
-        );
-        const record = response.data;
-        const newData = record.value;
-        setDataStaff([...dataStaff, newData]);
-        Clear();
-        if (record.status === 200) {
-          toast.success(record.message);
-        } else {
-          toast.error(record.message);
-        }
-      } catch (err) {
-        toast.error("Create is Failed");
+      const response = await axios.post(
+        "http://localhost:8800/api/staff/add",
+        staff
+      );
+      const record = response.data;
+      const newData = record.value;
+      setDataStaff([...dataStaff, newData]);
+      Clear();
+      if (record.status === 200) {
+        toast.success(record.message);
+      } else {
+        toast.error(record.message);
       }
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -332,7 +396,9 @@ export default function Staff() {
                   value={inputField.Name}
                   onChange={InputHandler}
                 />
-
+                {errField.NameErr.length > 0 && (
+                  <span className="error no-padding">{errField.NameErr} </span>
+                )}
                 <input
                   type="text"
                   className="input-service"
@@ -343,7 +409,11 @@ export default function Staff() {
                   value={inputField.Telephone}
                   onChange={InputHandler}
                 />
-
+                {errField.TelephoneErr.length > 0 && (
+                  <span className="error no-padding">
+                    {errField.TelephoneErr}{" "}
+                  </span>
+                )}
                 <input
                   type="email"
                   className="input-service"
@@ -352,6 +422,9 @@ export default function Staff() {
                   value={inputField.Email}
                   onChange={InputHandler}
                 />
+                {errField.EmailErr.length > 0 && (
+                  <span className="error no-padding">{errField.EmailErr} </span>
+                )}
 
                 <select
                   name="Gender"

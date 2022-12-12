@@ -458,7 +458,7 @@ export const GetAppointmentMatchPending = async (req, res) => {
   try {
     const appointment = await Appointment.find({
       $and: [{ CustomerId: userId }, { Status: "pending" }],
-    });
+    }).sort({ date: -1, slot: 1 });
     responseType.message = "Get appointment successfully";
     responseType.status = 200;
     responseType.value = appointment;

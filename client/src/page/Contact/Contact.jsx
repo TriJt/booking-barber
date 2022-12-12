@@ -101,7 +101,7 @@ export default function Contact() {
                 <div className="contact-text">
                   <p>
                     <b>Email: </b>
-                    bookingbarber.ad1@gmail.com
+                    bookingbarber.ad@gmail.com
                   </p>
                 </div>
               </div>

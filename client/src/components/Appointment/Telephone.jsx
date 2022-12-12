@@ -23,31 +23,62 @@ export default function Telephone() {
     setInputField({
       Telephone: "",
     });
-    setErrField({
-      TelephoneErr: "",
+    setTimeout(() => {
+      setErrField({
+        TelephoneErr: "",
+      });
+    }, 3000);
+  };
+
+  const validateForm = () => {
+    let formValid = true;
+    setInputField({
+      Telephone: "",
     });
+
+    const checkTelephone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+
+    if (inputField.Telephone === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        TelephoneErr: "Please enter telephone",
+      }));
+    } else {
+      if (inputField.Telephone.match(checkTelephone)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          TelephoneErr: "You have entered an invalid telephone !",
+        }));
+      }
+    }
+
+    clear();
+    return formValid;
   };
 
   const submitHandle = async (e) => {
     e.preventDefault();
-
-    const data = {
-      Telephone: inputField.Telephone,
-    };
-    const res = await axios.post(
-      "http://localhost:8800/api/customer/check",
-      data
-    );
-    if (res.data.status === 400) {
-      setErrField((prevState) => ({
-        ...prevState,
-        TelephoneErr: res.data.message,
-      }));
-      setTimeout(() => {
-        clear();
-      }, 3000);
-    } else {
-      history(`/appointment/${inputField.Telephone}`);
+    if (validateForm()) {
+      const data = {
+        Telephone: inputField.Telephone,
+      };
+      const res = await axios.post(
+        "http://localhost:8800/api/customer/check",
+        data
+      );
+      if (res.data.status === 400) {
+        setErrField((prevState) => ({
+          ...prevState,
+          TelephoneErr: res.data.message,
+        }));
+        setTimeout(() => {
+          clear();
+        }, 3000);
+      } else {
+        history(`/appointment/${inputField.Telephone}`);
+      }
     }
   };
 
@@ -63,13 +94,14 @@ export default function Telephone() {
           placeholder="Telephone"
           className="input-tel"
           name="Telephone"
-          maxLength="11"
-          required
           value={inputField.Telephone}
           onChange={InputHandler}
         />
-        <button type="submit" onClick={submitHandle}>
-          {" "}
+        <button
+          type="submit"
+          style={{ cursor: "pointer" }}
+          onClick={submitHandle}
+        >
           Make a appointment
         </button>
       </div>

@@ -134,7 +134,6 @@ export default function Salary() {
         Start: dateStart,
         End: dateEnd,
       };
-
       const res = await axios.post(
         "http://localhost:8800/api/salary/month",
         data
@@ -316,42 +315,100 @@ export default function Salary() {
     });
 
     const resetForm = () => {
-      setDate("");
+      setDate(moment().format("yyyy-MM-DD"));
       setSalary();
       setAllowance();
       setNameStaff("");
       setStatus("");
+      setTimeout(() => {
+        setErrField({
+          NameErr: "",
+          DateErr: "",
+          StatusErr: "",
+          SalaryErr: "",
+        });
+      }, 3000);
+    };
+
+    const [errField, setErrField] = useState({
+      DateErr: "",
+      SalaryErr: 0,
+      AllowanceErr: 0,
+      NameErr: "",
+      StatusErr: "",
+    });
+
+    const validateForm = () => {
+      let formValid = true;
+      setDate(moment().format("yyyy-MM-DD"));
+      setSalary();
+      setAllowance();
+      setNameStaff("");
+      setStatus("");
+
+      if (nameStaff === "") {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          NameErr: "Please choose name",
+        }));
+      }
+
+      if (date === "") {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          DateErr: "Please choose date",
+        }));
+      }
+
+      if (status === "") {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          StatusErr: "Please choose status",
+        }));
+      }
+
+      if (salary < 0 || salary === 0) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          SalaryErr: "You have entered an invalid salary",
+        }));
+      }
+
+      resetForm();
+      return formValid;
     };
 
     const submitHandle = async (e) => {
       e.preventDefault();
-
-      const data = {
-        Name: nameStaff,
-        Status: status,
-        Date: date,
-        Salary: salary,
-        Allowance: allowance,
-        Total: total,
-      };
-
-      console.log(data);
-      try {
-        const res = await axios.post(
-          "http://localhost:8800/api/salary/add",
-          data
-        );
-        resetForm();
-        if (res.data.status === 200) {
-          toast.success(res.data.message);
-          // load data from back-end
-          loadData();
-        } else {
-          toast.error(res.data.message);
+      if (validateForm()) {
+        const data = {
+          Name: nameStaff,
+          Status: status,
+          Date: date,
+          Salary: salary,
+          Allowance: allowance,
+          Total: total,
+        };
+        try {
+          const res = await axios.post(
+            "http://localhost:8800/api/salary/add",
+            data
+          );
+          resetForm();
+          if (res.data.status === 200) {
+            toast.success(res.data.message);
+            loadData();
+          } else {
+            toast.error(res.data.message);
+          }
+        } catch (error) {
+          toast.error("Crete salary failed");
+          resetForm();
         }
-      } catch (error) {
-        toast.error("Crete salary failed");
-        resetForm();
       }
     };
 
@@ -376,6 +433,9 @@ export default function Salary() {
                 ))}
               </select>
             </div>
+            {errField.NameErr.length > 0 && (
+              <span className="error padding-salary">{errField.NameErr} </span>
+            )}
             <div className="item-receipt">
               <span className="title-salary"> Status: </span>
               <select
@@ -389,6 +449,11 @@ export default function Salary() {
                 <option value="Unpaid">Unpaid</option>
               </select>
             </div>
+            {errField.StatusErr.length > 0 && (
+              <span className="error padding-salary">
+                {errField.StatusErr}{" "}
+              </span>
+            )}
             <div className="item-receipt">
               <span className="title-salary"> Date: </span>
               <input
@@ -399,6 +464,9 @@ export default function Salary() {
                 onChange={handleDate}
               />
             </div>
+            {errField.DateErr.length > 0 && (
+              <span className="error padding-salary">{errField.DateErr} </span>
+            )}
             <div className="item-receipt">
               <span className="title-salary"> Salary: </span>
               <input
@@ -409,6 +477,9 @@ export default function Salary() {
                 onChange={onChangeSalary}
               />
             </div>
+            {errField.SalaryErr.length > 0 && (
+              <span className="error padding-salary">{errField.SalaryErr}</span>
+            )}
             <div className="item-receipt">
               <span className="title-salary"> Allowance: </span>
               <input
@@ -416,11 +487,17 @@ export default function Salary() {
                 className="input-receipt"
                 value={allowance}
                 onChange={onChangeAllow}
+                placeholder="Allowance"
               />
             </div>
             <div className="item-receipt">
               <span className="title-salary"> Total: </span>
-              <input type="number" className="input-receipt" value={total} />
+              <input
+                type="number"
+                className="input-receipt"
+                value={total}
+                placeholder="0"
+              />
             </div>
             <div className="button-receipt">
               <button className="button-action padding" onClick={submitHandle}>

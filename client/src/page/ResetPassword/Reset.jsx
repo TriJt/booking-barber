@@ -10,13 +10,49 @@ import axios from "axios";
 import ResetPassword from "../ResetPassword/Reset";
 
 export default function Reset() {
-  const emailRef = useRef();
+  const [email, setEmail] = useState("");
   const [otpForm, setOtpForm] = useState(true);
+
+  const [errField, setErrField] = useState({
+    EmailErr: "",
+  });
+  const resetForm = () => {
+    setEmail("");
+    setTimeout(() => {
+      setErrField({
+        EmailErr: "",
+      });
+    }, 3000);
+  };
+
+  const validateForm = () => {
+    let formValid = true;
+
+    const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (email === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        EmailErr: "Please enter email",
+      }));
+    } else {
+      if (!email.match(validEmail)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          EmailErr: "You have entered an invalid email address! ",
+        }));
+      }
+    }
+
+    resetForm();
+    return formValid;
+  };
 
   const SendOTP = async (e) => {
     e.preventDefault();
-    try {
-      const data = { Email: emailRef.current.value };
+    if (validateForm()) {
+      const data = { Email: email };
       const response = await axios.post(
         "http://localhost:8800/api/auth/send-email",
         data
@@ -28,8 +64,6 @@ export default function Reset() {
       } else {
         toast.error(record.message);
       }
-    } catch (e) {
-      toast.error("Somethings went wrong");
     }
   };
 
@@ -194,12 +228,15 @@ export default function Reset() {
               <input
                 type="email"
                 name="Email"
-                ref={emailRef}
-                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 autoComplete="off"
               />
               <label>Email</label>
             </div>
+            {errField.EmailErr.length > 0 && (
+              <span className="error">{errField.EmailErr} </span>
+            )}
 
             <button className="button-submit" type="submit" onClick={SendOTP}>
               <span></span>
@@ -218,7 +255,7 @@ export default function Reset() {
           </form>
         </div>
       ) : (
-        <ResetPass email={emailRef.current.value} />
+        <ResetPass email={email} />
       )}
     </div>
   );

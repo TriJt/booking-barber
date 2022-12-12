@@ -45,9 +45,24 @@ export default function Register() {
   };
   const history = useNavigate();
 
+  const resetForm = () => {
+    setTimeout(() => {
+      setErrField({
+        EmailErr: "",
+        ConfirmErr: "",
+        PasswordErr: "",
+        TelephoneErr: "",
+        Name_CustomerErr: "",
+      });
+    }, 3000);
+  };
+
   const [errField, setErrField] = useState({
     EmailErr: "",
     ConfirmErr: "",
+    PasswordErr: "",
+    TelephoneErr: "",
+    Name_CustomerErr: "",
   });
 
   const captchaRef = useRef();
@@ -73,21 +88,14 @@ export default function Register() {
           "http://localhost:8800/api/auth/register",
           customer
         );
+
         if (response.data.status === 300) {
-          setErrField((prevState) => ({
-            ...prevState,
-            EmailErr: response.data.message,
-          }));
-          // toast.error(response.data.message);
+          toast.error(response.data.message);
         } else {
-          if (response.data.status === 300) {
-            toast.error(response.data.message);
-          } else {
-            toast.success(response.data.message);
-            setTimeout(() => {
-              history("/login");
-            }, 3000);
-          }
+          toast.success(response.data.message);
+          setTimeout(() => {
+            history("/login");
+          }, 3000);
         }
       } catch (err) {
         toast.error("Form Invalid!");
@@ -97,8 +105,71 @@ export default function Register() {
   const validateForm = () => {
     let formValid = true;
     setInputField({
-      ConfirmErr: "",
+      Name_Customer: "",
+      Telephone: "",
+      Email: "",
+      Password: "",
+      Confirm: "",
     });
+
+    if (inputField.Name_Customer === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        Name_CustomerErr: "Please enter name",
+      }));
+    }
+
+    const validPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const checkTelephone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+    if (inputField.Email === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        EmailErr: "Please enter email",
+      }));
+    } else {
+      if (!inputField.Email.match(validEmail)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          EmailErr: "You have entered an invalid email address! ",
+        }));
+      }
+    }
+
+    if (inputField.Telephone === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        TelephoneErr: "Please enter telephone",
+      }));
+    } else {
+      if (inputField.Telephone.match(checkTelephone)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          TelephoneErr: "You have entered an invalid telephone !",
+        }));
+      }
+    }
+
+    if (inputField.Password === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        PasswordErr: "Please enter password",
+      }));
+    } else {
+      if (!inputField.Password.match(validPass)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          PasswordErr: "You have entered an invalid password! ",
+        }));
+      }
+    }
 
     if (
       inputField.Confirm !== "" &&
@@ -110,6 +181,7 @@ export default function Register() {
         ConfirmErr: "Your Confirm Password is not match!",
       }));
     }
+    resetForm();
     return formValid;
   };
 
@@ -129,6 +201,9 @@ export default function Register() {
             />
             <label>Name</label>
           </div>
+          {errField.Name_CustomerErr.length > 0 && (
+            <span className="error">{errField.Name_CustomerErr} </span>
+          )}
           <div className="user-box">
             <input
               type="text"
@@ -140,6 +215,9 @@ export default function Register() {
             />
             <label>Telephone</label>
           </div>
+          {errField.TelephoneErr.length > 0 && (
+            <span className="error">{errField.TelephoneErr} </span>
+          )}
           <div className="user-box">
             <input
               type="text"
@@ -168,6 +246,9 @@ export default function Register() {
               {pass ? <AiFillEyeInvisible /> : <AiFillEye />}
             </button>
           </div>
+          {errField.PasswordErr.length > 0 && (
+            <span className="error">{errField.PasswordErr} </span>
+          )}
           <div className="user-box">
             <input
               type={Confirm ? "text" : "password"}

@@ -43,7 +43,66 @@ export default function Login() {
   const [errField, setErrField] = useState({
     EmailErr: "",
     PasswordErr: "",
+    CaptchaErr: "",
   });
+
+  const resetForm = () => {
+    setInputField({
+      Email: "",
+      Password: "",
+    });
+    setTimeout(() => {
+      setErrField({
+        EmailErr: "",
+        PasswordErr: "",
+        CaptchaErr: "",
+      });
+    }, 3000);
+  };
+
+  const validateForm = () => {
+    let formValid = true;
+    setInputField({
+      Email: "",
+      Password: "",
+    });
+
+    const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (inputField.Email === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        EmailErr: "Please enter email",
+      }));
+    } else {
+      if (!inputField.Email.match(validEmail)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          EmailErr: "You have entered an invalid email address! ",
+        }));
+      }
+    }
+    if (inputField.Password === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        PasswordErr: "Please enter password",
+      }));
+    }
+
+    if (recaptchaValue === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        CaptchaErr: "Please check captcha",
+      }));
+    }
+
+    resetForm();
+    return formValid;
+  };
 
   const { user, isFetching, error, dispatch } = useContext(AuthContext);
 
@@ -53,65 +112,50 @@ export default function Login() {
       type: "LOGIN_START",
     });
     captchaRef.current.reset();
-    const data = {
-      Email: inputField.Email,
-      Password: inputField.Password,
-      token: recaptchaValue,
-    };
-    try {
-      const response = await axios.post(
-        "http://localhost:8800/api/auth/login_customer",
-        data
-      );
-      if (response.data.status === 300) {
-        // check email
-        setErrField((prevState) => ({
-          ...prevState,
-          EmailErr: response.data.message,
-        }));
-        setTimeout(() => {
-          setErrField({
-            EmailErr: "",
-            PasswordErr: "",
-          });
-          setInputField({
-            Email: "",
-            Password: "",
-          });
-        }, 3000);
-        toast.error(response.data.message);
-      } else {
-        if (response.data.status === 301) {
-          // check password
+    if (validateForm()) {
+      const data = {
+        Email: inputField.Email,
+        Password: inputField.Password,
+        token: recaptchaValue,
+      };
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8800/api/auth/login_customer",
+          data
+        );
+        if (response.data.status === 300) {
+          // check email
           setErrField((prevState) => ({
             ...prevState,
-            PasswordErr: response.data.message,
+            EmailErr: response.data.message,
           }));
-          setTimeout(() => {
-            setErrField({
-              EmailErr: "",
-              PasswordErr: "",
-            });
-            setInputField({
-              Email: "",
-              Password: "",
-            });
-          }, 3000);
+          resetForm();
+          toast.error(response.data.message);
         } else {
-          // login success
-          toast.success(response.data.message);
-          dispatch({
-            type: "LOGIN_SUCCESS",
-            payload: response.data.value,
-          });
+          if (response.data.status === 301) {
+            setErrField((prevState) => ({
+              ...prevState,
+              PasswordErr: response.data.message,
+            }));
+            resetForm();
+          } else {
+            if (response.data.status === 200) {
+              toast.success(response.data.message);
+              dispatch({
+                type: "LOGIN_SUCCESS",
+                payload: response.data.value,
+              });
+            }
+          }
         }
+      } catch (err) {
+        dispatch({
+          type: "LOGIN_FAILURE",
+          payload: err,
+        });
+        throw err;
       }
-    } catch (err) {
-      dispatch({
-        type: "LOGIN_FAILURE",
-        payload: err,
-      });
-      throw err;
     }
   };
 
@@ -151,7 +195,6 @@ export default function Login() {
           {errField.PasswordErr.length > 0 && (
             <span className="error">{errField.PasswordErr} </span>
           )}
-
           <div className="user-box">
             <ReCAPTCHA
               sitekey={SITE_KEY}
@@ -159,6 +202,9 @@ export default function Login() {
               ref={captchaRef}
             />
           </div>
+          {errField.CaptchaErr.length > 0 && (
+            <span className="error">{errField.CaptchaErr} </span>
+          )}
           {/* link to forget page */}
           <div className="user-box">
             <Link to="/reset">

@@ -34,7 +34,6 @@ export const RegisterForCustomer = async (req, res) => {
         responseType.status = 300;
         responseType.message = "Email is exist!";
       } else {
-        //create new user
         if (!user) {
           const newCustomer = new Customer({
             Name_Customer: input.Name_Customer,
@@ -273,6 +272,7 @@ export const LoginForStaff = async (req, res) => {
       }
     } else {
       responseType.message = "reCaptcha is invalid";
+      responseType.status = 400;
     }
   } catch (error) {
     responseType.message = "reCaptcha is error";

@@ -51,6 +51,81 @@ export default function Services() {
     Category: "",
     Image: "",
   });
+  const [errField, setErrField] = useState({
+    nameServiceErr: "",
+    PriceErr: "",
+    DescriptionErr: "",
+    CategoryErr: "",
+  });
+
+  const resetForm = () => {
+    setInputField({
+      Name_Service: "",
+      Price: "",
+      Description: "",
+    });
+
+    setTimeout(() => {
+      setErrField({
+        nameServiceErr: "",
+        PriceErr: "",
+        DescriptionErr: "",
+        CategoryErr: "",
+      });
+    }, 3000);
+  };
+
+  const validateForm = () => {
+    let formValid = true;
+    setInputField({
+      Name_Service: "",
+      Price: "",
+      Description: "",
+    });
+
+    if (inputField.Name_Service === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        nameServiceErr: "Please enter email",
+      }));
+    }
+
+    if (inputField.Price <= 0) {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        PriceErr: "Price must be greater than 0",
+      }));
+    }
+
+    if (inputField.Price === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        PriceErr: "Please enter price",
+      }));
+    }
+
+    if (inputField.Description === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        DescriptionErr: "Please enter description",
+      }));
+    }
+
+    if (category.length === 0) {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        CategoryErr: "Please choose category",
+      }));
+    }
+
+    resetForm();
+    return formValid;
+  };
 
   const InputHandler = (e) => {
     setInputField({ ...inputField, [e.target.name]: e.target.value });
@@ -300,7 +375,7 @@ export default function Services() {
   const CreateNewService = async (e) => {
     e.preventDefault();
 
-    try {
+    if (validateForm()) {
       const list = await Promise.all(
         Object.values(files).map(async (file) => {
           const data = new FormData();
@@ -338,10 +413,7 @@ export default function Services() {
       } catch (err) {
         toast.error("Create is Failed");
       }
-    } catch (err) {
-      toast.error("Can get picture from Cloud");
     }
-    // }
   };
 
   const Clear = () => {
@@ -418,35 +490,50 @@ export default function Services() {
                     Close
                   </label>
                 </div>
-                <input
-                  type="text"
-                  className="input-service"
-                  name="Name_Service"
-                  placeholder="Service"
-                  required
-                  value={inputField.Name_Service}
-                  onChange={InputHandler}
-                />
-
-                <input
-                  type="number"
-                  className="input-service"
-                  name="Price"
-                  placeholder="Price"
-                  required
-                  value={inputField.Price}
-                  onChange={InputHandler}
-                />
-
-                <textarea
-                  type="text"
-                  className="textarea-service"
-                  name="Description"
-                  placeholder="Description"
-                  required
-                  value={inputField.Description}
-                  onChange={InputHandler}
-                />
+                <div className="item-receipt padding-service">
+                  <input
+                    type="text"
+                    className="input-receipt"
+                    name="Name_Service"
+                    placeholder="Service"
+                    required
+                    value={inputField.Name_Service}
+                    onChange={InputHandler}
+                  />
+                </div>
+                {errField.nameServiceErr.length > 0 && (
+                  <span className="error no-padding">
+                    {errField.nameServiceErr}{" "}
+                  </span>
+                )}
+                <div className="item-receipt padding-service">
+                  <input
+                    type="number"
+                    className="input-receipt"
+                    name="Price"
+                    placeholder="Price"
+                    required
+                    value={inputField.Price}
+                    onChange={InputHandler}
+                  />
+                </div>
+                {errField.PriceErr.length > 0 && (
+                  <span className="error no-padding">{errField.PriceErr} </span>
+                )}
+                <div className="item-receipt padding-service">
+                  <textarea
+                    type="text"
+                    className="textarea-service"
+                    name="Description"
+                    placeholder="Description"
+                    required
+                    value={inputField.Description}
+                    onChange={InputHandler}
+                  />
+                </div>
+                {errField.DescriptionErr.length > 0 && (
+                  <span className="error no-padding">{errField.PriceErr} </span>
+                )}
 
                 <select
                   name="Category"
@@ -460,7 +547,11 @@ export default function Services() {
                     </option>
                   ))}
                 </select>
-
+                {errField.CategoryErr.length > 0 && (
+                  <span className="error no-padding">
+                    {errField.CategoryErr}{" "}
+                  </span>
+                )}
                 <button className="button-action" onClick={CreateNewService}>
                   Create
                 </button>
