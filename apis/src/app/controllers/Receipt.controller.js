@@ -374,6 +374,7 @@ export const GetForStaff = async (req, res) => {
   const input = req.body;
   const start = moment(input.Start).format("YYYY-MM-DD");
   const end = moment(input.End).add(1, "day").format("YYYY-MM-DD");
+
   const responseType = {};
   try {
     const receipt = await Receipt.find({

@@ -8,6 +8,7 @@ import {
 import { Service } from "../models/Service/Service.model.js";
 import nodemailer from "nodemailer";
 import { OAuth2Client } from "google-auth-library";
+import moment from "moment";
 import dotenv from "dotenv";
 // *Useful for getting environment vairables
 dotenv.config();
@@ -547,6 +548,26 @@ export const AppointmentPieChart = async (req, res) => {
         },
       },
     ]);
+    responseType.message = "Get appointment successfully";
+    responseType.status = 200;
+    responseType.value = appointment;
+  } catch (error) {
+    responseType.message = "Get appointment failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};
+
+// get for current day staff
+export const GetAppointmentForStaff = async (req, res) => {
+  const input = req.body;
+  const start = moment(input.Start).format("YYYY-MM-DD");
+  const end = moment(input.End).add(1, "day").format("YYYY-MM-DD");
+  const responseType = {};
+  try {
+    const appointment = await Appointment.find({
+      $and: [{ date: start }, { Staff: input.Staff }],
+    });
     responseType.message = "Get appointment successfully";
     responseType.status = 200;
     responseType.value = appointment;

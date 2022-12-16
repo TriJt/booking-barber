@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TableUser from "../../components/table/table-custom/TableUser";
 import axios from "axios";
-import ChartPie from "../../components/Charts/ChartPie";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import ChartAppointment from "../../components/Charts/ChartAppointment";
@@ -218,8 +217,6 @@ export default function Booking() {
         field: "Status",
         headerName: "Status",
         width: 90,
-        type: "singleSelect",
-        valueOptions: ["Paid", "Unpaid"],
       },
       {
         field: "date",

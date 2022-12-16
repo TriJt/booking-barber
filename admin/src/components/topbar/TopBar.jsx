@@ -46,6 +46,12 @@ export default function TopBar() {
             </li>
             <li className="top-dropdown-item">
               <CiMoneyCheck1 className="icon" />
+              <Link to={`/appointment-staff`} className="Link">
+                <span className="dropdown-text">Appointment</span>
+              </Link>
+            </li>
+            <li className="top-dropdown-item">
+              <CiMoneyCheck1 className="icon" />
               <Link to={`/reset/${user._id}`} className="Link">
                 <span className="dropdown-text">Change Password</span>
               </Link>

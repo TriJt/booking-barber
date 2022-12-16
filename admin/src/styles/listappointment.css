@@ -1,0 +1,31 @@
+.top-list-appointment,
+.right-list-appointment {
+  background-color: var(--background);
+  -webkit-box-shadow: var(--webkit);
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+}
+.bottom-list-appointment {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  width: 100%;
+}
+.right-list-appointment {
+  width: 100%;
+  height: auto;
+}
+.check-table {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: var(--color-header);
+  text-align: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

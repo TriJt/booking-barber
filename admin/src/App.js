@@ -25,6 +25,7 @@ import SinglePost from "./components/Post/SinglePost";
 import Banner from "./pages/banner/Banner";
 import Store from "./pages/store/Store";
 import Appointment from "./components/Appointment/Appointment.jsx";
+import ListAppointment from "./pages/appointmentForStaff/ListAppointment";
 
 export default function App() {
   const { user } = useContext(AuthContext);
@@ -41,6 +42,10 @@ export default function App() {
         <Route
           path="/appointment"
           element={user ? <Appointment /> : <Login />}
+        />
+        <Route
+          path="/appointment-staff"
+          element={user ? <ListAppointment /> : <Login />}
         />
         <Route path="/customer" element={user ? <Customer /> : <Login />} />
         <Route path="/category" element={user ? <Category /> : <Login />} />

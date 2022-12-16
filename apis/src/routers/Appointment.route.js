@@ -14,6 +14,7 @@ import {
   GetAllAppointmentMatchPending,
   GetAllAppointmentMatchPendingWithRangeTime,
   AppointmentPieChart,
+  GetAppointmentForStaff,
 } from "../app/controllers/Appointment.controller.js";
 
 // get appointment with status cancel
@@ -54,5 +55,8 @@ router.get("/:id", GetAppointmentById);
 
 // get appointment with userId
 router.get("/", GetAppointmentByUserId);
+
+// get appointment for staff
+router.post("/appointment-for-staff", GetAppointmentForStaff);
 
 export default router;
