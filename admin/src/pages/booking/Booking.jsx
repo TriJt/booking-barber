@@ -10,6 +10,7 @@ import axios from "axios";
 import ChartPie from "../../components/Charts/ChartPie";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+import ChartAppointment from "../../components/Charts/ChartAppointment";
 
 export default function Booking() {
   const [rowId, setRowId] = useState("");
@@ -413,10 +414,9 @@ export default function Booking() {
             </div>
           </div>
           <div className="chart-booking">
-            <div className="chart-booking-left">
-              <ChartPie />
+            <div className="chart-booking-right">
+              <ChartAppointment />
             </div>
-            <div className="chart-booking-right"></div>
           </div>
         </div>
       </div>

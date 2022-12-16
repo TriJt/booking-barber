@@ -202,7 +202,7 @@ export default function Appointment() {
         "http://localhost:8800/api/appointment/get-slots",
         data
       );
-      console.log(res.data);
+
       setSlotArray(res.data.slots);
       setDateId(res.data._id);
     } catch (error) {}

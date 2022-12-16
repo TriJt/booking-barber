@@ -359,11 +359,41 @@ export const GetReceiptByUserId = async (req, res) => {
     const receipt = await Receipt.find({
       Name_Customer: req.body.Name_Customer,
     }).sort({ createdAt: -1 });
-    responseType.message = "Get appointment successfully";
+    responseType.message = "Get receipt  successfully";
     responseType.status = 200;
     responseType.value = receipt;
   } catch (error) {
-    responseType.message = "Get appointment failed";
+    responseType.message = "Get receipt failed";
+    responseType.status = 500;
+  }
+  res.json(responseType);
+};
+
+// get for current day staff
+export const GetForStaff = async (req, res) => {
+  const input = req.body;
+  const start = moment(input.Start).format("YYYY-MM-DD");
+  const end = moment(input.End).add(1, "day").format("YYYY-MM-DD");
+  const responseType = {};
+  try {
+    const receipt = await Receipt.find({
+      $and: [
+        {
+          createdAt: {
+            $gte: new Date(start),
+            $lt: new Date(end),
+          },
+        },
+        { Staff_Name: input.Staff_Name },
+      ],
+    });
+    console.log(receipt);
+
+    responseType.message = "Get receipt successfully";
+    responseType.status = 200;
+    responseType.value = receipt;
+  } catch (error) {
+    responseType.message = "Get receipt failed";
     responseType.status = 500;
   }
   res.json(responseType);

@@ -42,14 +42,47 @@ export default function Reset() {
 
   const [errField, setErrField] = useState({
     oldPasswordErr: "",
+    newPasswordErr: "",
     ConfirmErr: "",
   });
+
+  const Clear = () => {
+    setTimeout(() => {
+      setErrField({
+        oldPasswordErr: "",
+        ConfirmErr: "",
+        newPasswordErr: "",
+      });
+      setInputField({
+        newPassword: "",
+        oldPassword: "",
+        confirm: "",
+      });
+    }, 3000);
+  };
 
   const validateForm = () => {
     let formValid = true;
     setInputField({
-      ConfirmErr: "",
+      newPassword: "",
+      oldPassword: "",
+      confirm: "",
     });
+    if (inputField.newPassword === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        newPasswordErr: "Please enter new password",
+      }));
+    }
+
+    if (inputField.oldPassword === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        oldPasswordErr: "Please enter old password",
+      }));
+    }
 
     if (
       inputField.confirm !== "" &&
@@ -61,6 +94,7 @@ export default function Reset() {
         ConfirmErr: "Your Confirm Password is not match!",
       }));
     }
+    Clear();
     return formValid;
   };
 
@@ -81,17 +115,7 @@ export default function Reset() {
             ...prevState,
             oldPasswordErr: response.data.message,
           }));
-          setTimeout(() => {
-            setErrField({
-              oldPasswordErr: "",
-              ConfirmErr: "",
-            });
-            setInputField({
-              newPassword: "",
-              oldPassword: "",
-              confirm: "",
-            });
-          }, 3000);
+          Clear();
         } else {
           toast.success(response.data.message);
         }
@@ -134,7 +158,9 @@ export default function Reset() {
                   </div>
                 </div>
                 {errField.oldPasswordErr.length > 0 && (
-                  <span className="error">{errField.oldPasswordErr} </span>
+                  <span className="error-password">
+                    {errField.oldPasswordErr}
+                  </span>
                 )}
                 <div className="item-change">
                   <span> New password</span>
@@ -150,6 +176,11 @@ export default function Reset() {
                     </button>
                   </div>
                 </div>
+                {errField.newPasswordErr.length > 0 && (
+                  <span className="error-password">
+                    {errField.newPasswordErr}
+                  </span>
+                )}
                 <div className="item-change">
                   <span> Confirm password</span>
                   <div className="item-box">
@@ -175,7 +206,11 @@ export default function Reset() {
                   >
                     Save
                   </button>
-                  <Link to={`/reset`} className="link">
+                  <Link
+                    to={`/forgot`}
+                    style={{ color: "blue", border: "none" }}
+                    className="link"
+                  >
                     Forget your password ?
                   </Link>
                 </div>

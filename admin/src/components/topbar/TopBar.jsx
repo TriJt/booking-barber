@@ -44,11 +44,6 @@ export default function TopBar() {
                 <span className="dropdown-text">My profile</span>
               </Link>
             </li>
-
-            <li className="top-dropdown-item">
-              <CiMoneyCheck1 className="icon" />
-              <span className="dropdown-text">Salary</span>
-            </li>
             <li className="top-dropdown-item">
               <CiMoneyCheck1 className="icon" />
               <Link to={`/reset/${user._id}`} className="Link">

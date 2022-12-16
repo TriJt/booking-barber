@@ -16,8 +16,12 @@ export default function TotalBooking() {
   // data for recharts
   const [data, setData] = useState([]);
   const current = new Date();
-  const start = `${current.getFullYear()}-${current.getMonth() + 1}-01`;
-  const end = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
+  const start = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+  const end = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() + 1
+  }`;
 
   useEffect(() => {
     const data = {
@@ -26,7 +30,7 @@ export default function TotalBooking() {
     };
     const fetData = async () => {
       const res = await axios.post(
-        "http://localhost:8800/api/salary/chart-month",
+        "http://localhost:8800/api/appointment/chart",
         data
       );
       setData(res.data.value);
@@ -37,7 +41,7 @@ export default function TotalBooking() {
   return (
     <div className="Total">
       <div className="top-total">
-        <h4 className="header-total"> Salary in 30days </h4>
+        <h4 className="header-total"> Appointment in days </h4>
       </div>
       <div className="bottom-total">
         <ResponsiveContainer
@@ -55,7 +59,7 @@ export default function TotalBooking() {
             <YAxis />
             <Tooltip />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5 " />
-            <Bar dataKey="totalAmount" fill="#bf925b" barSize={10} />
+            <Bar dataKey="count" fill="#bf925b" barSize={10} />
           </BarChart>
         </ResponsiveContainer>
       </div>

@@ -11,21 +11,21 @@ export default function ChartPie() {
 
   const end = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = {
-        Start: start,
-        End: end,
-      };
-      const res = await axios.post(
-        "http://localhost:8800/api/appointment/pie-chart",
-        data
-      );
-      setData(res.data.value);
-    };
-    fetchData();
-  }, []);
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = {
+  //       Start: start,
+  //       End: end,
+  //     };
+  //     const res = await axios.post(
+  //       "http://localhost:8800/api/appointment/pie-chart",
+  //       data
+  //     );
+  //     setData(res.data.value);
+  //   };
+  //   fetchData();
+  // }, []);
+  // const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   return (
     <div>
@@ -44,7 +44,7 @@ export default function ChartPie() {
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                // fill={COLORS[index % COLORS.length]}
               />
             ))}
           </Pie>

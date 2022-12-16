@@ -537,12 +537,12 @@ export const AppointmentPieChart = async (req, res) => {
     const appointment = await Appointment.aggregate([
       {
         $match: {
-          date: { $gte: start, $lt: end },
+          $and: [{ date: { $gte: start, $lt: end } }, { Status: "pending" }],
         },
       },
       {
         $group: {
-          _id: "$Status",
+          _id: "$Staff",
           count: { $sum: 1 },
         },
       },

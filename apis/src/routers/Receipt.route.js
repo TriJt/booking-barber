@@ -15,6 +15,7 @@ import {
   GetAWeek,
   GetReceiptByUserId,
   GetReceiptsById,
+  GetForStaff,
 } from "../app/controllers/Receipt.controller.js";
 
 // create Receipt
@@ -55,5 +56,8 @@ router.get("/", GetReceiptByName);
 
 // get receipt with user Id
 router.post("/customer-evaluate", GetReceiptByUserId);
+
+// get for staff in day current
+router.post("/staff-current-day", GetForStaff);
 
 export default router;

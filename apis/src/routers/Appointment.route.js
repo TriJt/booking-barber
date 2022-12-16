@@ -29,7 +29,7 @@ router.post("/all-pending", GetAllAppointmentMatchPending);
 router.post("/time-range", GetAllAppointmentMatchPendingWithRangeTime);
 
 // pie chart appointment
-router.post("/pie-chart", AppointmentPieChart);
+router.post("/chart", AppointmentPieChart);
 
 router.post("/choose", GetByDateChoose);
 
