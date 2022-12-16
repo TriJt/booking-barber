@@ -69,13 +69,54 @@ export default function Booking() {
 
   const end = `${current.getFullYear()}-${current.getMonth() + 1}-30`;
 
+  const FetchDataAfterDelete = async () => {
+    const fetchDayCurrent = async () => {
+      const data = {
+        Date: currentDate,
+      };
+      const res = await axios.post(
+        "http://localhost:8800/api/appointment/all-pending",
+        data
+      );
+      setDataDayCurrent(res.data.value);
+    };
+    fetchDayCurrent();
+
+    const fetchDatePrevious = async () => {
+      const data = {
+        Date: nextDate,
+      };
+
+      const res = await axios.post(
+        "http://localhost:8800/api/appointment/all-pending",
+        data
+      );
+      setDataDayPrevious(res.data.value);
+    };
+    fetchDatePrevious();
+
+    const fetchCurrentMonth = async () => {
+      const data = {
+        Start: start,
+        End: end,
+      };
+
+      const res = await axios.post(
+        "http://localhost:8800/api/appointment/time-range",
+        data
+      );
+
+      setDataCurrentMonth(res.data.value);
+    };
+    fetchCurrentMonth();
+  };
+
   useEffect(() => {
     //fetch data of current date
     const fetchDayCurrent = async () => {
       const data = {
         Date: currentDate,
       };
-
       const res = await axios.post(
         "http://localhost:8800/api/appointment/all-pending",
         data
@@ -168,6 +209,7 @@ export default function Booking() {
           data
         );
         toast.success("Successful cancellation of appointment");
+        FetchDataAfterDelete();
       } catch (error) {
         toast.error("Cancellation of appointment failed");
       }
@@ -372,32 +414,56 @@ export default function Booking() {
             </div>
             <div className="charts-container">
               {step1 ? (
-                <TableUser
-                  title={"Manager Appointment"}
-                  column={columns}
-                  row={dataDayCurrent}
-                  rowId={rowId}
-                  setRowId={setRowId}
-                />
+                <>
+                  {dataDayCurrent.length > 0 ? (
+                    <TableUser
+                      title={"Manager Appointment"}
+                      column={columns}
+                      row={dataDayCurrent}
+                      rowId={rowId}
+                      setRowId={setRowId}
+                    />
+                  ) : (
+                    <div className="check-table">
+                      You don't have an appointment today!!!
+                    </div>
+                  )}
+                </>
               ) : null}
               {step2 ? (
-                <TableUser
-                  title={"Manager Appointment"}
-                  column={columns}
-                  row={dataDayPrevious}
-                  rowId={rowId}
-                  setRowId={setRowId}
-                />
+                <>
+                  {dataDayPrevious.length > 0 ? (
+                    <TableUser
+                      title={"Manager Appointment"}
+                      column={columns}
+                      row={dataDayPrevious}
+                      rowId={rowId}
+                      setRowId={setRowId}
+                    />
+                  ) : (
+                    <div className="check-table">
+                      You don't have an appointment tomorrow!!!
+                    </div>
+                  )}
+                </>
               ) : null}
 
               {step3 ? (
-                <TableUser
-                  title={"Manager Appointment"}
-                  column={columns}
-                  row={dataCurrentMonth}
-                  rowId={rowId}
-                  setRowId={setRowId}
-                />
+                <>
+                  {dataCurrentMonth.length > 0 ? (
+                    <TableUser
+                      title={"Manager Appointment"}
+                      column={columns}
+                      row={dataCurrentMonth}
+                      rowId={rowId}
+                      setRowId={setRowId}
+                    />
+                  ) : (
+                    <div className="check-table">
+                      You don't have an appointment this month !!!
+                    </div>
+                  )}
+                </>
               ) : null}
               {step4 ? (
                 <TableUser

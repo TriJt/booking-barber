@@ -4,8 +4,6 @@
 }
 .top-total {
   height: 25%;
-  padding: 20px;
-  border-bottom: 0.2px solid silver;
 }
 .header-total {
   font-weight: 450;
@@ -27,4 +25,7 @@
 .bottom-total {
   width: 100%;
   height: 75%;
+}
+.width-total {
+  width: 400px !important;
 }

@@ -19,15 +19,12 @@ export default function TotalBooking() {
   const [count, setCount] = useState();
   const current = new Date();
   const start = `${current.getFullYear()}-${current.getMonth() + 1}-${
-    current.getDate() - 7
+    current.getDate() - 6
   }`;
 
-  const end = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
-
-  console.log(start);
-  console.log(end);
+  const end = `${current.getFullYear()}-${current.getMonth() + 1}-${
+    current.getDate() + 1
+  }`;
 
   useEffect(() => {
     const data = {

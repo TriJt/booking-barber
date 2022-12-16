@@ -41,28 +41,36 @@ export default function TotalBooking() {
   return (
     <div className="Total">
       <div className="top-total">
-        <h4 className="header-total"> Appointment in days </h4>
+        <h4 className="header-receipt width-total">
+          Schedule of appointments for the day
+        </h4>
       </div>
-      <div className="bottom-total">
-        <ResponsiveContainer
-          width="100%"
-          height="90%"
-          margin={{
-            top: 20,
-            right: 5,
-            left: 5,
-            bottom: 5,
-          }}
-        >
-          <BarChart width="100%" height="75%" data={data}>
-            <XAxis dataKey="_id" style={{ fontSize: "11px" }} />
-            <YAxis />
-            <Tooltip />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5 " />
-            <Bar dataKey="count" fill="#bf925b" barSize={10} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      {data.length > 0 ? (
+        <div className="bottom-total">
+          <ResponsiveContainer
+            width="100%"
+            height="90%"
+            margin={{
+              top: 20,
+              right: 5,
+              left: 5,
+              bottom: 5,
+            }}
+          >
+            <BarChart width="100%" height="75%" data={data}>
+              <XAxis dataKey="_id" style={{ fontSize: "11px" }} />
+              <YAxis />
+              <Tooltip />
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5 " />
+              <Bar dataKey="count" fill="#bf925b" barSize={10} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <div className="check-table">
+          You don't have an appointment today!!!
+        </div>
+      )}
     </div>
   );
 }

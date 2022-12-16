@@ -20,11 +20,20 @@ export default function Posts() {
 
   // create new post
   const [inputField, setInputField] = useState({
-    Service: services[0],
+    Service: "",
     Title: "",
     Note: "",
     Image: "",
   });
+
+  const [errField, setErrField] = useState({
+    ServiceErr: "",
+    TitleErr: "",
+    NoteErr: "",
+    ContentErr: "",
+    ImagesErr: "",
+  });
+
   // clear after create new post
   const Clear = () => {
     setFiles(null);
@@ -35,10 +44,65 @@ export default function Posts() {
       Image: "",
     });
     setContent(null);
+    setTimeout(() => {
+      setErrField({
+        ServiceErr: "",
+        TitleErr: "",
+        NoteErr: "",
+        ContentErr: "",
+        ImagesErr: "",
+      });
+    }, 3000);
   };
 
   const InputHandler = (e) => {
     setInputField({ ...inputField, [e.target.name]: e.target.value });
+  };
+
+  const validForm = () => {
+    let formValid = true;
+
+    if (inputField.Service === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        ServiceErr: "Please choose services",
+      }));
+    }
+    if (inputField.Title === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        TitleErr: "Please enter title post",
+      }));
+    }
+
+    if (inputField.Note === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        NoteErr: "Please enter note post",
+      }));
+    }
+
+    if (content === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        ContentErr: "Please enter content post",
+      }));
+    }
+
+    if (files === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        ImagesErr: "Please choose image",
+      }));
+    }
+
+    Clear();
+    return formValid;
   };
 
   //fetch all post for table
@@ -209,7 +273,7 @@ export default function Posts() {
 
   const CreateNewPost = async (e) => {
     e.preventDefault();
-    try {
+    if (validForm()) {
       const list = await Promise.all(
         Object.values(files).map(async (file) => {
           const data = new FormData();
@@ -247,8 +311,6 @@ export default function Posts() {
       } catch (err) {
         toast.error("Add is Failed");
       }
-    } catch (err) {
-      toast.error("Can get picture from Cloud");
     }
   };
 
@@ -285,7 +347,7 @@ export default function Posts() {
               </div>
               <div className="create-container">
                 <div className="left-create-post">
-                  <div className="btn-service">
+                  <div className="btn-service" style={{ marginLeft: "20px" }}>
                     <label htmlFor="file" className="button-action">
                       Choose Image
                       <input
@@ -303,37 +365,59 @@ export default function Posts() {
                       Close
                     </label>
                   </div>
-                  <input
-                    type="text"
-                    className="input-service"
-                    name="Title"
-                    required
-                    placeholder="Title"
-                    value={inputField.Title}
-                    onChange={InputHandler}
-                  />
-                  <select
-                    name="Service"
-                    id=""
-                    value={inputField.Service}
-                    className="select-service"
-                    onChange={InputHandler}
-                  >
-                    {services.map((option, i) => (
-                      <option key={i} value={option.Name_Service}>
-                        {option.Name_Service}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    className="input-service"
-                    name="Note"
-                    required
-                    placeholder="Note"
-                    value={inputField.Note}
-                    onChange={InputHandler}
-                  />
+                  <div className="item-receipt">
+                    <input
+                      type="text"
+                      className="input-receipt"
+                      name="Title"
+                      required
+                      placeholder="Title"
+                      value={inputField.Title}
+                      onChange={InputHandler}
+                    />
+                  </div>
+                  {errField.TitleErr.length > 0 && (
+                    <span className="error padding-salary">
+                      {errField.TitleErr}{" "}
+                    </span>
+                  )}
+                  <div className="item-receipt">
+                    <select
+                      name="Service"
+                      id=""
+                      value={inputField.Service}
+                      className="input-receipt"
+                      onChange={InputHandler}
+                    >
+                      {services.map((option, i) => (
+                        <option key={i} value={option.Name_Service}>
+                          {option.Name_Service}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {errField.ServiceErr.length > 0 && (
+                    <span className="error padding-salary">
+                      {errField.ServiceErr}{" "}
+                    </span>
+                  )}
+                  <div className="item-receipt">
+                    <textarea
+                      style={{ height: "60px" }}
+                      type="text"
+                      className="input-receipt"
+                      name="Note"
+                      required
+                      placeholder="Note"
+                      value={inputField.Note}
+                      onChange={InputHandler}
+                    />
+                  </div>
+                  {errField.NoteErr.length > 0 && (
+                    <span className="error padding-salary">
+                      {errField.NoteErr}{" "}
+                    </span>
+                  )}
                 </div>
                 <div className="right-create-post">
                   {files ? (
@@ -343,14 +427,24 @@ export default function Posts() {
                       className="post-image"
                     />
                   ) : (
-                    <div className="no-image">
-                      <span className="header-service">image</span>
-                    </div>
+                    <>
+                      <div className="no-image">
+                        <span className="header-service">image</span>
+                        {errField.ImagesErr.length > 0 && (
+                          <span className="error">{errField.ImagesErr} </span>
+                        )}
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
               <div className="bottom-post">
                 <TextEditor setContent={setContent} initialValue={content} />
+                {errField.ContentErr.length > 0 && (
+                  <span className="error padding-salary">
+                    {errField.ContentErr}
+                  </span>
+                )}
               </div>
               <div className="button-div">
                 <button className="button-action" onClick={CreateNewPost}>

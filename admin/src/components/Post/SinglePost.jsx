@@ -161,7 +161,8 @@ export default function SinglePost() {
                         </option>
                       ))}
                     </select>
-                    <input
+                    <textarea
+                      style={{ height: "80px" }}
                       type="text"
                       className="input-service"
                       name="Note"
