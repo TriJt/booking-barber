@@ -34,6 +34,7 @@
   display: flex;
   margin-top: 20px;
   object-fit: cover;
+  flex-direction: column;
 }
 
 .image-banner {

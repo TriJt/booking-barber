@@ -32,11 +32,45 @@ export default function Banner() {
   const Clear = () => {
     setDesc("");
     setFiles(null);
+    setTimeout(() => {
+      setErrField({
+        DescErr: "",
+        ImagesErr: "",
+      });
+    }, 3000);
+  };
+
+  const [errField, setErrField] = useState({
+    DescErr: "",
+    ImagesErr: "",
+  });
+
+  const validForm = () => {
+    let formValid = true;
+
+    if (desc === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        DescErr: "Please enter description",
+      }));
+    }
+
+    if (files === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        ImagesErr: "Please choose image",
+      }));
+    }
+
+    Clear();
+    return formValid;
   };
 
   const submitHandle = async (e) => {
     e.preventDefault();
-    try {
+    if (validForm()) {
       const list = await Promise.all(
         Object.values(files).map(async (file) => {
           const data = new FormData();
@@ -70,8 +104,6 @@ export default function Banner() {
       } catch (err) {
         toast.error("Add is Failed");
       }
-    } catch (err) {
-      toast.error("Can get picture from Cloud");
     }
   };
 
@@ -217,7 +249,7 @@ export default function Banner() {
       };
       fetchData();
     }, [rowId]);
-    console.log(dataBanner);
+
     const UpdateAvatar = async (e) => {
       e.preventDefault();
       if (ValidForm()) {
@@ -371,6 +403,9 @@ export default function Banner() {
               ) : (
                 <div className="no-image-banner">
                   <span className="header-service">image</span>
+                  {errField.ImagesErr.length > 0 && (
+                    <span className="error">{errField.ImagesErr} </span>
+                  )}
                 </div>
               )}
             </div>
@@ -383,6 +418,9 @@ export default function Banner() {
                 onChange={(e) => setDesc(e.target.value)}
               />
             </div>
+            {errField.DescErr.length > 0 && (
+              <span className="error padding-salary">{errField.DescErr} </span>
+            )}
             <div className="button-receipt">
               <button className="button-action padding" onClick={submitHandle}>
                 Create

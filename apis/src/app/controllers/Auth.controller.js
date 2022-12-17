@@ -146,7 +146,7 @@ export const changePasswordWithOldPassword = async (req, res) => {
 // Change password for customer
 export const ChangePassword = async (req, res) => {
   let data = await OTP.find({
-    email: req.body.email,
+    email: req.body.Email,
     code: req.body.code,
   });
   const response = {};
@@ -157,10 +157,17 @@ export const ChangePassword = async (req, res) => {
       response.message = "Token Expire";
       response.statusText = "Error";
     } else {
-      let user = await Customer.findOne({
-        Email: req.body.Email,
-      });
-      user.Password = req.body.Password;
+      let user = await Customer.findOneAndUpdate(
+        {
+          Email: req.body.Email,
+        },
+        {
+          Password: req.body.Password,
+        },
+        {
+          new: true,
+        }
+      );
       user.save();
       response.message = "Password change successfully";
       response.statusText = "Success";
@@ -285,7 +292,7 @@ export const LoginForStaff = async (req, res) => {
 // change password for staff
 export const ChangePasswordStaff = async (req, res) => {
   let data = await OTP.find({
-    email: req.body.email,
+    email: req.body.Email,
     code: req.body.code,
   });
   const response = {};
@@ -296,10 +303,17 @@ export const ChangePasswordStaff = async (req, res) => {
       response.message = "Token Expire";
       response.statusText = "Error";
     } else {
-      let user = await Staff.findOne({
-        Email: req.body.Email,
-      });
-      user.Password = req.body.Password;
+      let user = await Staff.findOneAndUpdate(
+        {
+          Email: req.body.Email,
+        },
+        {
+          Password: req.body.Password,
+        },
+        {
+          new: true,
+        }
+      );
       user.save();
       response.message = "Password change successfully";
       response.statusText = "Success";

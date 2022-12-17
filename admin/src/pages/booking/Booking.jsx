@@ -417,7 +417,6 @@ export default function Booking() {
                 <>
                   {dataDayCurrent.length > 0 ? (
                     <TableUser
-                      title={"Manager Appointment"}
                       column={columns}
                       row={dataDayCurrent}
                       rowId={rowId}
@@ -434,7 +433,6 @@ export default function Booking() {
                 <>
                   {dataDayPrevious.length > 0 ? (
                     <TableUser
-                      title={"Manager Appointment"}
                       column={columns}
                       row={dataDayPrevious}
                       rowId={rowId}
@@ -452,7 +450,6 @@ export default function Booking() {
                 <>
                   {dataCurrentMonth.length > 0 ? (
                     <TableUser
-                      title={"Manager Appointment"}
                       column={columns}
                       row={dataCurrentMonth}
                       rowId={rowId}
@@ -467,7 +464,6 @@ export default function Booking() {
               ) : null}
               {step4 ? (
                 <TableUser
-                  title={"Manager Appointment"}
                   column={columns}
                   row={dataDayRange}
                   rowId={rowId}

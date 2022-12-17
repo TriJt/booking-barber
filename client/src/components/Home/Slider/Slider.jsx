@@ -54,7 +54,10 @@ export function SliderSingleServices({ title, name }) {
             <h5>Home</h5>
           </Link>
           <FiChevronsRight className="icon-link" />
-          <h5>{title}</h5>
+          <Link to="/services" className="link">
+            <h5>{title}</h5>
+          </Link>
+
           <FiChevronsRight className="icon-link" />
           <h5>{name}</h5>
         </div>

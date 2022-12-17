@@ -9,13 +9,14 @@ import { AuthContext } from "../../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router";
-
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdContentCut } from "react-icons/md";
 import moment from "moment";
 import "../../styles/components/find.css";
 import { BsSearch, BsPersonPlus, BsTelephonePlus } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 export default function Appointment() {
   const { user: currentUser } = useContext(AuthContext);
@@ -111,6 +112,14 @@ export default function Appointment() {
 
     return (
       <div className="find-container">
+        <div className="close-booking">
+          <Link
+            to={`/booking`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <IoIosCloseCircleOutline />
+          </Link>
+        </div>
         <div className="header-find">Find the customer </div>
         <div className="item-find">
           <span>

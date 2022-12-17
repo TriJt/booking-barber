@@ -59,8 +59,13 @@ export default function TotalBooking() {
   return (
     <div className="Total">
       <div className="top-total">
-        <h4 className="header-total"> Customer in a 7 day </h4>
-        <span className="span-total">{count}</span>
+        <h4 className="header-total" style={{ paddingLeft: "20px" }}>
+          {" "}
+          New customer in a 7 day{" "}
+        </h4>
+        <span className="span-total" style={{ paddingLeft: "20px" }}>
+          {count} customer
+        </span>
       </div>
       <div className="bottom-total">
         <ResponsiveContainer

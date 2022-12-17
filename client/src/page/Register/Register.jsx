@@ -146,7 +146,7 @@ export default function Register() {
         TelephoneErr: "Please enter telephone",
       }));
     } else {
-      if (inputField.Telephone.match(checkTelephone)) {
+      if (!inputField.Telephone.match(checkTelephone)) {
         formValid = false;
         setErrField((prevState) => ({
           ...prevState,
@@ -206,7 +206,7 @@ export default function Register() {
           )}
           <div className="user-box">
             <input
-              type="text"
+              type="number"
               name="Telephone"
               required
               maxLength={11}

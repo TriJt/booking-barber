@@ -20,9 +20,15 @@ export default function Table({ title }) {
   return (
     <div className="table">
       <div className="top-table">
-        <span className="label-table"> New Customer </span>
+        <span
+          className="label-table"
+          style={{ fontWeight: "500", textTransform: "uppercase" }}
+        >
+          {" "}
+          New Customer{" "}
+        </span>
         <Link to={`/customer`} style={{ textDecoration: "none" }}>
-          <button className="button-table">
+          <button className="button-table" style={{ color: "white" }}>
             See all{" "}
             <span>
               <AiOutlineArrowRight />{" "}

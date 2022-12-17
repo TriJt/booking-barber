@@ -223,3 +223,9 @@
   -webkit-box-shadow: var(--webkit);
   box-shadow: var(--box-shadow);
 }
+.close-booking {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}

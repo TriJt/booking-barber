@@ -144,6 +144,7 @@ export default function Revenue() {
   const DateEndHandle = async (e) => {
     setDateEnd(moment(new Date(e.target.value)).format("YYYY-MM-DD"));
     handleStep4();
+    submitHandle();
   };
   const submitHandle = async () => {
     try {
@@ -246,10 +247,6 @@ export default function Revenue() {
                     onChange={DateEndHandle}
                     style={{ backgroundColor: "#bf925b", color: "white" }}
                   ></input>
-                  <button className="button-action" onClick={submitHandle}>
-                    {" "}
-                    Submit
-                  </button>
                 </React.Fragment>
               ) : (
                 <React.Fragment>

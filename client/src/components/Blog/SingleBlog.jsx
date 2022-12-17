@@ -48,6 +48,8 @@ export default function SingleBlog() {
     fetchSingle();
   }, [id]);
 
+  console.log(single);
+
   // fetch for single blog
   useEffect(() => {
     const fetchComment = async () => {
@@ -130,7 +132,6 @@ export default function SingleBlog() {
         "http://localhost:8800/api/post/comment/" + commentId,
         data
       );
-      console.log(res.data);
       setEdit(false);
       setCommentId(null);
       const response = await axios.get(
@@ -222,82 +223,85 @@ export default function SingleBlog() {
             </div>
           ) : null}
 
-          {comment ? (
-            <div className="show-comment">
-              {comment.map((value, i) => (
-                <div className="comment-container" key={i}>
-                  <img src={value.Image} alt="" className="img-comment" />
-                  <div className="form-show-comment">
-                    <div className="header-comment">
-                      <span className="name-comment">{value.Name}</span>
-                      <span className="time-comment">
-                        {moment(value.createdAt).fromNow()}
-                      </span>
-                    </div>
-
-                    {commentId === value._id ? (
-                      <div className="update-comment" key={value._id}>
-                        <input
-                          name="text"
-                          type="text"
-                          className="item-update"
-                          value={text}
-                          onChange={onChangeText}
-                        />
-                        <div className="update-action">
-                          <button
-                            onClick={closeCommnet}
-                            className="cancel-update"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            onClick={updateHandle}
-                            className="save-update"
-                          >
-                            Save
-                          </button>
-                        </div>
+          <>
+            {comment ? (
+              <div className="show-comment">
+                {comment.map((value, i) => (
+                  <div className="comment-container" key={i}>
+                    <img src={value.Image} alt="" className="img-comment" />
+                    <div className="form-show-comment">
+                      <div className="header-comment">
+                        <span className="name-comment">{value.Name}</span>
+                        <span className="time-comment">
+                          {moment(value.createdAt).fromNow()}
+                        </span>
                       </div>
-                    ) : (
-                      <React.Fragment>
-                        <p className="text-comment">{value.Text}</p>
-                      </React.Fragment>
-                    )}
-                  </div>
-                  <div className="form-action">
-                    {user._id === value.UserId ? (
-                      <div className="dropdown-comment">
-                        <div className="dropdown-comment-select">
-                          <BiDotsVerticalRounded />
+                      {commentId === value._id ? (
+                        <div className="update-comment" key={value._id}>
+                          <input
+                            name="text"
+                            type="text"
+                            className="item-update"
+                            value={text}
+                            onChange={onChangeText}
+                          />
+                          <div className="update-action">
+                            <button
+                              onClick={closeCommnet}
+                              className="cancel-update"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={updateHandle}
+                              className="save-update"
+                            >
+                              Save
+                            </button>
+                          </div>
                         </div>
-                        <ul className="dropdown-comment-list">
-                          <li className="dropdown-comment-item">
-                            <span
-                              className="dropdown-comment-text"
-                              onClick={() => {
-                                handleCommentId(value._id, value.Text);
-                              }}
-                            >
-                              Update
-                            </span>
-                          </li>
-                          <li className="dropdown-comment-item">
-                            <span
-                              className="dropdown-comment-text"
-                              onClick={() => DeleteHandle(value._id)}
-                            >
-                              Delete
-                            </span>
-                          </li>
-                        </ul>
+                      ) : (
+                        <React.Fragment>
+                          <p className="text-comment">{value.Text}</p>
+                        </React.Fragment>
+                      )}
+                    </div>
+                    {user ? (
+                      <div className="form-action">
+                        {user._id === value.UserId ? (
+                          <div className="dropdown-comment">
+                            <div className="dropdown-comment-select">
+                              <BiDotsVerticalRounded />
+                            </div>
+                            <ul className="dropdown-comment-list">
+                              <li className="dropdown-comment-item">
+                                <span
+                                  className="dropdown-comment-text"
+                                  onClick={() => {
+                                    handleCommentId(value._id, value.Text);
+                                  }}
+                                >
+                                  Update
+                                </span>
+                              </li>
+                              <li className="dropdown-comment-item">
+                                <span
+                                  className="dropdown-comment-text"
+                                  onClick={() => DeleteHandle(value._id)}
+                                >
+                                  Delete
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        ) : null}
                       </div>
                     ) : null}
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : null}
+                ))}
+              </div>
+            ) : null}
+          </>
         </div>
         <div className="right-blog">
           <div className="search-blog">

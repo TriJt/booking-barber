@@ -14,13 +14,48 @@ import { useNavigate } from "react-router";
 // send email to user and change page to resetPassword. OTP from mail will code to create new password to user forgot
 
 export default function Forget() {
-  const emailRef = useRef();
+  const [email, setEmail] = useState("");
   const [otpForm, setOtpForm] = useState(true);
+  const [errField, setErrField] = useState({
+    EmailErr: "",
+  });
+  const resetForm = () => {
+    setEmail("");
+    setTimeout(() => {
+      setErrField({
+        EmailErr: "",
+      });
+    }, 3000);
+  };
+
+  const validateForm = () => {
+    let formValid = true;
+
+    const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (email === "") {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        EmailErr: "Please enter email",
+      }));
+    } else {
+      if (!email.match(validEmail)) {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          EmailErr: "You have entered an invalid email address! ",
+        }));
+      }
+    }
+
+    resetForm();
+    return formValid;
+  };
 
   const SendOTP = async (e) => {
     e.preventDefault();
-    try {
-      const data = { Email: emailRef.current.value };
+    if (validateForm()) {
+      const data = { Email: email };
       const response = await axios.post(
         "http://localhost:8800/api/auth/staff-send-email",
         data
@@ -32,13 +67,11 @@ export default function Forget() {
       } else {
         toast.error(record.message);
       }
-    } catch (e) {
-      toast.error("Somethings went wrong");
     }
   };
 
   // reset password
-  const ResetPass = (props) => {
+  const ResetPass = () => {
     const [pass, setPass] = useState(false);
 
     const toggleBtn = (e) => {
@@ -70,45 +103,79 @@ export default function Forget() {
       passwordErr: "",
       ConfirmErr: "",
     });
+
+    const resetForm = () => {
+      setInputField({
+        otpCode: "",
+        Password: "",
+        Confirm: "",
+      });
+      setTimeout(() => {
+        setErrField({
+          otpCodeErr: "",
+          passwordErr: "",
+          ConfirmErr: "",
+        });
+      }, 3000);
+    };
     const history = useNavigate();
 
     const validateForm = () => {
       let formValid = true;
       setInputField({
-        otpCodeErr: "",
-        passwordErr: "",
-        repassErr: "",
+        otpCode: "",
+        Password: "",
+        Confirm: "",
       });
 
+      if (inputField.otpCode === "") {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          otpCodeErr: "Please enter OTP",
+        }));
+      }
+
+      if (inputField.Password === "") {
+        formValid = false;
+        setErrField((prevState) => ({
+          ...prevState,
+          passwordErr: "Please enter Password",
+        }));
+      }
+
       if (
-        inputField.repass !== "" &&
-        inputField.repass !== inputField.password
+        inputField.Confirm !== "" &&
+        inputField.Confirm !== inputField.Password
       ) {
         formValid = false;
         setErrField((prevState) => ({
           ...prevState,
-          repassErr: "Password was not match !!",
+          ConfirmErr: "Password was not match !!",
         }));
       }
+      resetForm();
       return formValid;
     };
-
     const submitButton = async (e) => {
       e.preventDefault();
       if (validateForm()) {
-        Object.assign(inputField, props);
-        let url = "http://localhost:8800/api/users/staff-change-password";
-        let options = {
-          method: "POST",
-          url: url,
-          headers: {},
-          data: inputField,
+        const data = {
+          Email: email,
+          code: inputField.otpCode,
+          Password: inputField.Password,
         };
 
-        let response = await axios(options);
+        let response = await axios.post(
+          "http://localhost:8800/api/auth/staff-change-password",
+          data
+        );
         if (response.data.statusText === "Success") {
           toast.success(response.data.message);
-          history.push("/login");
+          setTimeout(() => {
+            history("/login");
+            window.reload();
+          }, 2000);
         } else {
           toast.error(response.data.message);
         }
@@ -136,6 +203,9 @@ export default function Forget() {
                 value={inputField.otpCode}
               />
             </div>
+            {errField.otpCodeErr.length > 0 && (
+              <span className="error">{errField.otpCodeErr} </span>
+            )}
           </div>
           <div className="items">
             <div className="input-container">
@@ -156,6 +226,9 @@ export default function Forget() {
                 {pass ? <AiFillEyeInvisible /> : <AiFillEye />}
               </button>
             </div>
+            {errField.passwordErr.length > 0 && (
+              <span className="error">{errField.passwordErr} </span>
+            )}
           </div>
           <div className="items">
             <div className="input-container">
@@ -215,10 +288,14 @@ export default function Forget() {
                   autoComplete="off"
                   type="email"
                   placeholder={"Email"}
-                  ref={emailRef}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
+            {errField.EmailErr.length > 0 && (
+              <span className="error">{errField.EmailErr} </span>
+            )}
             <div className="items">
               <button className="button-login" onClick={SendOTP}>
                 Recover Password
@@ -233,7 +310,7 @@ export default function Forget() {
           </form>
         </div>
       ) : (
-        <ResetPass email={emailRef.current.value} />
+        <ResetPass />
       )}
     </div>
   );

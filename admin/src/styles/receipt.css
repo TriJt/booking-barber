@@ -11,6 +11,7 @@
   box-shadow: var(--box-shadow);
   border-radius: 10px;
   padding-bottom: 40px;
+  margin-top: 20px;
 }
 .left-receipt {
   width: 60%;

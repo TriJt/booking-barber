@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
 import "../../styles/receipt.css";
 import TopBar from "../../components/topbar/TopBar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -12,8 +12,11 @@ import TableUser from "../../components/table/table-custom/TableUser";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useReactToPrint } from "react-to-print";
+import { AuthContext } from "../../context/AuthContext";
+import { MdDeleteOutline } from "react-icons/md";
 
 export default function Receipt() {
+  const { user } = useContext(AuthContext);
   const [dataReceipt, setDataReceipt] = useState([]);
   const [staff, setStaff] = useState([]);
   const [service, setService] = useState([]);
@@ -88,6 +91,7 @@ export default function Receipt() {
     TelephoneErr: "",
     NameCustomerErr: "",
     ServiceErr: "",
+    DiscountErr: "",
   });
 
   const validateForm = () => {
@@ -150,8 +154,28 @@ export default function Receipt() {
       }
     }
 
+    if (discount < 0) {
+      formValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        DiscountErr: "Please enter discount greater than 0",
+      }));
+    }
+
     resetForm();
     return formValid;
+  };
+
+  const fetchData = async () => {
+    const data = {
+      Start: start,
+      End: end,
+    };
+    const res = await axios.post(
+      "http://localhost:8800/api/receipt/list/date",
+      data
+    );
+    setDataReceipt(res.data.value);
   };
   // fetch receipt for a day
   useEffect(() => {
@@ -234,6 +258,7 @@ export default function Receipt() {
         TelephoneErr: "",
         NameCustomerErr: "",
         ServiceErr: "",
+        DiscountErr: "",
       });
     }, 3000);
   };
@@ -311,8 +336,94 @@ export default function Receipt() {
         width: 90,
       },
     ],
+    []
+  );
+
+  const columnsAdmin = useMemo(
+    () => [
+      {
+        field: "Name_Customer",
+        headerName: "Name",
+        width: 120,
+      },
+      {
+        field: "Telephone",
+        headerName: "Telephone",
+        width: 100,
+      },
+      {
+        field: "Email",
+        headerName: "Email",
+        width: 180,
+      },
+      {
+        field: "Staff_Name",
+        headerName: "Staff",
+        width: 100,
+      },
+
+      {
+        field: "Services",
+        headerName: "Services",
+        width: 220,
+      },
+      {
+        field: "SumPrice",
+        headerName: "Sum Price",
+        width: 70,
+      },
+      {
+        field: "Discount",
+        headerName: "Discount",
+        width: 70,
+      },
+      {
+        field: "Total",
+        headerName: "Total",
+        width: 70,
+      },
+
+      {
+        field: "delete",
+        width: 80,
+        headerName: "Delete",
+        type: "actions",
+        renderCell: (params) => <Delete {...{ params, rowId, setRowId }} />,
+        editable: true,
+      },
+    ],
     [rowId]
   );
+
+  const Delete = ({ params }) => {
+    const handleDelete = async () => {
+      const data = params.row._id;
+      const response = await axios.delete(
+        "http://localhost:8800/api/receipt/delete/" + data
+      );
+      fetchData();
+
+      const record = response.data;
+      if (record.status === 200) {
+        toast.success(record.message);
+      } else {
+        toast.error(record.message);
+      }
+    };
+    return (
+      <div className="delete">
+        <button
+          className="button-delete"
+          onClick={() => {
+            if (window.confirm("Are you sure to delete this object?"))
+              handleDelete();
+          }}
+        >
+          <MdDeleteOutline className="icon-delete" />
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="container">
@@ -566,6 +677,11 @@ export default function Receipt() {
                 onChange={OnChangeDiscount}
               />
             </div>
+            {errField.DiscountErr.length > 0 && (
+              <span className="error padding-salary">
+                {errField.DiscountErr}
+              </span>
+            )}
             <div className="button-receipt">
               <button className="button-action padding" onClick={submitReceipt}>
                 Create
@@ -574,11 +690,32 @@ export default function Receipt() {
           </div>
         </div>
         <div className="bottom-receipt">
-          <TableUser
-            title={"receipt today"}
-            column={columns}
-            row={dataReceipt}
-          />
+          <div className="header-receipt" style={{ paddingTop: " 20px" }}>
+            Manager Receipt
+          </div>
+          {dataReceipt.length > 0 ? (
+            <>
+              {user.isAdmin === true ? (
+                <TableUser
+                  column={columnsAdmin}
+                  row={dataReceipt}
+                  rowId={rowId}
+                  setRowId={setRowId}
+                />
+              ) : (
+                <TableUser
+                  column={columns}
+                  row={dataReceipt}
+                  rowId={rowId}
+                  setRowId={setRowId}
+                />
+              )}
+            </>
+          ) : (
+            <div className="check-table">
+              You don't have an customers today!!!
+            </div>
+          )}
         </div>
       </div>
     </div>

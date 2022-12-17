@@ -45,7 +45,7 @@ export default function Telephone() {
         TelephoneErr: "Please enter telephone",
       }));
     } else {
-      if (inputField.Telephone.match(checkTelephone)) {
+      if (!inputField.Telephone.match(checkTelephone)) {
         formValid = false;
         setErrField((prevState) => ({
           ...prevState,
